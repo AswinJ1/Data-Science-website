@@ -12,7 +12,7 @@ const testimonials = [
     image: "/placeholder.svg?height=80&width=80",
     rating: 5,
     quote:
-      "DataFlow transformed our entire data infrastructure. Their expertise in data engineering helped us scale from handling thousands to millions of records seamlessly.",
+      "SYANCY INNOVATIONS transformed our entire data infrastructure. Their expertise in data engineering helped us scale from handling thousands to millions of records seamlessly.",
   },
   {
     name: "Michael Chen",
@@ -39,7 +39,7 @@ const testimonials = [
     image: "/placeholder.svg?height=80&width=80",
     rating: 5,
     quote:
-      "DataFlow's team delivered beyond expectations. Their data mining techniques uncovered patterns that led to significant cost savings and improved decision-making.",
+      "SYANCY INNOVATIONS's team delivered beyond expectations. Their data mining techniques uncovered patterns that led to significant cost savings and improved decision-making.",
   },
 ]
 

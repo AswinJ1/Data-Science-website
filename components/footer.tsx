@@ -13,10 +13,8 @@ export default function Footer() {
           {/* Company Info */}
           <div className="lg:col-span-1">
             <div className="flex items-center space-x-2 mb-6">
-              <div className="w-8 h-8 bg-gradient-primary rounded-lg flex items-center justify-center">
-                <span className="text-white font-bold text-sm">D</span>
-              </div>
-              <span className="text-xl font-bold">DataFlow</span>
+             <img src="/logo.webp" alt="Logo" className="w-8 h-8 rounded-lg object-cover" />
+              <span className="text-xl font-bold">SYANCY INNOVATIONS</span>
             </div>
             <p className="text-gray-300 mb-6 leading-relaxed">
               Transforming businesses through intelligent data solutions. From engineering to insights, we make your
@@ -127,7 +125,7 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-gray-300">
                 <Mail className="h-4 w-4" />
-                <span>hello@dataflow.com</span>
+                <span>hello@SYANCY INNOVATIONS.com</span>
               </li>
               <li className="flex items-start gap-3 text-gray-300">
                 <MapPin className="h-4 w-4 mt-1" />
@@ -142,7 +140,7 @@ export default function Footer() {
         </div>
 
         <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-300 text-sm">© {currentYear} DataFlow. All rights reserved.</p>
+          <p className="text-gray-300 text-sm">© {currentYear} SYANCY INNOVATIONS. All rights reserved.</p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <Link href="/privacy" className="text-gray-300 hover:text-primary-bright text-sm transition-colors">
               Privacy Policy
