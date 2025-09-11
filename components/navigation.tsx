@@ -90,10 +90,7 @@ export default function Navigation() {
         </button>
       )}
 
-      {/* Floating Contact Button */}
-      <div className="fixed bottom-6 left-6 z-40 hidden lg:block">
-        <Button className="bg-accent hover:bg-accent/90 text-white shadow-lg">Contact Us</Button>
-      </div>
+    
     </>
   )
 }

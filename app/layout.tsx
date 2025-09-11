@@ -4,6 +4,8 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import Navigation from "@/components/navigation";
 import Footer from "@/components/footer";
+import CTASection from "@/components/cta-section"
+
 
 
 const inter = Inter({
@@ -46,6 +48,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Navigation />
         {children}
+        <script src='https://www.noupe.com/embed/0199349c59a27ba5b517561ef42cfba33233.js'></script>
         <Footer />
       </body>
     </html>
