@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { Facebook, Twitter, Linkedin, Github, Mail, Phone, MapPin } from "lucide-react"
-
+import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaPhone, FaMapPin } from "react-icons/fa";
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
@@ -22,16 +22,16 @@ export default function Footer() {
             </p>
             <div className="flex space-x-4">
               <a href="#" className="text-gray-300 hover:text-primary-bright transition-colors">
-                <Facebook className="h-5 w-5" />
+                <FaFacebook className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-300 hover:text-primary-bright transition-colors">
-                <Twitter className="h-5 w-5" />
+                <FaTwitter className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-300 hover:text-primary-bright transition-colors">
-                <Linkedin className="h-5 w-5" />
+                <FaLinkedin className="h-5 w-5" />
               </a>
               <a href="#" className="text-gray-300 hover:text-primary-bright transition-colors">
-                <Github className="h-5 w-5" />
+                <FaGithub className="h-5 w-5" />
               </a>
             </div>
           </div>
@@ -120,7 +120,7 @@ export default function Footer() {
             <h3 className="text-lg font-semibold mb-6">Contact</h3>
             <ul className="space-y-3">
               <li className="flex items-center gap-3 text-gray-300">
-                <Phone className="h-4 w-4" />
+                <FaPhone className="h-4 w-4" />
                 <span>+1 (555) 123-4567</span>
               </li>
               <li className="flex items-center gap-3 text-gray-300">
@@ -128,7 +128,7 @@ export default function Footer() {
                 <span>hello@SYANCY INNOVATIONS.com</span>
               </li>
               <li className="flex items-start gap-3 text-gray-300">
-                <MapPin className="h-4 w-4 mt-1" />
+                <FaMapPin className="h-4 w-4 mt-1" />
                 <span>
                   123 Data Street
                   <br />
