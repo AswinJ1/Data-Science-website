@@ -102,16 +102,16 @@ export default function TestimonialsSection() {
           {/* Navigation buttons */}
           <button
             onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 p-2 hover:opacity-70 transition-opacity"
           >
-            <ChevronLeft className="h-6 w-6 text-primary-dark" />
+            <ChevronLeft className="h-8 w-8 text-primary-dark" />
           </button>
 
           <button
             onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 bg-white shadow-lg rounded-full p-3 hover:bg-gray-50 transition-colors"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 p-2 hover:opacity-70 transition-opacity"
           >
-            <ChevronRight className="h-6 w-6 text-primary-dark" />
+            <ChevronRight className="h-8 w-8 text-primary-dark" />
           </button>
         </div>
 
