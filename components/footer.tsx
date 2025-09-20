@@ -125,14 +125,18 @@ export default function Footer() {
               </li>
               <li className="flex items-center gap-3 text-gray-300">
                 <Mail className="h-4 w-4" />
-                <span>hello@SYANCY INNOVATIONS.com</span>
+                <span>hello@syancyinnovations.com</span>
               </li>
               <li className="flex items-start gap-3 text-gray-300">
                 <FaMapPin className="h-4 w-4 mt-1" />
                 <span>
-                  123 Data Street
+                  Syancy Innovations Private Limited. 
+
                   <br />
-                  Tech City, TC 12345
+                  1120, Behind The Gadhi, Maratha Chauk
+                  Taloda 425413 
+                  Nandurbar, 
+                  Maharashtra
                 </span>
               </li>
             </ul>

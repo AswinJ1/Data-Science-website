@@ -9,7 +9,7 @@ const caseStudies = [
 		title: "E-commerce Revenue Optimization",
 		client: "RetailCorp",
 		industry: "E-commerce",
-		image: "/placeholder.svg?height=200&width=300",
+		image: "/pic-1.png",
 		results: [
 			{ icon: TrendingUp, metric: "35%", label: "Revenue Increase" },
 			{ icon: Users, metric: "2.5x", label: "Customer Retention" },
@@ -22,7 +22,7 @@ const caseStudies = [
 		title: "Supply Chain Intelligence",
 		client: "LogiFlow",
 		industry: "Logistics",
-		image: "/placeholder.svg?height=200&width=300",
+		image: "/pic-2.png",
 		results: [
 			{ icon: TrendingUp, metric: "28%", label: "Cost Reduction" },
 			{ icon: Users, metric: "99.2%", label: "On-time Delivery" },
@@ -35,7 +35,7 @@ const caseStudies = [
 		title: "Healthcare Data Platform",
 		client: "MedTech Solutions",
 		industry: "Healthcare",
-		image: "/placeholder.svg?height=200&width=300",
+		image: "/pic-3.png",
 		results: [
 			{ icon: TrendingUp, metric: "45%", label: "Efficiency Gain" },
 			{ icon: Users, metric: "10K+", label: "Patients Served" },

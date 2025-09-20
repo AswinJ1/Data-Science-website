@@ -1,92 +1,147 @@
-"use client"
+"use client";
 
-import { CheckCircle } from "lucide-react"
+import Image from "next/image";
+import { motion, Variants } from "framer-motion";
 
-export default function AboutPage() {
+const fadeInUp: Variants = {
+  hidden: { opacity: 0, y: 30 },
+  show: {
+    opacity: 1,
+    y: 0,
+    transition: { duration: 0.6, ease: "easeOut" },
+  },
+};
+
+export default function AboutSection() {
   return (
-    <main
-      className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50"
-      style={{
-        backgroundImage: "url('/back.png'), linear-gradient(to bottom right, #eff6ff, #fafafa, #f3e8ff)",
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
-    >
-      {/* Hero Section */}
-      <section className="px-8 py-24 max-w-7xl mx-auto flex flex-col items-start">
-        <h1 className="text-4xl md:text-6xl font-bold text-primary-dark mb-4">Empowering Data-Driven Transformation</h1>
-        <p className="text-lg text-gray-700 mb-2">Turning data into actionable intelligence and scalable solutions.</p>
-      </section>
+    <section className="w-full max-w-7xl mx-auto py-16 px-4 sm:px-6 lg:px-8">
+      {/* Header */}
+      <motion.div
+        initial="hidden"
+        whileInView="show"
+        viewport={{ once: true, amount: 0.2 }}
+        variants={fadeInUp}
+        className="text-center mb-12"
+      >
+        <p className="text-sm text-gray-500">Get to Know Us</p>
+        <h4 className="text-3xl sm:text-4xl lg:text-5xl font-light mt-2">
+          Transforming Ideas into Digital Reality
+        </h4>
+      </motion.div>
 
-      {/* Company Intro Split Layout */}
-      <section className="px-8 py-8 max-w-7xl mx-auto">
-        <h2 className="text-2xl font-bold text-primary-dark mb-2">Who We Are</h2>
-        <p className="text-gray-700 text-lg">
-          Syancy Innovations Private Limited specializes in Data Engineering, Business Intelligence, and AI-powered Automation. We help organizations harness the full potential of their data through precision insights, intuitive dashboards, and scalable technology.<br />
-          Our solutions span multiple industries — from tailored data engineering pipelines to AI-based process automation — enabling smarter decisions, streamlined operations, and sustainable growth.
-        </p>
-      </section>
+      {/* Grid Layout */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        {/* Satisfied Customer */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
+          className="bg-green-100 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300"
+        >
+          <p className="text-gray-700 text-sm mb-4">Satisfied Customer</p>
+          <h3 className="text-3xl font-bold">50.2K+</h3>
+        </motion.div>
 
-      {/* Core Values / What We Do */}
-      <section className="py-16 bg-white/60">
-        <div className="max-w-7xl mx-auto px-8">
-          <h2 className="text-2xl font-bold text-primary-dark mb-10 text-center">What We Do</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white rounded-xl shadow-md p-6 text-center flex flex-col items-center">
-              <h3 className="font-semibold text-lg mb-2">Data Engineering Excellence</h3>
-              <p className="text-gray-600">Robust pipelines & scalable infrastructure</p>
-            </div>
-            <div className="bg-white rounded-xl shadow-md p-6 text-center flex flex-col items-center">
-              <h3 className="font-semibold text-lg mb-2">Actionable Intelligence</h3>
-              <p className="text-gray-600">Intuitive dashboards & insights</p>
-            </div>
-            <div className="bg-white rounded-xl shadow-md p-6 text-center flex flex-col items-center">
-              <h3 className="font-semibold text-lg mb-2">Automation Innovation</h3>
-              <p className="text-gray-600">AI-driven workflows for efficiency</p>
-            </div>
-            <div className="bg-white rounded-xl shadow-md p-6 text-center flex flex-col items-center">
-              <h3 className="font-semibold text-lg mb-2">Client-First Commitment</h3>
-              <p className="text-gray-600">Solutions built for your unique challenges</p>
-            </div>
-          </div>
-        </div>
-      </section>
+        {/* Office Image */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
+          className="rounded-2xl overflow-hidden shadow-sm"
+        >
+          <Image
+            src="/pic-1.png"
+            alt="Office"
+            width={600}
+            height={400}
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          />
+        </motion.div>
 
-      {/* Mission & Vision Section */}
-      <section className="py-8 px-4 max-w-4xl mx-auto text-center">
-        <div className="mb-8">
-          <span className="text-6xl text-primary-bright font-serif">“</span>
-          <p className="text-2xl font-semibold text-primary-dark mb-2">To empower businesses through data-driven innovation.</p>
-          <span className="text-6xl text-primary-bright font-serif">”</span>
-        </div>
-        <div>
-          <span className="text-6xl text-primary-bright font-serif">“</span>
-          <p className="text-2xl font-semibold text-primary-dark mb-2">To be the most trusted partner for digital transformation.</p>
-          <span className="text-6xl text-primary-bright font-serif">”</span>
-        </div>
-      </section>
+        {/* Team Discussion */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
+          className="rounded-2xl overflow-hidden shadow-sm"
+        >
+          <Image
+            src="/pic-2.png"
+            alt="Team Discussion"
+            width={600}
+            height={400}
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          />
+        </motion.div>
 
-      {/* Why Choose Us */}
-      <section className="py-8 bg-white/60">
-        <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-primary-dark mb-4 text-center">Why Choose Us?</h2>
-          <ul className="space-y-2">
-            <li className="flex items-center text-lg text-gray-700"><CheckCircle className="text-green-500 mr-2" />Tailored industry-specific solutions</li>
-            <li className="flex items-center text-lg text-gray-700"><CheckCircle className="text-green-500 mr-2" />Proven track record of success</li>
-            <li className="flex items-center text-lg text-gray-700"><CheckCircle className="text-green-500 mr-2" />Expert team of data engineers & AI specialists</li>
-            <li className="flex items-center text-lg text-gray-700"><CheckCircle className="text-green-500 mr-2" />Scalable frameworks for long-term growth</li>
-          </ul>
-        </div>
-      </section>
+        {/* Customer Interaction */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
+          className="rounded-2xl overflow-hidden shadow-sm"
+        >
+          <Image
+            src="/pic-3.png"
+            alt="Customer Interaction"
+            width={600}
+            height={400}
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          />
+        </motion.div>
 
-      {/* Call to Action */}
-      <section className="py-8 px-4 max-w-4xl mx-auto text-center">
-        <div className="bg-gradient-to-r from-blue-500 to-purple-500 rounded-xl py-6 px-4 shadow-lg">
-          <h2 className="text-2xl font-bold text-white mb-2">Ready to transform your business with data?</h2>
-          <button className="bg-white text-primary-dark font-semibold px-6 py-2 rounded-lg shadow hover:bg-gray-100 transition">Let’s Talk</button>
-        </div>
-      </section>
-    </main>
-  )
+        {/* Journey Card */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
+          className="bg-pink-100 rounded-2xl p-6 flex flex-col justify-center shadow-sm hover:shadow-md transition-shadow duration-300"
+        >
+          <h3 className="text-xl font-semibold mb-3">
+            The Journey of Our Digital Evolution and Growth
+          </h3>
+          <p className="text-gray-700 text-sm leading-relaxed">
+            Our story is one of continuous innovation and transformation,
+            evolving from a small agency into a leader in digital solutions.
+            Through dedication and creativity, we've grown to meet the changing
+            needs of our clients, delivering impactful results.
+          </p>
+        </motion.div>
+
+        {/* Project Completed */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
+          className="bg-purple-100 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300"
+        >
+          <p className="text-gray-700 text-sm mb-4">Project Completed</p>
+          <h3 className="text-3xl font-bold">80K+</h3>
+        </motion.div>
+
+        {/* Team Collaboration */}
+        <motion.div
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, amount: 0.2 }}
+          variants={fadeInUp}
+          className="rounded-2xl overflow-hidden shadow-sm"
+        >
+          <Image
+            src="/pic-1.png"
+            alt="Team Collaboration"
+            width={600}
+            height={400}
+            className="w-full h-full object-cover hover:scale-105 transition-transform duration-500"
+          />
+        </motion.div>
+      </div>
+    </section>
+  );
 }
