@@ -1,133 +1,114 @@
-"use client"
+"use client";
 
-import { useState, useEffect } from "react"
-import { Card, CardContent } from "@/components/ui/card"
-import { ChevronLeft, ChevronRight, Star } from "lucide-react"
+import { motion } from "framer-motion";
 
 const testimonials = [
   {
-    name: "Sarah Johnson",
-    role: "CTO",
-    company: "TechFlow Inc.",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 5,
-    quote:
-      "SYANCY INNOVATIONS transformed our entire data infrastructure. Their expertise in data engineering helped us scale from handling thousands to millions of records seamlessly.",
+    name: "Paul A.",
+    title: "Founder of XYZ",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa nostrum labore dolor facilis.",
+    img: "https://randomuser.me/api/portraits/men/32.jpg",
   },
   {
-    name: "Michael Chen",
-    role: "Head of Analytics",
-    company: "RetailCorp",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 5,
-    quote:
-      "The insights we gained from their data science solutions directly contributed to a 35% increase in revenue. Outstanding work and exceptional team.",
+    name: "Cindy J.",
+    title: "Founder of XYZ",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa nostrum labore dolor facilis.",
+    img: "https://randomuser.me/api/portraits/women/65.jpg",
   },
   {
-    name: "Emily Rodriguez",
-    role: "VP of Operations",
-    company: "LogiFlow",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 5,
-    quote:
-      "Their supply chain analytics platform revolutionized our operations. We now have real-time visibility and predictive capabilities we never thought possible.",
+    name: "Alex F.",
+    title: "Founder of XYZ",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa nostrum labore dolor facilis.",
+    img: "https://randomuser.me/api/portraits/men/45.jpg",
   },
   {
-    name: "David Park",
-    role: "Chief Data Officer",
-    company: "FinanceFirst",
-    image: "/placeholder.svg?height=80&width=80",
-    rating: 5,
-    quote:
-      "SYANCY INNOVATIONS's team delivered beyond expectations. Their data mining techniques uncovered patterns that led to significant cost savings and improved decision-making.",
+    name: "Claude O.",
+    title: "Founder of XYZ",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa nostrum labore dolor facilis.",
+    img: "https://randomuser.me/api/portraits/men/12.jpg",
   },
-]
+  {
+    name: "Ben S.",
+    title: "Founder of XYZ",
+    text: "Lorem ipsum dolor sit amet consectetur adipisicing elit. Ipsa nostrum labore dolor facilis.",
+    img: "https://randomuser.me/api/portraits/men/78.jpg",
+  },
+];
 
-export default function TestimonialsSection() {
-  const [currentIndex, setCurrentIndex] = useState(0)
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length)
-    }, 5000)
-    return () => clearInterval(timer)
-  }, [])
-
-  const nextTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex + 1) % testimonials.length)
-  }
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prevIndex) => (prevIndex - 1 + testimonials.length) % testimonials.length)
-  }
-
+function TestimonialsMarquee() {
   return (
-    <section className="py-20 bg-white">
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
-          <h2 className="text-h2 text-primary-dark mb-4">What Our Clients Say</h2>
-          <p className="text-lg text-gray-600">
-            Don't just take our word for it. Here's what industry leaders say about our work.
-          </p>
-        </div>
+    <section className="w-full py-16 bg-white">
+      <div className="max-w-6xl mx-auto text-center">
+        <h2 className="text-3xl font-bold text-gray-900">Testimonials</h2>
+        <p className="mt-2 text-gray-500">
+          Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
+          consequatur reprehenderit.
+        </p>
+      </div>
 
-        <div className="relative">
-          <Card className="border-0 shadow-xl">
-            <CardContent className="p-8 md:p-12 text-center">
-              <div className="flex justify-center mb-6">
-                {[...Array(testimonials[currentIndex].rating)].map((_, i) => (
-                  <Star key={i} className="h-5 w-5 text-yellow-400 fill-current" />
-                ))}
-              </div>
-
-              <blockquote className="text-xl md:text-2xl text-gray-700 mb-8 leading-relaxed italic">
-                "{testimonials[currentIndex].quote}"
-              </blockquote>
-
-              <div className="flex items-center justify-center space-x-4">
+      {/* Row 1 → Left */}
+      <div className="relative mt-12 overflow-hidden">
+        <motion.div
+          className="flex gap-6"
+          animate={{ x: ["0%", "-100%"] }}
+          transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+        >
+          {[...testimonials, ...testimonials].map((t, i) => (
+            <div
+              key={`row1-${i}`}
+              className="flex-shrink-0 w-80 border border-blue-500 rounded-2xl p-6 bg-white shadow-sm text-left"
+            >
+              <div className="flex items-center gap-4">
                 <img
-                  src={testimonials[currentIndex].image || "/placeholder.svg"}
-                  alt={testimonials[currentIndex].name}
-                  className="w-16 h-16 rounded-full object-cover"
+                  src={t.img}
+                  alt={t.name}
+                  className="w-14 h-14 rounded-full object-cover border border-blue-400"
                 />
-                <div className="text-left">
-                  <div className="font-semibold text-primary-dark text-lg">{testimonials[currentIndex].name}</div>
-                  <div className="text-gray-600">{testimonials[currentIndex].role}</div>
-                  <div className="text-primary-bright font-medium">{testimonials[currentIndex].company}</div>
+                <div>
+                  <h3 className="font-semibold text-gray-900">{t.name}</h3>
+                  <p className="text-sm text-blue-600">{t.title}</p>
                 </div>
               </div>
-            </CardContent>
-          </Card>
-
-          {/* Navigation buttons */}
-          <button
-            onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 p-2 hover:opacity-70 transition-opacity"
-          >
-            <ChevronLeft className="h-8 w-8 text-primary-dark" />
-          </button>
-
-          <button
-            onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 p-2 hover:opacity-70 transition-opacity"
-          >
-            <ChevronRight className="h-8 w-8 text-primary-dark" />
-          </button>
-        </div>
-
-        {/* Dots indicator */}
-        <div className="flex justify-center mt-8 space-x-2">
-          {testimonials.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-3 h-3 rounded-full transition-colors ${
-                index === currentIndex ? "bg-primary-bright" : "bg-gray-300"
-              }`}
-            />
+              <p className="mt-4 text-gray-600 text-sm leading-relaxed">
+                {t.text}
+              </p>
+            </div>
           ))}
-        </div>
+        </motion.div>
+      </div>
+
+      {/* Row 2 → Right */}
+      <div className="relative mt-8 overflow-hidden">
+        <motion.div
+          className="flex gap-6"
+          animate={{ x: ["-100%", "0%"] }}
+          transition={{ repeat: Infinity, duration: 25, ease: "linear" }}
+        >
+          {[...testimonials, ...testimonials].map((t, i) => (
+            <div
+              key={`row2-${i}`}
+              className="flex-shrink-0 w-80 border border-blue-500 rounded-2xl p-6 bg-white shadow-sm text-left"
+            >
+              <div className="flex items-center gap-4">
+                <img
+                  src={t.img}
+                  alt={t.name}
+                  className="w-14 h-14 rounded-full object-cover border border-blue-400"
+                />
+                <div>
+                  <h3 className="font-semibold text-gray-900">{t.name}</h3>
+                  <p className="text-sm text-blue-600">{t.title}</p>
+                </div>
+              </div>
+              <p className="mt-4 text-gray-600 text-sm leading-relaxed">
+                {t.text}
+              </p>
+            </div>
+          ))}
+        </motion.div>
       </div>
     </section>
-  )
+  );
 }
+
+export default TestimonialsMarquee;

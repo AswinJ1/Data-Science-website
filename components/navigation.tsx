@@ -57,9 +57,8 @@ export default function Navigation() {
       <nav className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
-            <Link href="/" className="flex items-center space-x-2">
-              <img src="/logo.webp" alt="Logo" className="w-8 h-8 rounded-lg object-cover" />
-              <span className="text-xl font-bold text-primary-dark">SYANCY INNOVATIONS</span>
+            <Link href="/" className="flex items-center">
+              <img src="/logo.png" alt="Logo" className="w-20 h-20 rounded-lg object-cover" />
             </Link>
 
             {/* Desktop Navigation */}
