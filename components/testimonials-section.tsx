@@ -39,7 +39,7 @@ function TestimonialsMarquee() {
   return (
     <section className="w-full py-16 bg-white">
       <div className="max-w-6xl mx-auto text-center">
-        <h2 className="text-3xl font-bold text-gray-900">Testimonials</h2>
+        <h2 className="text-3xl font-sm text-gray-900">Testimonials</h2>
         <p className="mt-2 text-gray-500">
           Lorem ipsum dolor sit amet consectetur adipisicing elit. Repellendus
           consequatur reprehenderit.

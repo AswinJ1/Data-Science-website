@@ -1,160 +1,101 @@
 "use client"
 
 import Link from "next/link"
-import { Facebook, Twitter, Linkedin, Github, Mail, Phone, MapPin } from "lucide-react"
-import { FaFacebook, FaTwitter, FaLinkedin, FaGithub, FaPhone, FaMapPin } from "react-icons/fa";
+import { Mail, Phone, MapPin } from "lucide-react"
+import { FaFacebook, FaTwitter, FaLinkedin, FaGithub } from "react-icons/fa"
+import { Button } from "@/components/ui/button"
+import { Separator } from "@/components/ui/separator"
+
 export default function Footer() {
   const currentYear = new Date().getFullYear()
 
   return (
-    <footer className="bg-primary-dark text-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
+    <footer className="bg-blue-900 text-white">
+      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+        <div className="grid md:grid-cols-3 gap-6">
           {/* Company Info */}
-          <div className="lg:col-span-1">
-            <div className="flex items-center space-x-2 mb-6">
-             <img src="/logo.webp" alt="Logo" className="w-8 h-8 rounded-lg object-cover" />
-              <span className="text-xl font-bold">SYANCY INNOVATIONS</span>
+          <div>
+            <div className="mb-3">
+              <img 
+                alt="Syancy Logo" 
+                src="/syancy1.png" 
+                className="h-8 w-auto filter invert brightness-0 contrast-100" 
+              />             
             </div>
-            <p className="text-gray-300 mb-6 leading-relaxed">
-              Transforming businesses through intelligent data solutions. From engineering to insights, we make your
-              data work for you.
+            <p className="text-blue-200 text-sm mb-4">
+              Transforming businesses through intelligent data solutions.
             </p>
-            <div className="flex space-x-4">
-              <a href="#" className="text-gray-300 hover:text-primary-bright transition-colors">
-                <FaFacebook className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-primary-bright transition-colors">
-                <FaTwitter className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-primary-bright transition-colors">
-                <FaLinkedin className="h-5 w-5" />
-              </a>
-              <a href="#" className="text-gray-300 hover:text-primary-bright transition-colors">
-                <FaGithub className="h-5 w-5" />
-              </a>
+            <div className="flex space-x-2">
+              <Button variant="ghost" size="sm" className="p-1.5 h-7 w-7 hover:bg-blue-800">
+                <FaFacebook className="h-3 w-3" />
+              </Button>
+              <Button variant="ghost" size="sm" className="p-1.5 h-7 w-7 hover:bg-blue-800">
+                <FaTwitter className="h-3 w-3" />
+              </Button>
+              <Button variant="ghost" size="sm" className="p-1.5 h-7 w-7 hover:bg-blue-800">
+                <FaLinkedin className="h-3 w-3" />
+              </Button>
+              <Button variant="ghost" size="sm" className="p-1.5 h-7 w-7 hover:bg-blue-800">
+                <FaGithub className="h-3 w-3" />
+              </Button>
             </div>
           </div>
 
-          {/* Services */}
+          {/* Quick Links */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Services</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link
-                  href="/services/data-engineering"
-                  className="text-gray-300 hover:text-primary-bright transition-colors"
-                >
-                  Data Engineering
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/data-crunching"
-                  className="text-gray-300 hover:text-primary-bright transition-colors"
-                >
-                  Data Crunching
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/data-analysis"
-                  className="text-gray-300 hover:text-primary-bright transition-colors"
-                >
-                  Data Analysis
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/data-science"
-                  className="text-gray-300 hover:text-primary-bright transition-colors"
-                >
-                  Data Science
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/services/data-mining"
-                  className="text-gray-300 hover:text-primary-bright transition-colors"
-                >
-                  Data Mining
-                </Link>
-              </li>
-            </ul>
-          </div>
-
-          {/* Company */}
-          <div>
-            <h3 className="text-lg font-semibold mb-6">Company</h3>
-            <ul className="space-y-3">
-              <li>
-                <Link href="/about" className="text-gray-300 hover:text-primary-bright transition-colors">
-                  About Us
-                </Link>
-              </li>
-              <li>
-                <Link href="/case-studies" className="text-gray-300 hover:text-primary-bright transition-colors">
-                  Case Studies
-                </Link>
-              </li>
-              <li>
-                <Link href="/blog" className="text-gray-300 hover:text-primary-bright transition-colors">
-                  Blog
-                </Link>
-              </li>
-              <li>
-                <Link href="/careers" className="text-gray-300 hover:text-primary-bright transition-colors">
-                  Careers
-                </Link>
-              </li>
-              <li>
-                <Link href="/contact" className="text-gray-300 hover:text-primary-bright transition-colors">
-                  Contact
-                </Link>
-              </li>
-            </ul>
+            <h4 className="font-semibold mb-3 text-white text-sm">Quick Links</h4>
+            <div className="grid grid-cols-2 gap-1">
+              <Button variant="link" className="p-0 h-auto text-blue-200 hover:text-white text-xs justify-start">
+                <Link href="/about">About</Link>
+              </Button>
+              <Button variant="link" className="p-0 h-auto text-blue-200 hover:text-white text-xs justify-start">
+                <Link href="/services">Services</Link>
+              </Button>
+              <Button variant="link" className="p-0 h-auto text-blue-200 hover:text-white text-xs justify-start">
+                <Link href="/case-studies">Case Studies</Link>
+              </Button>
+              <Button variant="link" className="p-0 h-auto text-blue-200 hover:text-white text-xs justify-start">
+                <Link href="/contact">Contact</Link>
+              </Button>
+            </div>
           </div>
 
           {/* Contact */}
           <div>
-            <h3 className="text-lg font-semibold mb-6">Contact</h3>
-            <ul className="space-y-3">
-              <li className="flex items-center gap-3 text-gray-300">
-                <FaPhone className="h-4 w-4" />
+            <h4 className="font-semibold mb-3 text-white text-sm">Contact</h4>
+            <div className="space-y-2">
+              <div className="flex items-center gap-2 text-blue-200 text-xs">
+                <Phone className="h-3 w-3 flex-shrink-0" />
                 <span>+1 (555) 123-4567</span>
-              </li>
-              <li className="flex items-center gap-3 text-gray-300">
-                <Mail className="h-4 w-4" />
+              </div>
+              <div className="flex items-center gap-2 text-blue-200 text-xs">
+                <Mail className="h-3 w-3 flex-shrink-0" />
                 <span>hello@syancyinnovations.com</span>
-              </li>
-              <li className="flex items-start gap-3 text-gray-300">
-                <FaMapPin className="h-4 w-4 mt-1" />
-                <span>
-                  Syancy Innovations Private Limited. 
-
-                  <br />
-                  1120, Behind The Gadhi, Maratha Chauk
-                  Taloda 425413 
-                  Nandurbar, 
-                  Maharashtra
-                </span>
-              </li>
-            </ul>
+              </div>
+              <div className="flex items-start gap-2 text-blue-200 text-xs">
+                <MapPin className="h-3 w-3 flex-shrink-0 mt-0.5" />
+                <span>Taloda, Maharashtra</span>
+              </div>
+            </div>
           </div>
         </div>
 
-        <div className="border-t border-gray-700 mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
-          <p className="text-gray-300 text-sm">© {currentYear} SYANCY INNOVATIONS. All rights reserved.</p>
-          <div className="flex space-x-6 mt-4 md:mt-0">
-            <Link href="/privacy" className="text-gray-300 hover:text-primary-bright text-sm transition-colors">
-              Privacy Policy
-            </Link>
-            <Link href="/terms" className="text-gray-300 hover:text-primary-bright text-sm transition-colors">
-              Terms of Service
-            </Link>
-            <Link href="/cookies" className="text-gray-300 hover:text-primary-bright text-sm transition-colors">
-              Cookie Policy
-            </Link>
+        <Separator className="my-6 bg-blue-700" />
+
+        <div className="flex flex-col sm:flex-row justify-between items-center gap-3">
+          <p className="text-blue-300 text-xs">
+            © {currentYear} SYANCY INNOVATIONS. All rights reserved.
+          </p>
+          <div className="flex gap-4">
+            <Button variant="link" className="p-0 h-auto text-blue-300 hover:text-white text-xs">
+              <Link href="/privacy">Privacy</Link>
+            </Button>
+            <Button variant="link" className="p-0 h-auto text-blue-300 hover:text-white text-xs">
+              <Link href="/terms">Terms</Link>
+            </Button>
+            <Button variant="link" className="p-0 h-auto text-blue-300 hover:text-white text-xs">
+              <Link href="/cookies">Cookies</Link>
+            </Button>
           </div>
         </div>
       </div>
