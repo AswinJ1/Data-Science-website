@@ -62,6 +62,7 @@ module.exports = {
         "fade-in": "fadeIn 0.6s ease-in-out",
         "slide-up": "slideUp 0.6s ease-out",
         float: "float 3s ease-in-out infinite",
+        "logo-cloud": "logo-cloud 30s linear infinite",
       },
       keyframes: {
         fadeIn: {
@@ -75,6 +76,10 @@ module.exports = {
         float: {
           "0%, 100%": { transform: "translateY(0px)" },
           "50%": { transform: "translateY(-10px)" },
+        },
+        "logo-cloud": {
+          from: { transform: "translateX(0)" },
+          to: { transform: "translateX(calc(-100% - 4rem))" },
         },
       },
     },
