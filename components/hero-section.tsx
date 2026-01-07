@@ -106,7 +106,7 @@ export default function HeroSection() {
               learning solutions. Drive growth through intelligent data strategies.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-gradient-primary hover:opacity-90 transition-opacity">
+              <Button size="lg" className="bg-gradient-primary hover:opacity-90 transition-opacity text-white">
                 Get Started Today
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
