@@ -18,7 +18,7 @@ export default function HomePage() {
       <TechSolutions />
       {/* <CaseStudiesSection /> */}
       <Sponsor />
-      <TestimonialCarousel />
+      {/* <TestimonialCarousel /> */}
       {/* <TestimonialsMarquee /> */}
         <FAQSection />
       <CTASection />
