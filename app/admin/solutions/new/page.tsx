@@ -1,0 +1,155 @@
+"use client"
+
+import { useState } from "react"
+import { useRouter } from "next/navigation"
+import { useForm } from "react-hook-form"
+import { zodResolver } from "@hookform/resolvers/zod"
+import { solutionSchema, type SolutionInput } from "@/lib/validations/solution"
+import { Button } from "@/components/ui/button"
+import { Input } from "@/components/ui/input"
+import { Label } from "@/components/ui/label"
+import { Textarea } from "@/components/ui/textarea"
+import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Switch } from "@/components/ui/switch"
+import { ArrowLeft, Loader2 } from "lucide-react"
+import Link from "next/link"
+
+export default function NewSolutionPage() {
+  const router = useRouter()
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [featuresInput, setFeaturesInput] = useState("")
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    watch,
+    formState: { errors },
+  } = useForm<SolutionInput>({
+    resolver: zodResolver(solutionSchema),
+    defaultValues: { isActive: true, features: [] },
+  })
+
+  const features = watch("features") || []
+  const isActive = watch("isActive")
+
+  const addFeature = () => {
+    if (featuresInput.trim()) {
+      setValue("features", [...features, featuresInput.trim()])
+      setFeaturesInput("")
+    }
+  }
+
+  const removeFeature = (index: number) => {
+    setValue("features", features.filter((_, i) => i !== index))
+  }
+
+  const onSubmit = async (data: SolutionInput) => {
+    setLoading(true)
+    setError("")
+
+    try {
+      const res = await fetch("/api/admin/solutions", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
+      })
+
+      if (!res.ok) {
+        const json = await res.json()
+        setError(json.error || "Failed to create solution")
+        return
+      }
+
+      router.push("/admin/solutions")
+    } catch {
+      setError("Something went wrong")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return (
+    <div>
+      <Link href="/admin/solutions" className="inline-flex items-center gap-1 text-sm text-blue-600 hover:text-blue-700 mb-4">
+        <ArrowLeft className="h-4 w-4" /> Back to Solutions
+      </Link>
+
+      <Card>
+        <CardHeader>
+          <CardTitle>New Solution</CardTitle>
+        </CardHeader>
+        <CardContent>
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            {error && (
+              <div className="p-3 text-sm text-red-600 bg-red-50 border border-red-200 rounded-md">{error}</div>
+            )}
+
+            <div className="grid md:grid-cols-2 gap-4">
+              <div className="space-y-2">
+                <Label>Title *</Label>
+                <Input {...register("title")} placeholder="Predictive Analytics" />
+                {errors.title && <p className="text-sm text-red-500">{errors.title.message}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label>Icon (emoji or icon name)</Label>
+                <Input {...register("icon")} placeholder="📊" />
+              </div>
+
+              <div className="space-y-2 md:col-span-2">
+                <Label>Industry *</Label>
+                <Input {...register("industry")} placeholder="e.g. Healthcare, Finance, Retail" />
+                {errors.industry && <p className="text-sm text-red-500">{errors.industry.message}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label>Active</Label>
+                <div className="flex items-center gap-2 pt-2">
+                  <Switch checked={isActive} onCheckedChange={(v) => setValue("isActive", v)} />
+                  <span className="text-sm text-gray-500">{isActive ? "Visible" : "Hidden"}</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Features</Label>
+              <div className="flex gap-2">
+                <Input
+                  value={featuresInput}
+                  onChange={(e) => setFeaturesInput(e.target.value)}
+                  placeholder="Add a feature"
+                  onKeyDown={(e) => { if (e.key === "Enter") { e.preventDefault(); addFeature() } }}
+                />
+                <Button type="button" variant="outline" onClick={addFeature}>Add</Button>
+              </div>
+              <ul className="space-y-1 mt-2">
+                {features.map((f, i) => (
+                  <li key={i} className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded text-sm">
+                    <span className="flex-1">{f}</span>
+                    <button type="button" onClick={() => removeFeature(i)} className="text-red-500 hover:text-red-700">×</button>
+                  </li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="space-y-2">
+              <Label>Full Description * (Markdown supported)</Label>
+              <Textarea {...register("description")} placeholder="Detailed description..." rows={12} />
+              {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
+            </div>
+
+            <div className="flex gap-3">
+              <Button type="submit" className="bg-blue-600 hover:bg-blue-700" disabled={loading}>
+                {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
+                Create Solution
+              </Button>
+              <Button type="button" variant="outline" onClick={() => router.back()}>Cancel</Button>
+            </div>
+          </form>
+        </CardContent>
+      </Card>
+    </div>
+  )
+}

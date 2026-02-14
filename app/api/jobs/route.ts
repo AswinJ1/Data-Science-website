@@ -1,0 +1,43 @@
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+
+export async function GET(req: Request) {
+  try {
+    const { searchParams } = new URL(req.url);
+    const type = searchParams.get("type");
+    const location = searchParams.get("location");
+    const search = searchParams.get("search");
+
+    const where: any = { isActive: true };
+
+    if (type) where.type = type;
+    if (location) where.location = { contains: location, mode: "insensitive" };
+    if (search) {
+      where.OR = [
+        { title: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+      ];
+    }
+
+    const jobs = await prisma.job.findMany({
+      where,
+      orderBy: { createdAt: "desc" },
+      select: {
+        id: true,
+        title: true,
+        slug: true,
+        location: true,
+        type: true,
+        experience: true,
+        skills: true,
+        salary: true,
+        createdAt: true,
+      },
+    });
+
+    return NextResponse.json(jobs);
+  } catch (error) {
+    console.error("Error fetching jobs:", error);
+    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  }
+}

@@ -21,7 +21,7 @@ export default function ContactSection() {
           <span className="mb-3 inline-block text-xs font-semibold tracking-[0.18em] text-slate-500">
             GET STARTED
           </span>
-          <h1 className="mx-auto max-w-3xl text-4xl font-light leading-tight tracking-[-0.02em] text-slate-900 md:text-5xl">
+          <h1 className="mx-auto max-w-3xl text-2xl sm:text-3xl font-light leading-tight tracking-[-0.02em] text-slate-900 md:text-5xl">
             Let's transform your data into insights
           </h1>
           <p className="mx-auto mt-3 max-w-2xl text-sm leading-6 text-slate-600 md:text-base">

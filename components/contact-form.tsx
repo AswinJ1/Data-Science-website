@@ -16,10 +16,36 @@ export function ContactForm() {
     message: "",
   })
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const [loading, setLoading] = useState(false)
+  const [success, setSuccess] = useState(false)
+  const [error, setError] = useState("")
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    // Handle form submission here
-    console.log("Form submitted:", formData)
+    setLoading(true)
+    setError("")
+    setSuccess(false)
+
+    try {
+      const res = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(formData),
+      })
+
+      if (!res.ok) {
+        const data = await res.json()
+        setError(data.error || "Failed to send message")
+        return
+      }
+
+      setSuccess(true)
+      setFormData({ name: "", email: "", subject: "", message: "" })
+    } catch {
+      setError("Something went wrong. Please try again.")
+    } finally {
+      setLoading(false)
+    }
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
@@ -99,9 +125,18 @@ export function ContactForm() {
             />
           </div>
 
-          <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground">
-            Send Message
+          <Button type="submit" className="w-full bg-primary hover:bg-primary/90 text-primary-foreground" disabled={loading}>
+            {loading ? "Sending..." : "Send Message"}
           </Button>
+
+          {success && (
+            <p className="text-sm text-green-600 text-center">
+              Message sent successfully! We&apos;ll get back to you soon.
+            </p>
+          )}
+          {error && (
+            <p className="text-sm text-red-600 text-center">{error}</p>
+          )}
         </form>
       </CardContent>
     </Card>

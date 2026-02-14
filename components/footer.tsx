@@ -52,7 +52,13 @@ export default function Footer() {
                 <Link href="/services">Services</Link>
               </Button>
               <Button variant="link" className="p-0 h-auto text-blue-200 hover:text-white text-xs justify-start">
-                <Link href="/case-studies">Case Studies</Link>
+                <Link href="/solutions">Solutions</Link>
+              </Button>
+              <Button variant="link" className="p-0 h-auto text-blue-200 hover:text-white text-xs justify-start">
+                <Link href="/careers">Careers</Link>
+              </Button>
+              <Button variant="link" className="p-0 h-auto text-blue-200 hover:text-white text-xs justify-start">
+                <Link href="/blog">Blog</Link>
               </Button>
               <Button variant="link" className="p-0 h-auto text-blue-200 hover:text-white text-xs justify-start">
                 <Link href="/contact">Contact</Link>
