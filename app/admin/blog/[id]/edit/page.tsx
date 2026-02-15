@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Skeleton } from "@/components/ui/skeleton"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
+import { toast } from "sonner"
 
 type Category = { id: string; name: string }
 
@@ -76,8 +77,10 @@ export default function EditBlogPage() {
       }
 
       router.push("/admin/blog")
+      toast.success("Blog post updated")
     } catch {
       setError("Something went wrong")
+      toast.error("Something went wrong")
     } finally {
       setLoading(false)
     }

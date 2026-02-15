@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Plus, Trash2, Tag, Loader2 } from "lucide-react"
+import { toast } from "sonner"
 
 type Category = { id: string; name: string; slug: string; _count?: { blogs: number } }
 
@@ -28,7 +29,7 @@ export default function AdminCategoriesPage() {
       const data = await res.json()
       setCategories(data)
     } catch {
-      console.error("Failed to fetch categories")
+      toast.error("Failed to fetch categories")
     } finally {
       setLoading(false)
     }
@@ -49,12 +50,14 @@ export default function AdminCategoriesPage() {
       if (!res.ok) {
         const json = await res.json()
         setError(json.error || "Failed to create category")
+        toast.error(json.error || "Failed to create category")
         return
       }
 
       const cat = await res.json()
       setCategories((prev) => [...prev, cat])
       setNewName("")
+      toast.success("Category created")
     } catch {
       setError("Something went wrong")
     } finally {
@@ -67,9 +70,12 @@ export default function AdminCategoriesPage() {
       const res = await fetch(`/api/admin/categories/${id}`, { method: "DELETE" })
       if (res.ok) {
         setCategories((prev) => prev.filter((c) => c.id !== id))
+        toast.success("Category deleted")
+      } else {
+        toast.error("Failed to delete category")
       }
     } catch {
-      console.error("Failed to delete category")
+      toast.error("Failed to delete category")
     }
   }
 
@@ -115,7 +121,7 @@ export default function AdminCategoriesPage() {
       <Card>
         <CardContent className="pt-6">
           {categories.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
               <Tag className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>No categories yet</p>
             </div>
@@ -134,7 +140,7 @@ export default function AdminCategoriesPage() {
                 {categories.map((cat) => (
                   <TableRow key={cat.id}>
                     <TableCell className="font-medium">{cat.name}</TableCell>
-                    <TableCell className="text-gray-500">{cat.slug}</TableCell>
+                    <TableCell className="text-gray-500 dark:text-gray-400">{cat.slug}</TableCell>
                     <TableCell>{cat._count?.blogs ?? 0}</TableCell>
                     <TableCell className="text-right">
                       <AlertDialog>

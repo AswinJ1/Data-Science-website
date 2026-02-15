@@ -15,6 +15,7 @@ import { Switch } from "@/components/ui/switch"
 import { Skeleton } from "@/components/ui/skeleton"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
+import { toast } from "sonner"
 
 export default function EditJobPage() {
   const router = useRouter()
@@ -93,8 +94,10 @@ export default function EditJobPage() {
       }
 
       router.push("/admin/jobs")
+      toast.success("Job updated successfully")
     } catch {
       setError("Something went wrong")
+      toast.error("Something went wrong")
     } finally {
       setLoading(false)
     }
@@ -172,7 +175,7 @@ export default function EditJobPage() {
                 <Label>Active</Label>
                 <div className="flex items-center gap-2 pt-2">
                   <Switch checked={isActive} onCheckedChange={(v) => setValue("isActive", v)} />
-                  <span className="text-sm text-gray-500">{isActive ? "Visible" : "Hidden"}</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{isActive ? "Visible" : "Hidden"}</span>
                 </div>
               </div>
             </div>

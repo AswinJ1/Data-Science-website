@@ -8,6 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { Plus, Pencil, Trash2, Lightbulb } from "lucide-react"
+import { toast } from "sonner"
 
 type Solution = {
   id: string
@@ -32,7 +33,7 @@ export default function AdminSolutionsPage() {
       const data = await res.json()
       setSolutions(data)
     } catch {
-      console.error("Failed to fetch solutions")
+      toast.error("Failed to fetch solutions")
     } finally {
       setLoading(false)
     }
@@ -43,9 +44,12 @@ export default function AdminSolutionsPage() {
       const res = await fetch(`/api/admin/solutions/${id}`, { method: "DELETE" })
       if (res.ok) {
         setSolutions((prev) => prev.filter((s) => s.id !== id))
+        toast.success("Solution deleted")
+      } else {
+        toast.error("Failed to delete solution")
       }
     } catch {
-      console.error("Failed to delete solution")
+      toast.error("Failed to delete solution")
     }
   }
 
@@ -74,7 +78,7 @@ export default function AdminSolutionsPage() {
       <Card>
         <CardContent className="pt-6">
           {solutions.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
               <Lightbulb className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>No solutions yet</p>
               <Button asChild variant="outline" className="mt-4">
@@ -99,11 +103,11 @@ export default function AdminSolutionsPage() {
                       <TableCell className="font-medium">{sol.title}</TableCell>
                       <TableCell>{sol.icon || "—"}</TableCell>
                       <TableCell>
-                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${sol.isActive ? "bg-green-100 text-green-800" : "bg-gray-100 text-gray-800"}`}>
+                        <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${sol.isActive ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"}`}>
                           {sol.isActive ? "Active" : "Hidden"}
                         </span>
                       </TableCell>
-                      <TableCell className="text-sm text-gray-500">
+                      <TableCell className="text-sm text-gray-500 dark:text-gray-400">
                         {new Date(sol.createdAt).toLocaleDateString()}
                       </TableCell>
                       <TableCell className="text-right">

@@ -1,13 +1,14 @@
 "use client"
 
-import { useState, useEffect } from "react"
+import React, { useState, useEffect } from "react"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/ui/table"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Skeleton } from "@/components/ui/skeleton"
-import { Download, Search, FileText, Sheet } from "lucide-react"
+import { Download, Search, FileText, Sheet, ChevronDown, ChevronUp } from "lucide-react"
+import { toast } from "sonner"
 import * as XLSX from "xlsx"
 
 type Application = {
@@ -34,6 +35,7 @@ export default function AdminApplicationsPage() {
   const [search, setSearch] = useState("")
   const [statusFilter, setStatusFilter] = useState("ALL")
   const [updatingId, setUpdatingId] = useState<string | null>(null)
+  const [expandedId, setExpandedId] = useState<string | null>(null)
 
   useEffect(() => {
     fetchApplications()
@@ -45,7 +47,7 @@ export default function AdminApplicationsPage() {
       const data = await res.json()
       setApplications(data)
     } catch {
-      console.error("Failed to fetch applications")
+      toast.error("Failed to fetch applications")
     } finally {
       setLoading(false)
     }
@@ -63,9 +65,12 @@ export default function AdminApplicationsPage() {
         setApplications((prev) =>
           prev.map((a) => (a.id === id ? { ...a, status } : a))
         )
+        toast.success("Status updated")
+      } else {
+        toast.error("Failed to update status")
       }
     } catch {
-      console.error("Failed to update status")
+      toast.error("Failed to update status")
     } finally {
       setUpdatingId(null)
     }
@@ -91,6 +96,7 @@ export default function AdminApplicationsPage() {
       "Institution": app.institution || "",
       "Experience": app.experience || "",
       "LinkedIn": app.linkedin || "",
+      "Cover Letter": app.coverLetter || "",
       "Status": (app.status || "").replace("_", " "),
       "Applied On": new Date(app.createdAt).toLocaleDateString(),
       "Resume URL": app.resume || "",
@@ -128,7 +134,7 @@ export default function AdminApplicationsPage() {
         <CardHeader>
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
-              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400" />
+              <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400 dark:text-gray-500" />
               <Input
                 placeholder="Search by name, email, or job..."
                 value={search}
@@ -153,7 +159,7 @@ export default function AdminApplicationsPage() {
         </CardHeader>
         <CardContent>
           {filtered.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
               <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>No applications found</p>
             </div>
@@ -168,24 +174,26 @@ export default function AdminApplicationsPage() {
                     <TableHead>Status</TableHead>
                     <TableHead>Applied</TableHead>
                     <TableHead>Resume</TableHead>
+                    <TableHead>Cover Letter</TableHead>
                     <TableHead>Action</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {filtered.map((app) => (
-                    <TableRow key={app.id}>
+                    <React.Fragment key={app.id}>
+                    <TableRow>
                       <TableCell>
                         <div>
                           <p className="font-medium">{app.fullName || app.user.name}</p>
-                          <p className="text-sm text-gray-500">{app.email || app.user.email}</p>
-                          {app.phone && <p className="text-xs text-gray-400">{app.phone}</p>}
+                          <p className="text-sm text-gray-500 dark:text-gray-400">{app.email || app.user.email}</p>
+                          {app.phone && <p className="text-xs text-gray-400 dark:text-gray-500">{app.phone}</p>}
                         </div>
                       </TableCell>
                       <TableCell className="font-medium">{app.job.title}</TableCell>
                       <TableCell>
                         <div>
                           <p className="text-sm">{app.education}</p>
-                          <p className="text-xs text-gray-500">{app.institution}</p>
+                          <p className="text-xs text-gray-500 dark:text-gray-400">{app.institution}</p>
                         </div>
                       </TableCell>
                       <TableCell>
@@ -193,7 +201,7 @@ export default function AdminApplicationsPage() {
                           {app.status.replace("_", " ")}
                         </span>
                       </TableCell>
-                      <TableCell className="text-sm text-gray-500">
+                      <TableCell className="text-sm text-gray-500 dark:text-gray-400">
                         {new Date(app.createdAt).toLocaleDateString()}
                       </TableCell>
                       <TableCell>
@@ -202,6 +210,21 @@ export default function AdminApplicationsPage() {
                             <Download className="h-4 w-4" />
                           </a>
                         </Button>
+                      </TableCell>
+                      <TableCell>
+                        {app.coverLetter ? (
+                          <Button
+                            variant="ghost"
+                            size="sm"
+                            onClick={() => setExpandedId(expandedId === app.id ? null : app.id)}
+                            className="text-blue-600 hover:text-blue-700"
+                          >
+                            <FileText className="h-4 w-4 mr-1" />
+                            {expandedId === app.id ? <ChevronUp className="h-3 w-3" /> : <ChevronDown className="h-3 w-3" />}
+                          </Button>
+                        ) : (
+                          <span className="text-xs text-gray-400 dark:text-gray-500">None</span>
+                        )}
                       </TableCell>
                       <TableCell>
                         <Select
@@ -222,6 +245,19 @@ export default function AdminApplicationsPage() {
                         </Select>
                       </TableCell>
                     </TableRow>
+                    {expandedId === app.id && app.coverLetter && (
+                      <TableRow>
+                        <TableCell colSpan={8} className="bg-gray-50 dark:bg-gray-800">
+                          <div className="p-4">
+                            <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Cover Letter</p>
+                            <p className="text-sm text-gray-700 dark:text-gray-300 whitespace-pre-wrap leading-relaxed">
+                              {app.coverLetter}
+                            </p>
+                          </div>
+                        </TableCell>
+                      </TableRow>
+                    )}
+                    </React.Fragment>
                   ))}
                 </TableBody>
               </Table>

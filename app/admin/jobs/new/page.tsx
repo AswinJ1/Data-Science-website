@@ -14,6 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Switch } from "@/components/ui/switch"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
+import { toast } from "sonner"
 
 export default function NewJobPage() {
   const router = useRouter()
@@ -64,8 +65,10 @@ export default function NewJobPage() {
       }
 
       router.push("/admin/jobs")
+      toast.success("Job created successfully")
     } catch {
       setError("Something went wrong")
+      toast.error("Something went wrong")
     } finally {
       setLoading(false)
     }
@@ -138,7 +141,7 @@ export default function NewJobPage() {
                     checked={isActive}
                     onCheckedChange={(v) => setValue("isActive", v)}
                   />
-                  <span className="text-sm text-gray-500">
+                  <span className="text-sm text-gray-500 dark:text-gray-400">
                     {isActive ? "Visible to applicants" : "Hidden"}
                   </span>
                 </div>

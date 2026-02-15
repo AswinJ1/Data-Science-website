@@ -2,8 +2,7 @@ import type React from "react"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 import "./globals.css"
-import Navigation from "@/components/navigation";
-import Footer from "@/components/footer";
+import { SiteShell } from "@/components/site-shell"
 import Providers from "@/components/providers"
 
 
@@ -43,12 +42,12 @@ export default function RootLayout({
   children: React.ReactNode
 }) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
-          <Navigation />
-          {children}
-          <Footer />
+          <SiteShell>
+            {children}
+          </SiteShell>
         </Providers>
       </body>
     </html>

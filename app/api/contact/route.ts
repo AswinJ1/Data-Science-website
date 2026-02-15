@@ -18,6 +18,16 @@ export async function POST(req: Request) {
       data: parsed.data,
     });
 
+    // Create notification for admin
+    await prisma.notification.create({
+      data: {
+        type: "NEW_CONTACT",
+        title: "New Contact Inquiry",
+        message: `${parsed.data.firstName} ${parsed.data.lastName} (${parsed.data.email}) sent a contact inquiry`,
+        link: "/admin/contacts",
+      },
+    });
+
     return NextResponse.json(
       { message: "Thank you! We'll get back to you soon.", id: submission.id },
       { status: 201 }

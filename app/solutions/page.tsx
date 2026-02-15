@@ -36,7 +36,7 @@ export default function SolutionsPage() {
   }, [])
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
       {/* Hero */}
       <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16">
         <div className="max-w-6xl mx-auto px-4 text-center">
@@ -55,7 +55,7 @@ export default function SolutionsPage() {
         ) : solutions.length === 0 ? (
           <div className="text-center py-20">
             <Lightbulb className="h-12 w-12 text-gray-300 mx-auto mb-4" />
-            <h3 className="text-lg font-medium text-gray-600">Solutions coming soon</h3>
+            <h3 className="text-lg font-medium text-gray-600 dark:text-gray-400">Solutions coming soon</h3>
           </div>
         ) : (
           <div className="space-y-8">
@@ -73,10 +73,10 @@ export default function SolutionsPage() {
                           <Badge className="bg-blue-600">{solution.industry}</Badge>
                         </div>
                         <div className="md:w-2/3 p-4 sm:p-6 md:p-8">
-                          <h2 className="text-2xl font-bold text-gray-900 group-hover:text-blue-600 transition-colors mb-3">
+                          <h2 className="text-2xl font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors mb-3">
                             {solution.title}
                           </h2>
-                          <p className="text-gray-600 mb-4 line-clamp-2">
+                          <p className="text-gray-600 dark:text-gray-300 mb-4 line-clamp-2">
                             {solution.description}
                           </p>
                           <div className="flex flex-wrap gap-2 mb-4">

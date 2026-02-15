@@ -65,7 +65,7 @@ export default function JobDetailPage() {
       if (!res.ok) throw new Error("Not found")
       const data = await res.json()
       setJob(data)
-      checkExistingApplication(data.id)
+      await checkExistingApplication(data.id)
     } catch {
       router.push("/careers")
     } finally {

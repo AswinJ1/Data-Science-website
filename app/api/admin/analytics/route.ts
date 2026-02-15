@@ -10,6 +10,7 @@ export async function GET(request: Request) {
     const period = searchParams.get("period") || "6m"; // 7d, 30d, 3m, 6m, 1y, all
     const fromParam = searchParams.get("from");
     const toParam = searchParams.get("to");
+    const jobId = searchParams.get("jobId");
 
     // Calculate date range
     let dateFrom: Date | undefined;
@@ -93,10 +94,10 @@ export async function GET(request: Request) {
       prisma.blog.count({ where: { status: "PUBLISHED" } }),
       prisma.category.count(),
 
-      // Applications grouped by status (filtered)
+      // Applications grouped by status (filtered, optionally by job)
       prisma.application.groupBy({
         by: ["status"],
-        where: dateFilter,
+        where: { ...dateFilter, ...(jobId ? { jobId } : {}) },
         _count: { status: true },
       }),
 
@@ -244,7 +245,14 @@ export async function GET(request: Request) {
     const filledBlogs = fillPeriods(blogsByTime as any[], dateFrom, dateTo, groupByDay);
     const filledUsers = fillPeriods(usersByTime as any[], dateFrom, dateTo, groupByDay);
 
+    // Fetch all jobs for the job filter dropdown
+    const allJobs = await prisma.job.findMany({
+      select: { id: true, title: true },
+      orderBy: { title: "asc" },
+    });
+
     return NextResponse.json({
+      jobs: allJobs,
       overview: {
         totalUsers,
         totalJobs,

@@ -47,7 +47,7 @@ export default function SolutionDetailPage() {
   if (!solution) return null
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
       <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16">
         <div className="max-w-4xl mx-auto px-4">
           <Link
@@ -66,7 +66,7 @@ export default function SolutionDetailPage() {
         <Card className="mb-8">
           <CardContent className="p-4 sm:p-6 md:p-8">
             <h2 className="text-xl font-bold mb-4">Overview</h2>
-            <p className="text-gray-600 leading-relaxed text-lg">
+            <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
               {solution.description}
             </p>
           </CardContent>
@@ -77,9 +77,9 @@ export default function SolutionDetailPage() {
             <h2 className="text-xl font-bold mb-6">Key Capabilities</h2>
             <div className="grid md:grid-cols-2 gap-4">
               {solution.features.map((feature, i) => (
-                <div key={i} className="flex items-start gap-3 p-4 rounded-lg bg-gray-50">
+                <div key={i} className="flex items-start gap-3 p-4 rounded-lg bg-gray-50 dark:bg-gray-800">
                   <CheckCircle className="h-5 w-5 text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700">{feature}</span>
+                  <span className="text-gray-700 dark:text-gray-300">{feature}</span>
                 </div>
               ))}
             </div>
@@ -90,7 +90,7 @@ export default function SolutionDetailPage() {
           <h3 className="text-xl font-bold mb-3">
             Ready to transform your {solution.industry.toLowerCase()} operations?
           </h3>
-          <p className="text-gray-600 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 mb-6">
             Let&apos;s discuss how our solutions can address your specific challenges.
           </p>
           <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">

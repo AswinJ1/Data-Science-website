@@ -14,6 +14,7 @@ import {
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
 import { Plus, Pencil, Trash2, Loader2 } from "lucide-react"
+import { toast } from "sonner"
 
 export default function AdminJobsPage() {
   const [jobs, setJobs] = useState<any[]>([])
@@ -29,7 +30,7 @@ export default function AdminJobsPage() {
       const data = await res.json()
       setJobs(Array.isArray(data) ? data : [])
     } catch (error) {
-      console.error("Error:", error)
+      toast.error("Failed to load jobs")
     } finally {
       setLoading(false)
     }
@@ -37,10 +38,15 @@ export default function AdminJobsPage() {
 
   const deleteJob = async (id: string) => {
     try {
-      await fetch(`/api/admin/jobs/${id}`, { method: "DELETE" })
-      setJobs(jobs.filter((j) => j.id !== id))
+      const res = await fetch(`/api/admin/jobs/${id}`, { method: "DELETE" })
+      if (res.ok) {
+        setJobs(jobs.filter((j) => j.id !== id))
+        toast.success("Job deleted")
+      } else {
+        toast.error("Failed to delete job")
+      }
     } catch (error) {
-      console.error("Error deleting job:", error)
+      toast.error("Failed to delete job")
     }
   }
 
@@ -70,7 +76,7 @@ export default function AdminJobsPage() {
               <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
             </div>
           ) : jobs.length === 0 ? (
-            <p className="text-center py-12 text-gray-500">No jobs created yet</p>
+            <p className="text-center py-12 text-gray-500 dark:text-gray-400">No jobs created yet</p>
           ) : (
             <div className="overflow-x-auto">
             <Table>
@@ -94,7 +100,7 @@ export default function AdminJobsPage() {
                     <TableCell>{job.location}</TableCell>
                     <TableCell>{job._count?.applications || 0}</TableCell>
                     <TableCell>
-                      <Badge className={job.isActive ? "bg-green-100 text-green-800 hover:bg-green-100" : "bg-gray-100 text-gray-800 hover:bg-gray-100"}>
+                      <Badge className={job.isActive ? "bg-green-100 text-green-800 hover:bg-green-100 dark:bg-green-900/30 dark:text-green-400" : "bg-gray-100 text-gray-800 hover:bg-gray-100 dark:bg-gray-800 dark:text-gray-300"}>
                         {job.isActive ? "Active" : "Inactive"}
                       </Badge>
                     </TableCell>

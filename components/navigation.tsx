@@ -1,11 +1,15 @@
 "use client"
 
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useSession, signOut } from "next-auth/react"
-import { Menu, X, ChevronDown, LogOut, LayoutDashboard, Shield, Settings } from "lucide-react"
+import {
+  Menu, ChevronDown, ChevronRight, LogOut, LayoutDashboard, Settings,
+  Database, Cog, BarChart3, Brain, Search, TrendingUp,
+  Heart, DollarSign, ShoppingCart, Factory, Zap, ArrowRight,
+} from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -17,16 +21,218 @@ import {
 } from "@/components/ui/dropdown-menu"
 import { Sheet, SheetContent, SheetTrigger, SheetClose } from "@/components/ui/sheet"
 
-const navItems = [
+/* ── Service sub-pages ────────────────────────────────────── */
+const serviceItems = [
+  {
+    icon: Database,
+    label: "Data Engineering",
+    href: "/services/data-engineering",
+    description: "Build robust data pipelines and infrastructure at scale.",
+  },
+  {
+    icon: Cog,
+    label: "Data Crunching",
+    href: "/services/data-crunching",
+    description: "Transform raw data into clean, structured datasets.",
+  },
+  {
+    icon: BarChart3,
+    label: "Data Analysis",
+    href: "/services/data-analysis",
+    description: "Extract insights through statistical analysis & visualization.",
+  },
+  {
+    icon: Brain,
+    label: "Data Science",
+    href: "/services/data-science",
+    description: "Leverage ML and AI to predict trends and automate decisions.",
+  },
+  {
+    icon: Search,
+    label: "Data Mining",
+    href: "/services/data-mining",
+    description: "Discover hidden patterns in large datasets.",
+  },
+]
+
+/* ── Solution categories (static showcase) ────────────────── */
+const solutionItems = [
+  { icon: Heart, label: "Healthcare", href: "/solutions/healthcare", description: "AI-powered diagnostics & patient analytics." },
+  { icon: DollarSign, label: "Finance", href: "/solutions/finance", description: "Risk modeling & fraud detection." },
+  { icon: ShoppingCart, label: "Retail & E-Commerce", href: "/solutions/retail-e-commerce", description: "Customer segmentation & demand forecasting." },
+  { icon: Factory, label: "Manufacturing", href: "/solutions/manufacturing", description: "Predictive maintenance & supply chain optimization." },
+  { icon: Zap, label: "Energy", href: "/solutions/energy", description: "Smart grid analytics & consumption forecasting." },
+]
+
+/* ── Plain nav items (no dropdown) ────────────────────────── */
+const plainNavItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Services", href: "/services" },
-  { label: "Solutions", href: "/solutions" },
+  { label: "Case Studies", href: "/case-studies" },
   { label: "Careers", href: "/careers" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
 ]
 
+/* ── Mega-menu panel (desktop) ────────────────────────────── */
+function MegaMenuPanel({
+  items,
+  viewAllHref,
+  viewAllLabel,
+  onClose,
+}: {
+  items: { icon: React.ElementType; label: string; href: string; description: string }[]
+  viewAllHref: string
+  viewAllLabel: string
+  onClose: () => void
+}) {
+  return (
+    <div
+      className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50"
+      onMouseLeave={onClose}
+    >
+      <div className="bg-white rounded-xl shadow-xl border border-gray-100 w-[600px] p-5 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="grid grid-cols-2 gap-1">
+          {items.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={onClose}
+              className="flex items-start gap-3 rounded-lg p-3 hover:bg-blue-50 transition-colors group"
+            >
+              <div className="flex-shrink-0 mt-0.5 rounded-md bg-blue-100 text-blue-600 p-2 group-hover:bg-blue-600 group-hover:text-white transition-colors">
+                <item.icon className="h-4 w-4" />
+              </div>
+              <div>
+                <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">
+                  {item.label}
+                </p>
+                <p className="text-xs text-gray-500 leading-relaxed mt-0.5">{item.description}</p>
+              </div>
+            </Link>
+          ))}
+        </div>
+        <div className="border-t mt-3 pt-3">
+          <Link
+            href={viewAllHref}
+            onClick={onClose}
+            className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors px-3"
+          >
+            {viewAllLabel}
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ── Desktop nav trigger with hover mega-menu ─────────────── */
+function NavDropdown({
+  label,
+  href,
+  items,
+  viewAllLabel,
+  isActive,
+}: {
+  label: string
+  href: string
+  items: { icon: React.ElementType; label: string; href: string; description: string }[]
+  viewAllLabel: string
+  isActive: boolean
+}) {
+  const [open, setOpen] = useState(false)
+  const timeout = useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  const handleEnter = () => {
+    clearTimeout(timeout.current)
+    setOpen(true)
+  }
+  const handleLeave = () => {
+    timeout.current = setTimeout(() => setOpen(false), 150)
+  }
+
+  useEffect(() => () => clearTimeout(timeout.current), [])
+
+  return (
+    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+      <Link
+        href={href}
+        className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+          isActive ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
+        }`}
+      >
+        {label}
+        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+      </Link>
+
+      {open && (
+        <MegaMenuPanel
+          items={items}
+          viewAllHref={href}
+          viewAllLabel={viewAllLabel}
+          onClose={() => setOpen(false)}
+        />
+      )}
+    </div>
+  )
+}
+
+/* ── Mobile collapsible section ───────────────────────────── */
+function MobileCollapsible({
+  label,
+  href,
+  items,
+  isActive,
+  onNavigate,
+}: {
+  label: string
+  href: string
+  items: { icon: React.ElementType; label: string; href: string; description: string }[]
+  isActive: boolean
+  onNavigate: () => void
+}) {
+  const [expanded, setExpanded] = useState(false)
+
+  return (
+    <div>
+      <div className="flex items-center">
+        <Link
+          href={href}
+          onClick={onNavigate}
+          className={`flex-1 text-base font-medium px-3 py-2 rounded-md transition-colors ${
+            isActive ? "text-blue-600 bg-blue-50" : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+          }`}
+        >
+          {label}
+        </Link>
+        <button
+          onClick={() => setExpanded(!expanded)}
+          className="p-2 text-gray-500 hover:text-gray-700 rounded-md hover:bg-gray-50"
+        >
+          <ChevronDown className={`h-4 w-4 transition-transform ${expanded ? "rotate-180" : ""}`} />
+        </button>
+      </div>
+      {expanded && (
+        <div className="ml-4 mt-1 flex flex-col gap-0.5 border-l-2 border-blue-100 pl-3">
+          {items.map((item) => (
+            <Link
+              key={item.label}
+              href={item.href}
+              onClick={onNavigate}
+              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+            >
+              <item.icon className="h-4 w-4 flex-shrink-0" />
+              {item.label}
+            </Link>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+/* ── Main Navigation ──────────────────────────────────────── */
 export default function Navigation() {
   const pathname = usePathname()
   const { data: session, status } = useSession()
@@ -51,14 +257,44 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="flex items-center gap-8">
             <div className="hidden lg:flex items-center gap-6">
-              {navItems.map((item) => (
+              {/* Home & About (before dropdowns) */}
+              {plainNavItems.slice(0, 2).map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className={`text-sm font-medium transition-colors ${
-                    isActive(item.href)
-                      ? "text-blue-600"
-                      : "text-gray-700 hover:text-gray-900"
+                    isActive(item.href) ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
+
+              {/* Services mega-menu */}
+              <NavDropdown
+                label="Services"
+                href="/services"
+                items={serviceItems}
+                viewAllLabel="View all services"
+                isActive={isActive("/services")}
+              />
+
+              {/* Solutions mega-menu */}
+              <NavDropdown
+                label="Solutions"
+                href="/solutions"
+                items={solutionItems}
+                viewAllLabel="View all solutions"
+                isActive={isActive("/solutions")}
+              />
+
+              {/* Remaining plain items */}
+              {plainNavItems.slice(2).map((item) => (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className={`text-sm font-medium transition-colors ${
+                    isActive(item.href) ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
                   }`}
                 >
                   {item.label}
@@ -93,7 +329,6 @@ export default function Navigation() {
                     {session.user.role === "ADMIN" ? (
                       <DropdownMenuItem asChild>
                         <Link href="/admin" className="flex items-center gap-2">
-                          {/* <Shield className="h-4 w-4" /> */}
                           Admin Dashboard
                         </Link>
                       </DropdownMenuItem>
@@ -150,8 +385,43 @@ export default function Navigation() {
                 </SheetTrigger>
                 <SheetContent side="right" className="w-[300px] sm:w-[350px]">
                   <div className="flex flex-col gap-6 mt-6">
-                    <div className="flex flex-col gap-3">
-                      {navItems.map((item) => (
+                    <div className="flex flex-col gap-1">
+                      {/* Home & About */}
+                      {plainNavItems.slice(0, 2).map((item) => (
+                        <SheetClose asChild key={item.href}>
+                          <Link
+                            href={item.href}
+                            className={`text-base font-medium px-3 py-2 rounded-md transition-colors ${
+                              isActive(item.href)
+                                ? "text-blue-600 bg-blue-50"
+                                : "text-gray-700 hover:text-gray-900 hover:bg-gray-50"
+                            }`}
+                          >
+                            {item.label}
+                          </Link>
+                        </SheetClose>
+                      ))}
+
+                      {/* Services collapsible */}
+                      <MobileCollapsible
+                        label="Services"
+                        href="/services"
+                        items={serviceItems}
+                        isActive={isActive("/services")}
+                        onNavigate={() => setMobileOpen(false)}
+                      />
+
+                      {/* Solutions collapsible */}
+                      <MobileCollapsible
+                        label="Solutions"
+                        href="/solutions"
+                        items={solutionItems}
+                        isActive={isActive("/solutions")}
+                        onNavigate={() => setMobileOpen(false)}
+                      />
+
+                      {/* Remaining plain items */}
+                      {plainNavItems.slice(2).map((item) => (
                         <SheetClose asChild key={item.href}>
                           <Link
                             href={item.href}
@@ -190,7 +460,6 @@ export default function Navigation() {
                                 href="/admin"
                                 className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md"
                               >
-                                {/* <Shield className="h-4 w-4" /> */}
                                 Admin Dashboard
                               </Link>
                             </SheetClose>

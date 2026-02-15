@@ -9,6 +9,7 @@ import { Skeleton } from "@/components/ui/skeleton"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { BlogStatusBadge } from "@/components/admin/status-badge"
 import { Plus, Pencil, Trash2, FileText } from "lucide-react"
+import { toast } from "sonner"
 
 type Blog = {
   id: string
@@ -34,7 +35,7 @@ export default function AdminBlogPage() {
       const data = await res.json()
       setPosts(data)
     } catch {
-      console.error("Failed to fetch posts")
+      toast.error("Failed to fetch posts")
     } finally {
       setLoading(false)
     }
@@ -45,9 +46,12 @@ export default function AdminBlogPage() {
       const res = await fetch(`/api/admin/blogs/${id}`, { method: "DELETE" })
       if (res.ok) {
         setPosts((prev) => prev.filter((p) => p.id !== id))
+        toast.success("Post deleted")
+      } else {
+        toast.error("Failed to delete post")
       }
     } catch {
-      console.error("Failed to delete post")
+      toast.error("Failed to delete post")
     }
   }
 
@@ -76,7 +80,7 @@ export default function AdminBlogPage() {
       <Card>
         <CardContent className="pt-6">
           {posts.length === 0 ? (
-            <div className="text-center py-12 text-gray-500">
+            <div className="text-center py-12 text-gray-500 dark:text-gray-400">
               <FileText className="h-12 w-12 mx-auto mb-3 opacity-50" />
               <p>No blog posts yet</p>
               <Button asChild variant="outline" className="mt-4">
@@ -103,7 +107,7 @@ export default function AdminBlogPage() {
                       <TableCell>{post.category?.name || "—"}</TableCell>
                       <TableCell>{post.author.name}</TableCell>
                       <TableCell><BlogStatusBadge status={post.status} /></TableCell>
-                      <TableCell className="text-sm text-gray-500">
+                      <TableCell className="text-sm text-gray-500 dark:text-gray-400">
                         {new Date(post.createdAt).toLocaleDateString()}
                       </TableCell>
                       <TableCell className="text-right">

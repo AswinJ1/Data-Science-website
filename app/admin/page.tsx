@@ -1,6 +1,7 @@
 "use client"
 
 import { useEffect, useState, useCallback } from "react"
+import { useSession } from "next-auth/react"
 import { StatsCard } from "@/components/admin/stats-card"
 import { StatusBadge } from "@/components/admin/status-badge"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
@@ -18,6 +19,7 @@ import {
   Briefcase, Users, FileText, Loader2,
   TrendingUp, BarChart3, PieChart, CalendarDays, Filter,
 } from "lucide-react"
+import { useTheme } from "next-themes"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -59,6 +61,7 @@ interface Analytics {
     jobsByType: { name: string; value: number }[]
     blogsByCategory: { name: string; value: number }[]
   }
+  jobs: { id: string; title: string }[]
   recentApplications: any[]
   recentBlogs: any[]
   topJobs: { id: string; title: string; type: string; isActive: boolean; applications: number }[]
@@ -89,11 +92,17 @@ const CHART_COLORS = [
 ]
 
 export default function AdminDashboard() {
+  const { data: session } = useSession()
+  const { resolvedTheme } = useTheme()
+  const isDark = resolvedTheme === "dark"
   const [data, setData] = useState<Analytics | null>(null)
   const [loading, setLoading] = useState(true)
   const [period, setPeriod] = useState("6m")
   const [customFrom, setCustomFrom] = useState("")
   const [customTo, setCustomTo] = useState("")
+  const [selectedJob, setSelectedJob] = useState("all")
+  const [jobStatusData, setJobStatusData] = useState<{ name: string; value: number }[] | null>(null)
+  const [jobStatusLoading, setJobStatusLoading] = useState(false)
 
   const fetchData = useCallback(async () => {
     setLoading(true)
@@ -116,6 +125,31 @@ export default function AdminDashboard() {
     if (period !== "custom") fetchData()
   }, [period])
 
+  // Fetch status breakdown for a specific job
+  useEffect(() => {
+    if (selectedJob === "all") {
+      setJobStatusData(null)
+      return
+    }
+    const fetchJobStatus = async () => {
+      setJobStatusLoading(true)
+      try {
+        let url = `/api/admin/analytics?period=${period}&jobId=${selectedJob}`
+        if (period === "custom" && customFrom && customTo) {
+          url = `/api/admin/analytics?from=${customFrom}&to=${customTo}&jobId=${selectedJob}`
+        }
+        const res = await fetch(url)
+        const json = await res.json()
+        setJobStatusData(json.charts.applicationsByStatus)
+      } catch (e) {
+        console.error(e)
+      } finally {
+        setJobStatusLoading(false)
+      }
+    }
+    fetchJobStatus()
+  }, [selectedJob, period, customFrom, customTo])
+
   const handleCustomApply = () => {
     if (customFrom && customTo) fetchData()
   }
@@ -130,7 +164,7 @@ export default function AdminDashboard() {
 
   if (!data) return null
 
-  const { overview, charts, recentApplications, recentBlogs, topJobs } = data
+  const { overview, charts, jobs, recentApplications, recentBlogs, topJobs } = data
   const labels = charts.applicationsByTime.map((m) => m.label)
 
   // --- Multi-line chart: Applications, Users, Blogs over time ---
@@ -192,7 +226,7 @@ export default function AdminDashboard() {
           pointStyle: "circle",
           padding: 20,
           font: { size: 12 },
-          color: "#6B7280",
+          color: isDark ? "#D1D5DB" : "#6B7280",
         },
       },
       tooltip: {
@@ -208,22 +242,23 @@ export default function AdminDashboard() {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { color: "#9CA3AF", font: { size: 11 }, maxRotation: 45 },
+        ticks: { color: isDark ? "#9CA3AF" : "#9CA3AF", font: { size: 11 }, maxRotation: 45 },
       },
       y: {
         beginAtZero: true,
-        ticks: { color: "#9CA3AF", font: { size: 12 }, stepSize: 1 },
-        grid: { color: "rgba(229, 231, 235, 0.5)" },
+        ticks: { color: isDark ? "#9CA3AF" : "#9CA3AF", font: { size: 12 }, stepSize: 1 },
+        grid: { color: isDark ? "rgba(75, 85, 99, 0.4)" : "rgba(229, 231, 235, 0.5)" },
       },
     },
   }
 
-  // Doughnut: Application status
-  const statusDoughnutData = {
-    labels: charts.applicationsByStatus.map((s) => s.name),
+  // Pie: Application status (use job-filtered data if a job is selected)
+  const activeStatusData = jobStatusData ?? charts.applicationsByStatus
+  const statusPieData = {
+    labels: activeStatusData.map((s) => s.name),
     datasets: [{
-      data: charts.applicationsByStatus.map((s) => s.value),
-      backgroundColor: charts.applicationsByStatus.map((s) => STATUS_COLORS[s.name] || "#6B7280"),
+      data: activeStatusData.map((s) => s.value),
+      backgroundColor: activeStatusData.map((s) => STATUS_COLORS[s.name] || "#6B7280"),
       borderWidth: 0,
       hoverOffset: 6,
     }],
@@ -235,7 +270,7 @@ export default function AdminDashboard() {
     plugins: {
       legend: {
         position: "bottom" as const,
-        labels: { padding: 16, usePointStyle: true, pointStyle: "circle", font: { size: 12 }, color: "#6B7280" },
+        labels: { padding: 16, usePointStyle: true, pointStyle: "circle", font: { size: 12 }, color: isDark ? "#D1D5DB" : "#6B7280" },
       },
       tooltip: { backgroundColor: "#1F2937", padding: 10, cornerRadius: 0 },
     },
@@ -261,8 +296,8 @@ export default function AdminDashboard() {
       tooltip: { backgroundColor: "#1F2937", padding: 10, cornerRadius: 0 },
     },
     scales: {
-      x: { grid: { display: false }, ticks: { color: "#9CA3AF", font: { size: 12 } } },
-      y: { beginAtZero: true, ticks: { color: "#9CA3AF", font: { size: 12 }, stepSize: 1 }, grid: { color: "rgba(229, 231, 235, 0.5)" } },
+      x: { grid: { display: false }, ticks: { color: isDark ? "#D1D5DB" : "#9CA3AF", font: { size: 12 } } },
+      y: { beginAtZero: true, ticks: { color: isDark ? "#9CA3AF" : "#9CA3AF", font: { size: 12 }, stepSize: 1 }, grid: { color: isDark ? "rgba(75, 85, 99, 0.4)" : "rgba(229, 231, 235, 0.5)" } },
     },
   }
 
@@ -287,8 +322,8 @@ export default function AdminDashboard() {
       tooltip: { backgroundColor: "#1F2937", padding: 10, cornerRadius: 0 },
     },
     scales: {
-      x: { beginAtZero: true, ticks: { color: "#9CA3AF", font: { size: 12 }, stepSize: 1 }, grid: { color: "rgba(229, 231, 235, 0.5)" } },
-      y: { grid: { display: false }, ticks: { color: "#4B5563", font: { size: 12 } } },
+      x: { beginAtZero: true, ticks: { color: isDark ? "#9CA3AF" : "#9CA3AF", font: { size: 12 }, stepSize: 1 }, grid: { color: isDark ? "rgba(75, 85, 99, 0.4)" : "rgba(229, 231, 235, 0.5)" } },
+      y: { grid: { display: false }, ticks: { color: isDark ? "#D1D5DB" : "#4B5563", font: { size: 12 } } },
     },
   }
 
@@ -310,8 +345,8 @@ export default function AdminDashboard() {
     indexAxis: "y" as const,
     plugins: { legend: { display: false }, tooltip: { backgroundColor: "#1F2937", padding: 10, cornerRadius: 0 } },
     scales: {
-      x: { beginAtZero: true, ticks: { color: "#9CA3AF", font: { size: 12 }, stepSize: 1 }, grid: { color: "rgba(229, 231, 235, 0.5)" } },
-      y: { grid: { display: false }, ticks: { color: "#4B5563", font: { size: 12 } } },
+      x: { beginAtZero: true, ticks: { color: isDark ? "#9CA3AF" : "#9CA3AF", font: { size: 12 }, stepSize: 1 }, grid: { color: isDark ? "rgba(75, 85, 99, 0.4)" : "rgba(229, 231, 235, 0.5)" } },
+      y: { grid: { display: false }, ticks: { color: isDark ? "#D1D5DB" : "#4B5563", font: { size: 12 } } },
     },
   }
 
@@ -320,20 +355,15 @@ export default function AdminDashboard() {
       {/* Header + Date Filter */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1>
-          <p className="text-sm text-gray-500 mt-1">
-            Full system analytics
-            {data.meta.dateFrom && (
-              <span>
-                {" "}· {new Date(data.meta.dateFrom).toLocaleDateString()} – {new Date(data.meta.dateTo).toLocaleDateString()}
-              </span>
-            )}
+          {/* <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1> */}
+          <p className="text-2xl mt-1">
+            Hello, <span className="font-bold">{session?.user?.name || "Admin"}</span>
           </p>
         </div>
 
         <div className="flex flex-wrap items-end gap-3">
           <div className="w-44">
-            <Label className="text-xs text-gray-500 mb-1 block">
+            <Label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">
               <CalendarDays className="h-3 w-3 inline mr-1" />
               Time Period
             </Label>
@@ -354,7 +384,7 @@ export default function AdminDashboard() {
           {period === "custom" && (
             <>
               <div>
-                <Label className="text-xs text-gray-500 mb-1 block">From</Label>
+                <Label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">From</Label>
                 <Input
                   type="date"
                   value={customFrom}
@@ -363,7 +393,7 @@ export default function AdminDashboard() {
                 />
               </div>
               <div>
-                <Label className="text-xs text-gray-500 mb-1 block">To</Label>
+                <Label className="text-xs text-gray-500 dark:text-gray-400 mb-1 block">To</Label>
                 <Input
                   type="date"
                   value={customTo}
@@ -418,17 +448,36 @@ export default function AdminDashboard() {
 
         <Card>
           <CardHeader className="pb-2">
-            <CardTitle className="text-base font-semibold flex items-center gap-2">
-              <PieChart className="h-4 w-4 text-blue-600" />
-              Application Status
-            </CardTitle>
+            <div className="flex items-center justify-between gap-2">
+              <CardTitle className="text-base font-semibold flex items-center gap-2">
+                <PieChart className="h-4 w-4 text-blue-600" />
+                Application Status
+              </CardTitle>
+            </div>
+            <div className="mt-2">
+              <Select value={selectedJob} onValueChange={setSelectedJob}>
+                <SelectTrigger className="h-8 text-xs">
+                  <SelectValue placeholder="All Jobs" />
+                </SelectTrigger>
+                <SelectContent>
+                  <SelectItem value="all">All Jobs</SelectItem>
+                  {jobs.map((j) => (
+                    <SelectItem key={j.id} value={j.id}>
+                      {j.title}
+                    </SelectItem>
+                  ))}
+                </SelectContent>
+              </Select>
+            </div>
           </CardHeader>
           <CardContent>
-            <div className="h-[320px] flex items-center justify-center">
-              {charts.applicationsByStatus.length > 0 ? (
-                <Pie data={statusDoughnutData} options={pieOptions} />
+            <div className="h-[300px] flex items-center justify-center">
+              {jobStatusLoading ? (
+                <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
+              ) : activeStatusData.length > 0 ? (
+                <Pie data={statusPieData} options={pieOptions} />
               ) : (
-                <p className="text-gray-400 text-sm">No applications yet</p>
+                <p className="text-gray-400 dark:text-gray-500 text-sm">No applications yet</p>
               )}
             </div>
           </CardContent>
@@ -450,7 +499,7 @@ export default function AdminDashboard() {
                 <Bar data={jobTypeBarData} options={barOptions} />
               ) : (
                 <div className="h-full flex items-center justify-center">
-                  <p className="text-gray-400 text-sm">No jobs yet</p>
+                  <p className="text-gray-400 dark:text-gray-500 text-sm">No jobs yet</p>
                 </div>
               )}
             </div>
@@ -469,7 +518,7 @@ export default function AdminDashboard() {
               {charts.blogsByCategory.length > 0 ? (
                 <Bar data={blogCategoryData} options={blogCategoryBarOptions} />
               ) : (
-                <p className="text-gray-400 text-sm">No blogs yet</p>
+                <p className="text-gray-400 dark:text-gray-500 text-sm">No blogs yet</p>
               )}
             </div>
           </CardContent>

@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { ArrowLeft, Loader2, ImageIcon } from "lucide-react"
 import Link from "next/link"
+import { toast } from "sonner"
 
 type Category = { id: string; name: string }
 
@@ -59,8 +60,10 @@ export default function NewBlogPage() {
       }
 
       router.push("/admin/blog")
+      toast.success("Blog post created")
     } catch {
       setError("Something went wrong")
+      toast.error("Something went wrong")
     } finally {
       setLoading(false)
     }
@@ -125,7 +128,7 @@ export default function NewBlogPage() {
                   }}
                 />
                 {imagePreview && (
-                  <div className="mt-2 h-32 w-full rounded border overflow-hidden bg-gray-50 flex items-center justify-center">
+                  <div className="mt-2 h-32 w-full rounded border overflow-hidden bg-gray-50 dark:bg-gray-800 flex items-center justify-center">
                     <img src={imagePreview} alt="Preview" className="h-full object-cover" onError={() => setImagePreview("")} />
                   </div>
                 )}

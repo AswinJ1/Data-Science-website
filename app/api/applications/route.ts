@@ -84,6 +84,16 @@ export async function POST(req: Request) {
       },
     });
 
+    // Create notification for admin
+    await prisma.notification.create({
+      data: {
+        type: "NEW_APPLICATION",
+        title: "New Application",
+        message: `${parsed.data.fullName} applied for ${job.title}`,
+        link: "/admin/applications",
+      },
+    });
+
     return NextResponse.json(application, { status: 201 });
   } catch (error) {
     console.error("Error creating application:", error);

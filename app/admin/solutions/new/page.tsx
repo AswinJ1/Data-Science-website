@@ -13,6 +13,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
 import { ArrowLeft, Loader2 } from "lucide-react"
 import Link from "next/link"
+import { toast } from "sonner"
 
 export default function NewSolutionPage() {
   const router = useRouter()
@@ -63,8 +64,10 @@ export default function NewSolutionPage() {
       }
 
       router.push("/admin/solutions")
+      toast.success("Solution created successfully")
     } catch {
       setError("Something went wrong")
+      toast.error("Something went wrong")
     } finally {
       setLoading(false)
     }
@@ -108,7 +111,7 @@ export default function NewSolutionPage() {
                 <Label>Active</Label>
                 <div className="flex items-center gap-2 pt-2">
                   <Switch checked={isActive} onCheckedChange={(v) => setValue("isActive", v)} />
-                  <span className="text-sm text-gray-500">{isActive ? "Visible" : "Hidden"}</span>
+                  <span className="text-sm text-gray-500 dark:text-gray-400">{isActive ? "Visible" : "Hidden"}</span>
                 </div>
               </div>
             </div>
@@ -126,7 +129,7 @@ export default function NewSolutionPage() {
               </div>
               <ul className="space-y-1 mt-2">
                 {features.map((f, i) => (
-                  <li key={i} className="flex items-center gap-2 px-3 py-2 bg-gray-50 rounded text-sm">
+                  <li key={i} className="flex items-center gap-2 px-3 py-2 bg-gray-50 dark:bg-gray-800 rounded text-sm">
                     <span className="flex-1">{f}</span>
                     <button type="button" onClick={() => removeFeature(i)} className="text-red-500 hover:text-red-700">×</button>
                   </li>
