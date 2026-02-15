@@ -8,6 +8,11 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
+import { motion } from "framer-motion";
+
+const fadeInUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } } };
+const fadeInLeft = { hidden: { opacity: 0, x: -30 }, show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } } };
+const fadeInRight = { hidden: { opacity: 0, x: 30 }, show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } } };
 import {
   Select,
   SelectTrigger,
@@ -63,7 +68,12 @@ export default function ContactSection() {
     <section className="w-full bg-white">
       <div className="mx-auto max-w-6xl px-4 md:px-6 lg:px-8 py-16 md:py-24">
         {/* Header */}
-        <div className="text-center">
+        <motion.div
+          initial="hidden"
+          animate="show"
+          variants={fadeInUp}
+          className="text-center"
+        >
           <span className="mb-3 inline-block text-xs font-semibold tracking-[0.18em] text-slate-500">
             GET STARTED
           </span>
@@ -74,12 +84,18 @@ export default function ContactSection() {
             Ready to unlock the power of your data? Schedule a consultation and discover how our
             data science and web development solutions can drive your business forward.
           </p>
-        </div>
+        </motion.div>
 
         {/* Content */}
         <div className="mt-12 grid gap-6 md:mt-14 md:grid-cols-2 md:gap-8">
           {/* Left: Testimonial */}
-          <Card className="border-slate-200/80">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={fadeInLeft}
+          >
+            <Card className="border-slate-200/80 h-full">
             <CardContent className="p-6 sm:p-8 md:p-10">
               <div className="flex flex-col items-center text-center">
                 {/* CEO Photo */}
@@ -113,9 +129,16 @@ export default function ContactSection() {
               </div>
             </CardContent>
           </Card>
+          </motion.div>
 
           {/* Right: Form */}
-          <Card className="border-slate-200/80">
+          <motion.div
+            initial="hidden"
+            whileInView="show"
+            viewport={{ once: true, amount: 0.2 }}
+            variants={fadeInRight}
+          >
+            <Card className="border-slate-200/80 h-full">
             <CardContent className="p-6 sm:p-8 md:p-10">
               <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {/* First name */}
@@ -232,6 +255,7 @@ export default function ContactSection() {
               </form>
             </CardContent>
           </Card>
+          </motion.div>
         </div>
       </div>
     </section>

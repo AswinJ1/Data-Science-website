@@ -19,6 +19,11 @@ export const metadata: Metadata = {
     "Professional data engineering, analytics, and machine learning solutions. Transform your business with intelligent data strategies.",
   keywords: "data engineering, data science, data analytics, machine learning, business intelligence, data mining, AI consulting",
   authors: [{ name: "Syancy Innovations" }],
+  icons: {
+    icon: "/logo.svg",
+    shortcut: "/logo.svg",
+    apple: "/logo.svg",
+  },
   openGraph: {
     title: "Syancy Innovations - Transform Your Data into Insights",
     description: "Professional data engineering, analytics, and machine learning solutions.",

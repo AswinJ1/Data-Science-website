@@ -7,6 +7,10 @@ import { SearchInput } from "@/components/search-input"
 import { PaginationWrapper } from "@/components/pagination-wrapper"
 import { Badge } from "@/components/ui/badge"
 import { Loader2, BookOpen } from "lucide-react"
+import { motion } from "framer-motion"
+
+const fadeInUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }
+const staggerContainer = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } }
 
 interface Blog {
   id: string
@@ -83,13 +87,18 @@ function BlogContent() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16">
-        <div className="max-w-6xl mx-auto px-4 text-center">
+      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-6xl mx-auto px-4 text-center"
+        >
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Blog & Insights</h1>
           <p className="text-lg text-blue-100 max-w-2xl mx-auto">
             Stay updated with the latest trends in data science, AI, and analytics.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       <section className="max-w-6xl mx-auto px-4 py-8">
@@ -129,11 +138,18 @@ function BlogContent() {
           </div>
         ) : (
           <>
-            <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <motion.div
+              initial="hidden"
+              animate="show"
+              variants={staggerContainer}
+              className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+            >
               {blogs.map((blog) => (
-                <BlogCard key={blog.id} {...blog} />
+                <motion.div key={blog.id} variants={fadeInUp}>
+                  <BlogCard {...blog} />
+                </motion.div>
               ))}
-            </div>
+            </motion.div>
             <PaginationWrapper
               currentPage={pagination.page}
               totalPages={pagination.totalPages}

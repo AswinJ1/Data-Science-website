@@ -15,12 +15,13 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-6">
           {/* Company Info */}
           <div>
-            <div className="mb-3">
+            <div className="mb-3 inline-flex items-center gap-3">
               <img 
                 alt="Syancy Logo" 
-                src="/syancy1.png" 
-                className="h-8 w-auto filter invert brightness-0 contrast-100" 
-              />             
+                src="/logo.svg" 
+                className="h-8 w-5 object-contain filter invert brightness-0 contrast-100" 
+              />
+              <span className="text-xl font-semibold text-white leading-none">Syancy</span>
             </div>
             <p className="text-blue-200 text-sm mb-4">
               Transforming businesses through intelligent data solutions.
@@ -72,7 +73,7 @@ export default function Footer() {
             <div className="space-y-2">
               <div className="flex items-center gap-2 text-blue-200 text-xs">
                 <Phone className="h-3 w-3 flex-shrink-0" />
-                <span>+1 (555) 123-4567</span>
+                <span>+91 96236 01286</span>
               </div>
               <div className="flex items-center gap-2 text-blue-200 text-xs">
                 <Mail className="h-3 w-3 flex-shrink-0" />

@@ -42,7 +42,7 @@ export default function CTASection() {
         <div className="flex flex-col sm:flex-row gap-8 justify-center items-center text-gray-300">
           <div className="flex items-center gap-2">
             <Phone className="h-5 w-5" />
-            <span>+91 12345 67890</span>
+            <span>+91 96236 01286</span>
           </div>
           <div className="flex items-center gap-2">
             <Mail className="h-5 w-5" />

@@ -14,7 +14,7 @@ export function ContactInfo() {
           </div>
           <div>
             <h3 className="font-medium text-foreground mb-1">Phone</h3>
-            <p className="text-muted-foreground">+1 (555) 123-4567</p>
+            <p className="text-muted-foreground">+91 96236 01286</p>
           </div>
           <div>
             <h3 className="font-medium text-foreground mb-1">Address</h3>

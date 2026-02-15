@@ -110,14 +110,14 @@ export default function HeroSection() {
                 Get Started Today
                 <ArrowRight className="ml-2 h-5 w-5" />
               </Button>
-              <Button
+              {/* <Button
                 variant="outline"
                 size="lg"
                 className="border-primary-bright text-primary-bright hover:bg-primary-bright hover:text-white bg-transparent"
               >
                 <Play className="mr-2 h-5 w-5" />
                 See Our Work
-              </Button>
+              </Button> */}
             </div>
           </motion.div>
 

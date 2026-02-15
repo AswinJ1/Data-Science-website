@@ -12,8 +12,8 @@ interface Stat {
 
 const stats: Stat[] = [
   { value: 98, suffix: "%", label: "Client satisfaction rate across all projects" },
-  { value: 3, suffix: "+", label: "Data science & analytics projects delivered" },
-  { value: 3, suffix: "+", label: "Enterprise clients trust us with their data" },
+  { value: 12, suffix: "+", label: "Data science & analytics projects delivered" },
+  { value: 5, suffix: "+", label: "Enterprise clients trust us with their data" },
 ];
 
 type CountUpProps = {

@@ -2,13 +2,14 @@
 
 import React, { useState, useRef, useEffect } from "react"
 import Link from "next/link"
-import Image from "next/image"
 import { usePathname } from "next/navigation"
 import { useSession, signOut } from "next-auth/react"
 import {
   Menu, ChevronDown, ChevronRight, LogOut, LayoutDashboard, Settings,
   Database, Cog, BarChart3, Brain, Search, TrendingUp,
   Heart, DollarSign, ShoppingCart, Factory, Zap, ArrowRight,
+  Code2, Cloud, LineChart, ServerCog, Sigma, FlaskConical,
+  Lightbulb, Globe,
 } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -55,8 +56,26 @@ const serviceItems = [
   },
 ]
 
-/* ── Solution categories (static showcase) ────────────────── */
-const solutionItems = [
+/* ── Solution categories (fetched dynamically) ────────────── */
+const solutionIconMap: Record<string, React.ElementType> = {
+  Heart,
+  DollarSign,
+  ShoppingCart,
+  Factory,
+  Zap,
+  Lightbulb,
+  Globe,
+  Database,
+  Brain,
+  BarChart3,
+  Search,
+  TrendingUp,
+}
+
+type NavItem = { icon: React.ElementType; label: string; href: string; description: string }
+
+// Default fallback items shown while API loads or if it fails
+const defaultSolutionItems: NavItem[] = [
   { icon: Heart, label: "Healthcare", href: "/solutions/healthcare", description: "AI-powered diagnostics & patient analytics." },
   { icon: DollarSign, label: "Finance", href: "/solutions/finance", description: "Risk modeling & fraud detection." },
   { icon: ShoppingCart, label: "Retail & E-Commerce", href: "/solutions/retail-e-commerce", description: "Customer segmentation & demand forecasting." },
@@ -64,11 +83,22 @@ const solutionItems = [
   { icon: Zap, label: "Energy", href: "/solutions/energy", description: "Smart grid analytics & consumption forecasting." },
 ]
 
+/* ── Technologies ─────────────────────────────────────────── */
+const technologyItems = [
+  { icon: Code2, label: "Python", href: "/technologies/python", description: "Data science, ML & AI with Python ecosystem." },
+  { icon: Cloud, label: "AWS", href: "/technologies/aws", description: "Cloud-native data solutions on Amazon Web Services." },
+  { icon: Cloud, label: "Azure", href: "/technologies/azure", description: "Enterprise analytics & AI on Microsoft Azure." },
+  { icon: LineChart, label: "Power BI", href: "/technologies/power-bi", description: "Interactive dashboards & business reporting." },
+  { icon: LineChart, label: "Tableau", href: "/technologies/tableau", description: "Advanced data visualization & storytelling." },
+  { icon: Sigma, label: "R", href: "/technologies/r", description: "Statistical computing & data analysis." },
+  { icon: ServerCog, label: "Spark", href: "/technologies/spark", description: "Big data processing & distributed computing." },
+  { icon: FlaskConical, label: "TensorFlow", href: "/technologies/tensorflow", description: "Deep learning & neural network frameworks." },
+]
+
 /* ── Plain nav items (no dropdown) ────────────────────────── */
 const plainNavItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
-  { label: "Case Studies", href: "/case-studies" },
   { label: "Careers", href: "/careers" },
   { label: "Blog", href: "/blog" },
   { label: "Contact", href: "/contact" },
@@ -100,9 +130,7 @@ function MegaMenuPanel({
               onClick={onClose}
               className="flex items-start gap-3 rounded-lg p-3 hover:bg-blue-50 transition-colors group"
             >
-              <div className="flex-shrink-0 mt-0.5 rounded-md bg-blue-100 text-blue-600 p-2 group-hover:bg-blue-600 group-hover:text-white transition-colors">
-                <item.icon className="h-4 w-4" />
-              </div>
+              <item.icon className="h-4 w-4 flex-shrink-0 mt-0.5 text-gray-400 group-hover:text-blue-600 transition-colors" />
               <div>
                 <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">
                   {item.label}
@@ -237,6 +265,28 @@ export default function Navigation() {
   const pathname = usePathname()
   const { data: session, status } = useSession()
   const [mobileOpen, setMobileOpen] = useState(false)
+  const [solutionItems, setSolutionItems] = useState<NavItem[]>(defaultSolutionItems)
+
+  // Fetch solutions from the API so admin-created solutions appear dynamically
+  useEffect(() => {
+    fetch("/api/solutions")
+      .then((res) => res.json())
+      .then((data: { title: string; slug: string; industry: string; description: string; icon: string | null }[]) => {
+        if (Array.isArray(data) && data.length > 0) {
+          setSolutionItems(
+            data.map((s) => ({
+              icon: solutionIconMap[s.icon || ""] || Lightbulb,
+              label: s.title.replace(/ Data Solutions?$/i, ""),
+              href: `/solutions/${s.slug}`,
+              description: s.description.length > 60 ? s.description.slice(0, 57) + "…" : s.description,
+            }))
+          )
+        }
+      })
+      .catch(() => {
+        // Keep default items on error
+      })
+  }, [])
 
   const isActive = (href: string) => {
     if (href === "/") return pathname === "/"
@@ -249,8 +299,9 @@ export default function Navigation() {
         <div className="flex items-center justify-between px-4 py-4">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" aria-label="Syancy Innovations logo" className="block">
-              <Image src="/syancy1.png" alt="Syancy Innovations" width={96} height={48} />
+            <Link href="/" aria-label="Syancy Innovations logo" className="inline-flex items-center gap-3">
+              <img src="/logo.svg" alt="Syancy Innovations" className="h-8 w-5 object-contain" />
+              <span className="text-xl font-semibold text-gray-900 leading-none">Syancy</span>
             </Link>
           </div>
 
@@ -286,6 +337,15 @@ export default function Navigation() {
                 items={solutionItems}
                 viewAllLabel="View all solutions"
                 isActive={isActive("/solutions")}
+              />
+
+              {/* Technologies mega-menu */}
+              <NavDropdown
+                label="Technologies"
+                href="/technologies"
+                items={technologyItems}
+                viewAllLabel="View all technologies"
+                isActive={isActive("/technologies")}
               />
 
               {/* Remaining plain items */}
@@ -417,6 +477,15 @@ export default function Navigation() {
                         href="/solutions"
                         items={solutionItems}
                         isActive={isActive("/solutions")}
+                        onNavigate={() => setMobileOpen(false)}
+                      />
+
+                      {/* Technologies collapsible */}
+                      <MobileCollapsible
+                        label="Technologies"
+                        href="/technologies"
+                        items={technologyItems}
+                        isActive={isActive("/technologies")}
                         onNavigate={() => setMobileOpen(false)}
                       />
 

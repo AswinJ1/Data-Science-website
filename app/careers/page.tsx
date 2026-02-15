@@ -5,6 +5,10 @@ import { JobCard } from "@/components/job-card"
 import { SearchInput } from "@/components/search-input"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { Briefcase, Loader2 } from "lucide-react"
+import { motion } from "framer-motion"
+
+const fadeInUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }
+const staggerContainer = { hidden: {}, show: { transition: { staggerChildren: 0.1 } } }
 
 interface Job {
   id: string
@@ -46,14 +50,19 @@ export default function CareersPage() {
   return (
     <main className="min-h-screen bg-gray-50">
       {/* Hero */}
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16">
-        <div className="max-w-6xl mx-auto px-4 text-center">
+      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16 overflow-hidden">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.6 }}
+          className="max-w-6xl mx-auto px-4 text-center"
+        >
           <h1 className="text-3xl md:text-5xl font-bold mb-4">Join Our Team</h1>
           <p className="text-lg text-blue-100 max-w-2xl mx-auto">
             Build the future of data science with us. We&apos;re looking for passionate
             individuals who want to make an impact through data.
           </p>
-        </div>
+        </motion.div>
       </section>
 
       {/* Filters */}
@@ -92,11 +101,18 @@ export default function CareersPage() {
             <p className="text-gray-400 mt-1">Check back later for new opportunities.</p>
           </div>
         ) : (
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <motion.div
+            initial="hidden"
+            animate="show"
+            variants={staggerContainer}
+            className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
+          >
             {filtered.map((job) => (
-              <JobCard key={job.id} {...job} />
+              <motion.div key={job.id} variants={fadeInUp}>
+                <JobCard {...job} />
+              </motion.div>
             ))}
-          </div>
+          </motion.div>
         )}
       </section>
     </main>

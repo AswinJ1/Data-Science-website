@@ -3,6 +3,10 @@
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { ArrowRight, TrendingUp, Users, DollarSign } from "lucide-react"
+import { motion } from "framer-motion"
+
+const fadeInUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } } }
+const staggerContainer = { hidden: {}, show: { transition: { staggerChildren: 0.15 } } }
 
 const caseStudies = [
 	{
@@ -50,16 +54,29 @@ export default function CaseStudiesSection() {
 	return (
 		<section className="py-20 bg-light">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-				<div className="text-center mb-16">
+				<motion.div
+					initial="hidden"
+					whileInView="show"
+					viewport={{ once: true, amount: 0.2 }}
+					variants={fadeInUp}
+					className="text-center mb-16"
+				>
 					<h2 className="text-h2 text-primary-dark mb-4">Success Stories</h2>
 					<p className="text-lg text-gray-600 max-w-3xl mx-auto">
 						See how we've helped businesses across industries transform their data into measurable results.
 					</p>
-				</div>
+				</motion.div>
 
-				<div className="grid lg:grid-cols-3 gap-8 mb-12">
+				<motion.div
+					initial="hidden"
+					whileInView="show"
+					viewport={{ once: true, amount: 0.1 }}
+					variants={staggerContainer}
+					className="grid lg:grid-cols-3 gap-8 mb-12"
+				>
 					{caseStudies.map((study, index) => (
-						<Card key={study.title} className="group hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full">
+						<motion.div key={study.title} variants={fadeInUp}>
+							<Card className="group hover:shadow-xl transition-all duration-300 overflow-hidden flex flex-col h-full">
 							<div className="aspect-video overflow-hidden">
 								<img
 									src={study.image || "/pic-1.png"}
@@ -96,8 +113,9 @@ export default function CaseStudiesSection() {
 								</Button>
 							</CardContent>
 						</Card>
+						</motion.div>
 					))}
-				</div>
+				</motion.div>
 
 				<div className="text-center">
 					<Button size="lg" className="bg-gradient-primary hover:opacity-90">

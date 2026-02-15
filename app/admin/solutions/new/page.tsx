@@ -11,7 +11,23 @@ import { Label } from "@/components/ui/label"
 import { Textarea } from "@/components/ui/textarea"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Switch } from "@/components/ui/switch"
-import { ArrowLeft, Loader2 } from "lucide-react"
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select"
+import { ArrowLeft, Loader2, Heart, DollarSign, ShoppingCart, Factory, Zap, Lightbulb } from "lucide-react"
+
+const illustrationOptions = [
+  { value: "Heart", label: "Healthcare", icon: Heart },
+  { value: "DollarSign", label: "Finance", icon: DollarSign },
+  { value: "ShoppingCart", label: "Retail & E-Commerce", icon: ShoppingCart },
+  { value: "Factory", label: "Manufacturing", icon: Factory },
+  { value: "Zap", label: "Energy", icon: Zap },
+  { value: "Lightbulb", label: "Generic / Other", icon: Lightbulb },
+]
 import Link from "next/link"
 import { toast } from "sonner"
 
@@ -97,8 +113,26 @@ export default function NewSolutionPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Icon (emoji or icon name)</Label>
-                <Input {...register("icon")} placeholder="📊" />
+                <Label>Illustration Style</Label>
+                <Select
+                  value={watch("icon") || ""}
+                  onValueChange={(val) => setValue("icon", val)}
+                >
+                  <SelectTrigger>
+                    <SelectValue placeholder="Select an illustration" />
+                  </SelectTrigger>
+                  <SelectContent>
+                    {illustrationOptions.map((opt) => (
+                      <SelectItem key={opt.value} value={opt.value}>
+                        <span className="flex items-center gap-2">
+                          <opt.icon className="h-4 w-4 text-blue-600" />
+                          {opt.label}
+                        </span>
+                      </SelectItem>
+                    ))}
+                  </SelectContent>
+                </Select>
+                <p className="text-xs text-gray-500">Determines the illustration shown on the solutions page</p>
               </div>
 
               <div className="space-y-2 md:col-span-2">
