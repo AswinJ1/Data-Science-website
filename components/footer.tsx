@@ -76,7 +76,7 @@ export default function Footer() {
               </div>
               <div className="flex items-center gap-2 text-blue-200 text-xs">
                 <Mail className="h-3 w-3 flex-shrink-0" />
-                <span>hello@syancyinnovations.com</span>
+                <span>info@syancy.com</span>
               </div>
               <div className="flex items-start gap-2 text-blue-200 text-xs">
                 <MapPin className="h-3 w-3 flex-shrink-0 mt-0.5" />

@@ -118,47 +118,190 @@ export default function BlogDetailPage() {
       .slice(0, 2)
   }
 
+  const renderInlineFormatting = (text: string) => {
+    // Handle bold, italic, inline code, and links
+    const parts: React.ReactNode[] = []
+    let remaining = text
+    let key = 0
+
+    while (remaining.length > 0) {
+      // inline code
+      const codeMatch = remaining.match(/^`([^`]+)`/)
+      if (codeMatch) {
+        parts.push(
+          <code key={key++} className="bg-gray-100 text-gray-800 px-1.5 py-0.5 rounded text-sm font-mono">
+            {codeMatch[1]}
+          </code>
+        )
+        remaining = remaining.slice(codeMatch[0].length)
+        continue
+      }
+
+      // bold
+      const boldMatch = remaining.match(/^\*\*(.+?)\*\*/)
+      if (boldMatch) {
+        parts.push(<strong key={key++} className="font-semibold text-gray-900">{boldMatch[1]}</strong>)
+        remaining = remaining.slice(boldMatch[0].length)
+        continue
+      }
+
+      // italic
+      const italicMatch = remaining.match(/^\*(.+?)\*/)
+      if (italicMatch) {
+        parts.push(<em key={key++}>{italicMatch[1]}</em>)
+        remaining = remaining.slice(italicMatch[0].length)
+        continue
+      }
+
+      // link [text](url)
+      const linkMatch = remaining.match(/^\[([^\]]+)\]\(([^)]+)\)/)
+      if (linkMatch) {
+        parts.push(
+          <a key={key++} href={linkMatch[2]} className="text-blue-600 underline hover:text-blue-800" target="_blank" rel="noopener noreferrer">
+            {linkMatch[1]}
+          </a>
+        )
+        remaining = remaining.slice(linkMatch[0].length)
+        continue
+      }
+
+      // plain text (up to next special char)
+      const nextSpecial = remaining.search(/[`*\[]/)
+      if (nextSpecial === -1) {
+        parts.push(remaining)
+        break
+      } else if (nextSpecial === 0) {
+        parts.push(remaining[0])
+        remaining = remaining.slice(1)
+      } else {
+        parts.push(remaining.slice(0, nextSpecial))
+        remaining = remaining.slice(nextSpecial)
+      }
+    }
+
+    return parts
+  }
+
   const renderContent = (text: string) => {
-    return text.split("\n").map((line, i) => {
+    const lines = text.split("\n")
+    const elements: React.ReactNode[] = []
+    let i = 0
+
+    while (i < lines.length) {
+      const line = lines[i]
+
+      // Markdown table detection: line contains | and next line is separator
+      if (line.includes("|") && i + 1 < lines.length && /^\|?[\s-:|]+\|/.test(lines[i + 1])) {
+        const tableLines: string[] = []
+        let j = i
+        while (j < lines.length && lines[j].includes("|")) {
+          tableLines.push(lines[j])
+          j++
+        }
+
+        if (tableLines.length >= 2) {
+          const parseRow = (row: string) =>
+            row.split("|").map((c) => c.trim()).filter((c, idx, arr) => !(idx === 0 && c === "") && !(idx === arr.length - 1 && c === ""))
+
+          // Fix: re-parse to handle leading/trailing pipes properly
+          const parseCells = (row: string) => {
+            const trimmed = row.trim()
+            const stripped = trimmed.startsWith("|") ? trimmed.slice(1) : trimmed
+            const final = stripped.endsWith("|") ? stripped.slice(0, -1) : stripped
+            return final.split("|").map((c) => c.trim())
+          }
+
+          const headerCells = parseCells(tableLines[0])
+          // Parse alignment from separator row
+          const separatorCells = parseCells(tableLines[1])
+          const alignments = separatorCells.map((sep) => {
+            if (sep.startsWith(":") && sep.endsWith(":")) return "center"
+            if (sep.endsWith(":")) return "right"
+            return "left"
+          })
+
+          const bodyRows = tableLines.slice(2).map(parseCells)
+
+          elements.push(
+            <div key={i} className="overflow-x-auto my-6">
+              <table className="w-full border-collapse border border-gray-200 text-sm">
+                <thead>
+                  <tr className="bg-gray-50">
+                    {headerCells.map((cell, ci) => (
+                      <th
+                        key={ci}
+                        className="border border-gray-200 px-4 py-3 font-semibold text-gray-900 text-left"
+                        style={{ textAlign: alignments[ci] || "left" }}
+                      >
+                        {renderInlineFormatting(cell)}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {bodyRows.map((row, ri) => (
+                    <tr key={ri} className={ri % 2 === 0 ? "bg-white" : "bg-gray-50/50"}>
+                      {row.map((cell, ci) => (
+                        <td
+                          key={ci}
+                          className="border border-gray-200 px-4 py-2.5 text-gray-600"
+                          style={{ textAlign: alignments[ci] || "left" }}
+                        >
+                          {renderInlineFormatting(cell)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          )
+          i = j
+          continue
+        }
+      }
+
       if (line.startsWith("## ")) {
         const heading = line.replace("## ", "")
         const id = slugify(heading)
-        return (
+        elements.push(
           <h2 key={i} id={id} className="text-2xl font-bold mt-10 mb-4 text-gray-900 scroll-mt-24">
             {heading}
           </h2>
         )
-      }
-      if (line.startsWith("### ")) {
+      } else if (line.startsWith("### ")) {
         const heading = line.replace("### ", "")
         const id = slugify(heading)
-        return (
+        elements.push(
           <h3 key={i} id={id} className="text-xl font-semibold mt-8 mb-3 text-gray-800 scroll-mt-24">
             {heading}
           </h3>
         )
-      }
-      if (line.startsWith("- ")) {
-        return (
+      } else if (line.startsWith("- ")) {
+        elements.push(
           <li key={i} className="ml-6 text-gray-600 mb-1 list-disc">
-            {line.replace("- ", "")}
+            {renderInlineFormatting(line.replace("- ", ""))}
           </li>
         )
-      }
-      if (line.startsWith("**") && line.endsWith("**")) {
-        return (
+      } else if (line.startsWith("**") && line.endsWith("**")) {
+        elements.push(
           <p key={i} className="font-semibold text-gray-900 my-3">
             {line.replace(/\*\*/g, "")}
           </p>
         )
+      } else if (line.trim() === "") {
+        elements.push(<br key={i} />)
+      } else {
+        elements.push(
+          <p key={i} className="text-gray-600 leading-relaxed mb-3 text-[16px]">
+            {renderInlineFormatting(line)}
+          </p>
+        )
       }
-      if (line.trim() === "") return <br key={i} />
-      return (
-        <p key={i} className="text-gray-600 leading-relaxed mb-3 text-[16px]">
-          {line}
-        </p>
-      )
-    })
+      i++
+    }
+
+    return elements
   }
 
   return (

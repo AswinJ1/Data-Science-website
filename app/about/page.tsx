@@ -31,16 +31,19 @@ export default function AboutSection() {
 
       {/* Grid Layout */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-        {/* Satisfied Customer */}
+        {/* Satisfied Clients */}
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
-          className="bg-green-100 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300"
+          className="bg-green-100 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300 min-h-[180px]"
         >
-          <p className="text-gray-700 text-sm mb-4">Satisfied Customer</p>
-          <h3 className="text-3xl font-bold">50.2K+</h3>
+          <p className="text-gray-700 text-sm mb-2">Satisfied Clients</p>
+          <h3 className="text-4xl font-bold mb-2">3+</h3>
+          <p className="text-gray-600 text-xs leading-relaxed">
+            Enterprise & startup clients across healthcare, finance, retail, and more.
+          </p>
         </motion.div>
 
         {/* Office Image */}
@@ -100,29 +103,33 @@ export default function AboutSection() {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
-          className="bg-pink-100 rounded-2xl p-6 flex flex-col justify-center shadow-sm hover:shadow-md transition-shadow duration-300"
+          className="bg-pink-100 rounded-2xl p-6 flex flex-col justify-center shadow-sm hover:shadow-md transition-shadow duration-300 min-h-[180px]"
         >
           <h3 className="text-xl font-semibold mb-3">
-            The Journey of Our Digital Evolution and Growth
+            From Raw Data to Business Intelligence
           </h3>
           <p className="text-gray-700 text-sm leading-relaxed">
-            Our story is one of continuous innovation and transformation,
-            evolving from a small agency into a leader in digital solutions.
-            Through dedication and creativity, we've grown to meet the changing
-            needs of our clients, delivering impactful results.
+            What started as a passion for uncovering insights from data has grown
+            into a full-service data science consultancy. We combine statistical
+            rigor with modern ML engineering to help organizations make smarter,
+            faster decisions — from predictive analytics and NLP to scalable data
+            pipelines and interactive dashboards.
           </p>
         </motion.div>
 
-        {/* Project Completed */}
+        {/* Projects Delivered */}
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
-          className="bg-purple-100 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300"
+          className="bg-purple-100 rounded-2xl p-6 flex flex-col justify-between shadow-sm hover:shadow-md transition-shadow duration-300 min-h-[180px]"
         >
-          <p className="text-gray-700 text-sm mb-4">Project Completed</p>
-          <h3 className="text-3xl font-bold">80K+</h3>
+          <p className="text-gray-700 text-sm mb-2">Projects Delivered</p>
+          <h3 className="text-4xl font-bold mb-2">3+</h3>
+          <p className="text-gray-600 text-xs leading-relaxed">
+            End-to-end data solutions including ML models, dashboards, and analytics platforms.
+          </p>
         </motion.div>
 
         {/* Team Collaboration */}

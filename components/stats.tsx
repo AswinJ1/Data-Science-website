@@ -11,9 +11,9 @@ interface Stat {
 }
 
 const stats: Stat[] = [
-  { value: 45, suffix: "%", label: "Lorem ipsum dolor sit amet consectetur" },
-  { value: 15500, suffix: "+", label: "Lorem ipsum dolor sit amet consectetur" },
-  { value: 20000000000, suffix: "+", label: "Lorem ipsum dolor sit amet consectetur" },
+  { value: 98, suffix: "%", label: "Client satisfaction rate across all projects" },
+  { value: 3, suffix: "+", label: "Data science & analytics projects delivered" },
+  { value: 3, suffix: "+", label: "Enterprise clients trust us with their data" },
 ];
 
 type CountUpProps = {
@@ -72,9 +72,9 @@ function StatsSection() {
       <div className="max-w-5xl mx-auto text-center">
         {/* Title */}
         <h2 className="text-sm font-medium tracking-wide text-indigo-600 uppercase">
-          Build trust with your users with a{" "}
+          Driving results with{" "}
           <span className="text-indigo-500 font-semibold">
-            beautiful landing page
+            data-driven solutions
           </span>
         </h2>
 

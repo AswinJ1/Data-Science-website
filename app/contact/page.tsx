@@ -1,5 +1,6 @@
 'use client'
 import React, { useState } from "react";
+import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -80,27 +81,35 @@ export default function ContactSection() {
           {/* Left: Testimonial */}
           <Card className="border-slate-200/80">
             <CardContent className="p-6 sm:p-8 md:p-10">
-              <figure className="space-y-6">
-                <blockquote className="text-[15px] leading-7 text-slate-700 md:text-base">
-                  <p className="[&_span]:inline">
-                    <span className="block">
-                      &quot;The data analytics platform they built revolutionized our
-                      decision-making process. Their web development team created
-                      a stunning dashboard that makes complex data accessible to
-                      our entire organization.&quot;
-                    </span>
-                  </p>
+              <div className="flex flex-col items-center text-center">
+                {/* CEO Photo */}
+                <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-blue-100 shadow-lg mb-6">
+                  <Image
+                    src="/ceo.jpeg"
+                    alt="CEO"
+                    fill
+                    className="object-cover"
+                  />
+                </div>
+
+                {/* CEO Quote */}
+                <blockquote className="text-[15px] leading-7 text-slate-700 md:text-base italic">
+                  &quot;We believe every business, regardless of size, deserves
+                  access to world-class data intelligence. Our mission is to
+                  bridge the gap between raw data and strategic decisions —
+                  empowering organizations to move faster, predict smarter, and
+                  grow with confidence.&quot;
                 </blockquote>
-                <figcaption className="space-y-1">
-                  <div className="text-sm font-medium text-slate-900">Sarah Mitchell</div>
-                  <div className="text-xs text-slate-500">CTO - TechVision Analytics</div>
-                </figcaption>
-              </figure>
+
+                <div className="mt-6 space-y-1">
+                  <div className="text-sm font-semibold text-slate-900">Chaithanya Arya</div>
+                  <div className="text-xs text-slate-500">Founder & CEO — Syancy Innovations</div>
+                </div>
+              </div>
 
               <div className="mt-10 rounded-xl bg-slate-50 p-4 text-xs leading-5 text-slate-600">
                 We specialize in end-to-end data solutions: from machine learning models
-                and predictive analytics to responsive web applications and interactive
-                dashboards. Transform your raw data into actionable business intelligence.
+                and predictive analytics. Transform your raw data into actionable business intelligence.
               </div>
             </CardContent>
           </Card>

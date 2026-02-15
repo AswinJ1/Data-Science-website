@@ -12,6 +12,7 @@ import {
   ChevronLeft,
   Menu,
   Mail,
+  HelpCircle,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -25,6 +26,7 @@ const sidebarItems = [
   { label: "Categories", href: "/admin/categories", icon: FolderOpen },
   { label: "Solutions", href: "/admin/solutions", icon: Lightbulb },
   { label: "Contacts", href: "/admin/contacts", icon: Mail },
+  { label: "FAQ Questions", href: "/admin/faq-questions", icon: HelpCircle },
 ]
 
 function SidebarNav() {

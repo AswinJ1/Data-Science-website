@@ -46,7 +46,7 @@ export default function CTASection() {
           </div>
           <div className="flex items-center gap-2">
             <Mail className="h-5 w-5" />
-            <span>hello@syancyinnovations.com</span>
+            <span>info@syancy.com</span>
           </div>
         </div>
       </div>
