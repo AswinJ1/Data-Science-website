@@ -1,4 +1,4 @@
-# Syancy Innovations — Data Science Website
+# Syancy Innovations — Data Science
 
 A full-stack data science consultancy website built with **Next.js 15**, **Prisma**, **PostgreSQL**, and **NextAuth.js**. Features a public-facing marketing site, blog, careers portal, and a full admin panel with analytics.
 
