@@ -1,9 +1,10 @@
 "use client"
 
 import { Button } from "@/components/ui/button"
-import { ArrowRight, Play } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
+import Link from "next/link"
 import { HTMLProps, useState, useEffect } from 'react'
 
 interface BackgroundGridProps {
@@ -106,17 +107,22 @@ export default function HeroSection() {
               learning solutions. Drive growth through intelligent data strategies.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-gradient-primary hover:opacity-90 transition-opacity text-white">
-                Get Started Today
-                <ArrowRight className="ml-2 h-5 w-5" />
+              <Button size="lg" className="bg-gradient-primary hover:opacity-90 transition-opacity text-white rounded-none" asChild>
+                <Link href="/contact">
+                  Get Started Today
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button>
               {/* <Button
                 variant="outline"
                 size="lg"
-                className="border-primary-bright text-primary-bright hover:bg-primary-bright hover:text-white bg-transparent"
+                className="border-primary-bright text-primary-bright hover:bg-primary-bright hover:text-white bg-transparent rounded-none"
+                asChild
               >
-                <Play className="mr-2 h-5 w-5" />
-                See Our Work
+                <Link href="/contact">
+                  Submit Now
+                  <ArrowRight className="ml-2 h-5 w-5" />
+                </Link>
               </Button> */}
             </div>
           </motion.div>

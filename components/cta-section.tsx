@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/button"
 import { ArrowRight, Phone, Mail } from "lucide-react"
+import Link from "next/link"
 
 export default function CTASection() {
   return (
@@ -25,17 +26,12 @@ export default function CTASection() {
           you achieve your data goals.
         </p>
 
-        <div className="flex flex-col sm:flex-row gap-4 justify-center mb-12">
-          <Button size="lg" className="bg-gradient-primary hover:opacity-90 transition-opacity">
-            Start Your Data Journey
-            <ArrowRight className="ml-2 h-5 w-5" />
-          </Button>
-          <Button
-            size="lg"
-            variant="outline"
-            className="border-white text-white hover:bg-white hover:text-primary-dark bg-transparent"
-          >
-            Schedule a Consultation
+        <div className="flex justify-center mb-12">
+          <Button size="lg" className="bg-gradient-primary hover:opacity-90 transition-opacity rounded-none" asChild>
+            <Link href="/contact">
+              Start Your Data Journey
+              <ArrowRight className="ml-2 h-5 w-5" />
+            </Link>
           </Button>
         </div>
 

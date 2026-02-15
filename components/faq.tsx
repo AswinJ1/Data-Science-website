@@ -138,7 +138,7 @@ export default function FAQSection() {
           <button
             onClick={handleSubmit}
             disabled={submitting}
-            className="mt-4 w-full md:w-auto bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-2 px-6 rounded-md transition"
+            className="mt-4 w-full md:w-auto bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-2 px-6 rounded-none transition"
           >
             {submitting ? "Submitting..." : "Submit Now"}
           </button>

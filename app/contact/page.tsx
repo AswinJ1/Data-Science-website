@@ -244,7 +244,7 @@ export default function ContactSection() {
                 {/* Submit */}
                 <div className="col-span-1 md:col-span-2 pt-2">
                   <Button type="submit" disabled={loading}
-                    className="h-11 w-full rounded-xl bg-blue-600 text-white hover:bg-blue-700">
+                    className="h-11 w-full rounded-none bg-blue-600 text-white hover:bg-blue-700">
                     {loading ? (
                       <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending...</>
                     ) : (
