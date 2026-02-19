@@ -275,7 +275,7 @@ export default function JobDetailPage() {
                   {job.mandatoryRequirements?.length > 0 && (
                     <div>
                       <div className="flex items-center gap-1.5 mb-2">
-                        <Star className="h-4 w-4 text-red-500" />
+                        {/* <Star className="h-4 w-4 text-red-500" /> */}
                         <span className="text-sm font-semibold text-gray-900">Required</span>
                       </div>
                       <ul className="space-y-1.5">
@@ -291,7 +291,7 @@ export default function JobDetailPage() {
                   {job.optionalRequirements?.length > 0 && (
                     <div>
                       <div className="flex items-center gap-1.5 mb-2">
-                        <Lightbulb className="h-4 w-4 text-amber-500" />
+                        {/* <Lightbulb className="h-4 w-4 text-amber-500" /> */}
                         <span className="text-sm font-semibold text-gray-900">Nice to Have</span>
                       </div>
                       <ul className="space-y-1.5">
@@ -483,13 +483,14 @@ export default function JobDetailPage() {
                           }}
                           onClientUploadComplete={(res) => {
                             if (res?.[0]) {
-                              setResumeUrl(res[0].ufsUrl)
-                              setResumeName(res[0].name)
+                              const f = res[0] as any
+                              setResumeUrl(f.url || f.ufsUrl || f.fileUrl || "")
+                              setResumeName(f.name || f.fileName || "resume.pdf")
                             }
                             setResumeUploading(false)
                           }}
-                          onUploadError={(err) => {
-                            setError(err.message || "Upload failed")
+                          onUploadError={(err: any) => {
+                            setError(err?.message || "Upload failed")
                             setResumeUploading(false)
                           }}
                           appearance={{

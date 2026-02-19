@@ -13,12 +13,14 @@ import {
   AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Plus, Pencil, Trash2, Loader2 } from "lucide-react"
+import { Plus, Pencil, Trash2, Loader2, ChevronLeft, ChevronRight } from "lucide-react"
 import { toast } from "sonner"
 
 export default function AdminJobsPage() {
   const [jobs, setJobs] = useState<any[]>([])
   const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const PAGE_SIZE = 10
 
   useEffect(() => {
     fetchJobs()
@@ -78,6 +80,7 @@ export default function AdminJobsPage() {
           ) : jobs.length === 0 ? (
             <p className="text-center py-12 text-gray-500 dark:text-gray-400">No jobs created yet</p>
           ) : (
+            <>
             <div className="overflow-x-auto">
             <Table>
               <TableHeader>
@@ -91,7 +94,7 @@ export default function AdminJobsPage() {
                 </TableRow>
               </TableHeader>
               <TableBody>
-                {jobs.map((job) => (
+                {jobs.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE).map((job) => (
                   <TableRow key={job.id}>
                     <TableCell className="font-medium">{job.title}</TableCell>
                     <TableCell>
@@ -139,6 +142,44 @@ export default function AdminJobsPage() {
               </TableBody>
             </Table>
             </div>
+            {Math.ceil(jobs.length / PAGE_SIZE) > 1 && (
+              <div className="flex items-center justify-between p-4 border-t">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, jobs.length)} of {jobs.length} jobs
+                </p>
+                <div className="flex items-center gap-1">
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0" disabled={currentPage <= 1} onClick={() => setCurrentPage((p) => p - 1)}>
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  {Array.from({ length: Math.min(Math.ceil(jobs.length / PAGE_SIZE), 7) }, (_, i) => {
+                    let page = i + 1
+                    const total = Math.ceil(jobs.length / PAGE_SIZE)
+                    if (total > 7) {
+                      const start = Math.max(1, currentPage - 3)
+                      page = start + i
+                      if (page > total) return null
+                    }
+                    return (
+                      <Button
+                        key={page}
+                        variant={page === currentPage ? "default" : "outline"}
+                        size="sm"
+                        className={`h-8 w-8 p-0 ${
+                          page === currentPage ? "bg-blue-600 hover:bg-blue-700" : ""
+                        }`}
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        {page}
+                      </Button>
+                    )
+                  })}
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0" disabled={currentPage >= Math.ceil(jobs.length / PAGE_SIZE)} onClick={() => setCurrentPage((p) => p + 1)}>
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+            </>
           )}
         </CardContent>
       </Card>

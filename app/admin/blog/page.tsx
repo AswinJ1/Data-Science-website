@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button"
 import { Skeleton } from "@/components/ui/skeleton"
 import { AlertDialog, AlertDialogAction, AlertDialogCancel, AlertDialogContent, AlertDialogDescription, AlertDialogFooter, AlertDialogHeader, AlertDialogTitle, AlertDialogTrigger } from "@/components/ui/alert-dialog"
 import { BlogStatusBadge } from "@/components/admin/status-badge"
-import { Plus, Pencil, Trash2, FileText } from "lucide-react"
+import { Plus, Pencil, Trash2, FileText, ChevronLeft, ChevronRight } from "lucide-react"
 import { toast } from "sonner"
 
 type Blog = {
@@ -24,6 +24,8 @@ type Blog = {
 export default function AdminBlogPage() {
   const [posts, setPosts] = useState<Blog[]>([])
   const [loading, setLoading] = useState(true)
+  const [currentPage, setCurrentPage] = useState(1)
+  const PAGE_SIZE = 10
 
   useEffect(() => {
     fetchPosts()
@@ -88,6 +90,7 @@ export default function AdminBlogPage() {
               </Button>
             </div>
           ) : (
+            <>
             <div className="overflow-x-auto">
               <Table>
                 <TableHeader>
@@ -101,7 +104,7 @@ export default function AdminBlogPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {posts.map((post) => (
+                  {posts.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE).map((post) => (
                     <TableRow key={post.id}>
                       <TableCell className="font-medium max-w-[250px] truncate">{post.title}</TableCell>
                       <TableCell>{post.category?.name || "—"}</TableCell>
@@ -145,6 +148,44 @@ export default function AdminBlogPage() {
                 </TableBody>
               </Table>
             </div>
+            {Math.ceil(posts.length / PAGE_SIZE) > 1 && (
+              <div className="flex items-center justify-between mt-4 pt-4 border-t">
+                <p className="text-sm text-gray-500 dark:text-gray-400">
+                  {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, posts.length)} of {posts.length} posts
+                </p>
+                <div className="flex items-center gap-1">
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0" disabled={currentPage <= 1} onClick={() => setCurrentPage((p) => p - 1)}>
+                    <ChevronLeft className="h-4 w-4" />
+                  </Button>
+                  {Array.from({ length: Math.min(Math.ceil(posts.length / PAGE_SIZE), 7) }, (_, i) => {
+                    let page = i + 1
+                    const total = Math.ceil(posts.length / PAGE_SIZE)
+                    if (total > 7) {
+                      const start = Math.max(1, currentPage - 3)
+                      page = start + i
+                      if (page > total) return null
+                    }
+                    return (
+                      <Button
+                        key={page}
+                        variant={page === currentPage ? "default" : "outline"}
+                        size="sm"
+                        className={`h-8 w-8 p-0 ${
+                          page === currentPage ? "bg-blue-600 hover:bg-blue-700" : ""
+                        }`}
+                        onClick={() => setCurrentPage(page)}
+                      >
+                        {page}
+                      </Button>
+                    )
+                  })}
+                  <Button variant="outline" size="sm" className="h-8 w-8 p-0" disabled={currentPage >= Math.ceil(posts.length / PAGE_SIZE)} onClick={() => setCurrentPage((p) => p + 1)}>
+                    <ChevronRight className="h-4 w-4" />
+                  </Button>
+                </div>
+              </div>
+            )}
+            </>
           )}
         </CardContent>
       </Card>

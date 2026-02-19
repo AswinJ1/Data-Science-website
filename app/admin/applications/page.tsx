@@ -28,7 +28,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "@/components/ui/alert-dialog"
-import { Download, Search, FileText, Sheet, ChevronDown, ChevronUp, Trash2, Calendar } from "lucide-react"
+import { Download, Search, FileText, Sheet, ChevronDown, ChevronUp, Trash2, Calendar, ChevronLeft, ChevronRight } from "lucide-react"
 import { toast } from "sonner"
 import * as XLSX from "xlsx"
 
@@ -83,6 +83,8 @@ export default function AdminApplicationsPage() {
   const [dateTo, setDateTo] = useState("")
   const [updatingId, setUpdatingId] = useState<string | null>(null)
   const [expandedId, setExpandedId] = useState<string | null>(null)
+  const [currentPage, setCurrentPage] = useState(1)
+  const PAGE_SIZE = 10
 
   // Status change dialog state
   const [statusDialogOpen, setStatusDialogOpen] = useState(false)
@@ -97,6 +99,11 @@ export default function AdminApplicationsPage() {
     fetchApplications()
     fetchJobs()
   }, [])
+
+  // Reset to page 1 whenever filters change
+  useEffect(() => {
+    setCurrentPage(1)
+  }, [search, statusFilter, jobFilter, dateFrom, dateTo])
 
   const fetchApplications = async () => {
     try {
@@ -205,6 +212,9 @@ export default function AdminApplicationsPage() {
     const matchDateTo = !dateTo || appDate <= new Date(dateTo + "T23:59:59.999Z")
     return matchSearch && matchStatus && matchJob && matchDateFrom && matchDateTo
   })
+
+  const totalPages = Math.ceil(filtered.length / PAGE_SIZE)
+  const paginated = filtered.slice((currentPage - 1) * PAGE_SIZE, currentPage * PAGE_SIZE)
 
   const exportToExcel = () => {
     const rows = filtered.map((app) => ({
@@ -352,7 +362,7 @@ export default function AdminApplicationsPage() {
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {filtered.map((app) => (
+                  {paginated.map((app) => (
                     <React.Fragment key={app.id}>
                     <TableRow className="h-10">
                       <TableCell className="py-1.5">
@@ -473,6 +483,42 @@ export default function AdminApplicationsPage() {
                   ))}
                 </TableBody>
               </Table>
+            </div>
+          )}
+          {totalPages > 1 && (
+            <div className="flex items-center justify-between mt-4 pt-4 border-t">
+              <p className="text-sm text-gray-500 dark:text-gray-400">
+                {(currentPage - 1) * PAGE_SIZE + 1}–{Math.min(currentPage * PAGE_SIZE, filtered.length)} of {filtered.length}
+              </p>
+              <div className="flex items-center gap-1">
+                <Button variant="outline" size="sm" className="h-8 w-8 p-0" disabled={currentPage <= 1} onClick={() => setCurrentPage((p) => p - 1)}>
+                  <ChevronLeft className="h-4 w-4" />
+                </Button>
+                {Array.from({ length: Math.min(totalPages, 7) }, (_, i) => {
+                  let page = i + 1
+                  if (totalPages > 7) {
+                    const start = Math.max(1, currentPage - 3)
+                    page = start + i
+                    if (page > totalPages) return null
+                  }
+                  return (
+                    <Button
+                      key={page}
+                      variant={page === currentPage ? "default" : "outline"}
+                      size="sm"
+                      className={`h-8 w-8 p-0 ${
+                        page === currentPage ? "bg-blue-600 hover:bg-blue-700" : ""
+                      }`}
+                      onClick={() => setCurrentPage(page)}
+                    >
+                      {page}
+                    </Button>
+                  )
+                })}
+                <Button variant="outline" size="sm" className="h-8 w-8 p-0" disabled={currentPage >= totalPages} onClick={() => setCurrentPage((p) => p + 1)}>
+                  <ChevronRight className="h-4 w-4" />
+                </Button>
+              </div>
             </div>
           )}
         </CardContent>

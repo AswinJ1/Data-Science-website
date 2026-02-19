@@ -10,7 +10,7 @@ import { Label } from "@/components/ui/label"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Separator } from "@/components/ui/separator"
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
-import { Camera, Loader2, Save, User, Mail, Calendar, ArrowLeft, Check, X, Upload, Video, CircleDot } from "lucide-react"
+import { Camera, Loader2, Save, User, Mail, Calendar, ArrowLeft, Check, X, Upload, Video, CircleDot, Lock, Eye, EyeOff } from "lucide-react"
 import Link from "next/link"
 
 interface UserProfile {
@@ -38,6 +38,16 @@ export default function ProfilePage() {
   const [name, setName] = useState("")
   const [previewImage, setPreviewImage] = useState<string | null>(null)
   const [newImageUrl, setNewImageUrl] = useState<string | null | undefined>(undefined)
+
+  // Password change state
+  const [currentPassword, setCurrentPassword] = useState("")
+  const [newPassword, setNewPassword] = useState("")
+  const [confirmPassword, setConfirmPassword] = useState("")
+  const [showCurrentPwd, setShowCurrentPwd] = useState(false)
+  const [showNewPwd, setShowNewPwd] = useState(false)
+  const [changingPassword, setChangingPassword] = useState(false)
+  const [passwordSuccess, setPasswordSuccess] = useState("")
+  const [passwordError, setPasswordError] = useState("")
 
   // Camera state
   const [showCamera, setShowCamera] = useState(false)
@@ -230,6 +240,45 @@ export default function ProfilePage() {
         setUploading(false)
       }
     }, "image/jpeg", 0.9)
+  }
+
+  const handleChangePassword = async () => {
+    setPasswordSuccess("")
+    setPasswordError("")
+    if (!currentPassword || !newPassword || !confirmPassword) {
+      setPasswordError("All password fields are required")
+      return
+    }
+    if (newPassword.length < 6) {
+      setPasswordError("New password must be at least 6 characters")
+      return
+    }
+    if (newPassword !== confirmPassword) {
+      setPasswordError("New passwords do not match")
+      return
+    }
+    if (currentPassword === newPassword) {
+      setPasswordError("New password must be different from current password")
+      return
+    }
+    setChangingPassword(true)
+    try {
+      const res = await fetch("/api/profile/password", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ currentPassword, newPassword }),
+      })
+      const data = await res.json()
+      if (!res.ok) throw new Error(data.error || "Failed to change password")
+      setPasswordSuccess("Password changed successfully!")
+      setCurrentPassword("")
+      setNewPassword("")
+      setConfirmPassword("")
+    } catch (err: any) {
+      setPasswordError(err.message || "Failed to change password")
+    } finally {
+      setChangingPassword(false)
+    }
   }
 
   const handleSave = async () => {
@@ -550,6 +599,95 @@ export default function ProfilePage() {
                 })}
               </span>
             </div>
+          </CardContent>
+        </Card>
+
+        {/* Change Password Card */}
+        <Card>
+          <CardHeader>
+            <CardTitle className="text-lg flex items-center gap-2">
+              <Lock className="h-5 w-5 text-gray-400" />
+              Change Password
+            </CardTitle>
+            <CardDescription>
+              Enter your current password and choose a new one (min 6 characters).
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="space-y-4">
+            {passwordSuccess && (
+              <div className="flex items-center gap-2 bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 text-green-700 dark:text-green-400 px-4 py-3 text-sm">
+                <Check className="h-4 w-4 flex-shrink-0" />
+                {passwordSuccess}
+              </div>
+            )}
+            {passwordError && (
+              <div className="flex items-center gap-2 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 text-red-700 dark:text-red-400 px-4 py-3 text-sm">
+                <X className="h-4 w-4 flex-shrink-0" />
+                {passwordError}
+              </div>
+            )}
+            <div className="space-y-2">
+              <Label htmlFor="current-password">Current Password</Label>
+              <div className="relative">
+                <Input
+                  id="current-password"
+                  type={showCurrentPwd ? "text" : "password"}
+                  value={currentPassword}
+                  onChange={(e) => setCurrentPassword(e.target.value)}
+                  placeholder="Enter current password"
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowCurrentPwd((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showCurrentPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="new-password">New Password</Label>
+              <div className="relative">
+                <Input
+                  id="new-password"
+                  type={showNewPwd ? "text" : "password"}
+                  value={newPassword}
+                  onChange={(e) => setNewPassword(e.target.value)}
+                  placeholder="Min 6 characters"
+                  className="pr-10"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowNewPwd((v) => !v)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600"
+                >
+                  {showNewPwd ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
+                </button>
+              </div>
+            </div>
+            <div className="space-y-2">
+              <Label htmlFor="confirm-password">Confirm New Password</Label>
+              <Input
+                id="confirm-password"
+                type="password"
+                value={confirmPassword}
+                onChange={(e) => setConfirmPassword(e.target.value)}
+                placeholder="Re-enter new password"
+              />
+            </div>
+            <Button
+              onClick={handleChangePassword}
+              disabled={changingPassword || !currentPassword || !newPassword || !confirmPassword}
+              variant="outline"
+              className="border-blue-600 text-blue-600 hover:bg-blue-50 dark:hover:bg-blue-900/20"
+            >
+              {changingPassword ? (
+                <><Loader2 className="h-4 w-4 mr-2 animate-spin" />Changing...</>
+              ) : (
+                <><Lock className="h-4 w-4 mr-2" />Change Password</>
+              )}
+            </Button>
           </CardContent>
         </Card>
 

@@ -15,13 +15,12 @@ export default function Footer() {
         <div className="grid md:grid-cols-3 gap-6">
           {/* Company Info */}
           <div>
-            <div className="mb-3 inline-flex items-center gap-3">
-              <img 
-                alt="Syancy Logo" 
-                src="/logo.svg" 
-                className="h-8 w-5 object-contain filter invert brightness-0 contrast-100" 
+            <div className="mb-3">
+              <img
+                alt="Syancy Logo"
+                src="/wordmark.svg"
+                className="h-8 w-auto max-w-[130px] object-contain brightness-0 invert"
               />
-              <span className="text-xl font-semibold text-white leading-none">Syancy</span>
             </div>
             <p className="text-blue-200 text-sm mb-4">
               Transforming businesses through intelligent data solutions.

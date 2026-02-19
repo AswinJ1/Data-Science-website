@@ -35,11 +35,8 @@ export function HRHeader({ onToggleSidebar }: HRHeaderProps) {
   return (
     <header className="sticky top-0 z-40 h-14 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-between px-4 md:px-6 gap-2">
       <div className="flex items-center gap-3">
-        <Link href="/hr" className="inline-flex items-center gap-3 shrink-0">
-          <img src="/logo.svg" alt="Syancy" className="h-9 w-5 object-contain" />
-          <span className="text-xl font-semibold text-gray-900 dark:text-white leading-none hidden sm:inline">
-            Syancy
-          </span>
+        <Link href="/hr" className="inline-flex items-center shrink-0">
+          <img src="/wordmark.svg" alt="Syancy" className="h-7 w-auto max-w-[110px] object-contain dark:brightness-0 dark:invert" />
         </Link>
         <div className="hidden md:block border-l border-gray-200 dark:border-gray-700 pl-3">
           <Button

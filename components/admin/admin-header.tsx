@@ -36,15 +36,12 @@ export function AdminHeader({ onToggleSidebar }: AdminHeaderProps) {
     <header className="sticky top-0 z-40 h-14 border-b border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900 flex items-center justify-between px-4 md:px-6 gap-2">
       {/* Left side: Logo + sidebar toggle */}
       <div className="flex items-center gap-3">
-        <Link href="/admin" className="inline-flex items-center gap-3 shrink-0">
+        <Link href="/admin" className="inline-flex items-center shrink-0">
           <img
-            src="/logo.svg"
+            src="/wordmark.svg"
             alt="Syancy"
-            className="h-9 w-5 object-contain"
+            className="h-7 w-auto max-w-[110px] object-contain dark:brightness-0 dark:invert"
           />
-          <span className="text-xl font-semibold text-gray-900 dark:text-white leading-none hidden sm:inline">
-            Syancy
-          </span>
         </Link>
 
         {/* Sidebar toggle */}

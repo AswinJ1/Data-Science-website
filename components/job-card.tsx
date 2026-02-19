@@ -48,25 +48,23 @@ export function JobCard({
     <Link href={`/careers/${slug}`}>
       <Card className="h-full hover:shadow-lg transition-shadow group">
         <CardContent className="p-4 sm:p-6">
-          <div className="flex items-start justify-between gap-2 mb-3">
-            <div className="min-w-0 flex-1">
-              <h3 className="font-semibold text-base sm:text-lg text-gray-900 group-hover:text-blue-600 transition-colors truncate">
-                {title}
-              </h3>
-              {salaryDisplay && (
-                <p className="text-xs sm:text-sm text-green-600 font-medium mt-1">{salaryDisplay}</p>
-              )}
-            </div>
-            <div className="flex-shrink-0 flex flex-col items-end gap-1">
+          {/* Title row */}
+          <div className="flex items-start justify-between gap-2 mb-1">
+            <h3 className="font-semibold text-base sm:text-lg text-gray-900 group-hover:text-blue-600 transition-colors leading-snug min-w-0 flex-1">
+              {title}
+            </h3>
+            <div className="flex-shrink-0 pt-0.5">
               <JobTypeBadge type={type} />
-              {openings && openings >= 1 && (
-                <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-blue-200 text-blue-600">
-                  <Users className="h-3 w-3 mr-0.5" />{openings} openings
-                </Badge>
-              )}
             </div>
           </div>
 
+          {/* Salary */}
+          {salaryDisplay && (
+            <p className="text-xs sm:text-sm text-green-600 font-semibold mb-3">{salaryDisplay}</p>
+          )}
+          {!salaryDisplay && <div className="mb-3" />}
+
+          {/* Meta row: location, experience, openings */}
           <div className="flex flex-wrap gap-2 sm:gap-3 text-xs sm:text-sm text-gray-500 mb-3 sm:mb-4">
             <span className="flex items-center gap-1">
               <MapPin className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" />
@@ -76,6 +74,12 @@ export function JobCard({
               <Clock className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" />
               <span className="truncate">{experience}</span>
             </span>
+            {openings && openings >= 1 && (
+              <span className="flex items-center gap-1 text-blue-600 font-medium">
+                <Users className="h-3 w-3 sm:h-3.5 sm:w-3.5 flex-shrink-0" />
+                {openings} opening{openings > 1 ? "s" : ""}
+              </span>
+            )}
           </div>
 
           <div className="flex flex-wrap gap-1 sm:gap-1.5 mb-3 sm:mb-4">

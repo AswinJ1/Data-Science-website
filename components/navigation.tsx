@@ -299,9 +299,8 @@ export default function Navigation() {
         <div className="flex items-center justify-between px-4 py-4">
           {/* Logo */}
           <div className="flex items-center">
-            <Link href="/" aria-label="Syancy Innovations logo" className="inline-flex items-center gap-3">
-              <img src="/logo.svg" alt="Syancy Innovations" className="h-8 w-5 object-contain" />
-              <span className="text-xl font-semibold text-gray-900 dark:text-white leading-none">Syancy</span>
+            <Link href="/" aria-label="Syancy Innovations" className="inline-flex items-center shrink-0">
+              <img src="/wordmark.svg" alt="Syancy Innovations" className="h-8 w-auto max-w-[130px] object-contain" />
             </Link>
           </div>
 
