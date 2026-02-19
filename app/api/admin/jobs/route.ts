@@ -1,12 +1,12 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { requireAdmin } from "@/lib/auth";
+import { requireAdmin, requireHROrAdmin } from "@/lib/auth";
 import { jobSchema } from "@/lib/validations/job";
 import slugify from "slugify";
 
 export async function GET() {
   try {
-    await requireAdmin();
+    await requireHROrAdmin();
     const jobs = await prisma.job.findMany({
       orderBy: { createdAt: "desc" },
       include: { _count: { select: { applications: true } } },

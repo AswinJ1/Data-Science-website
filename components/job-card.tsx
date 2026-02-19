@@ -1,7 +1,7 @@
 import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
-import { MapPin, Clock, ArrowRight } from "lucide-react"
+import { MapPin, Clock, ArrowRight, Users } from "lucide-react"
 import { JobTypeBadge } from "@/components/admin/status-badge"
 
 interface JobCardProps {
@@ -12,7 +12,20 @@ interface JobCardProps {
   experience: string
   skills: string[]
   salary?: string | null
+  salaryMin?: number | null
+  salaryMax?: number | null
+  salaryCurrency?: string
+  openings?: number
   createdAt: string
+}
+
+function formatSalary(min?: number | null, max?: number | null, currency?: string) {
+  const fmt = (n: number) =>
+    new Intl.NumberFormat("en-IN", { style: "currency", currency: currency || "INR", maximumFractionDigits: 0 }).format(n)
+  if (min && max) return `${fmt(min)} – ${fmt(max)}`
+  if (min) return `From ${fmt(min)}`
+  if (max) return `Up to ${fmt(max)}`
+  return null
 }
 
 export function JobCard({
@@ -23,8 +36,14 @@ export function JobCard({
   experience,
   skills,
   salary,
+  salaryMin,
+  salaryMax,
+  salaryCurrency,
+  openings,
   createdAt,
 }: JobCardProps) {
+  const salaryDisplay = formatSalary(salaryMin, salaryMax, salaryCurrency) || salary
+
   return (
     <Link href={`/careers/${slug}`}>
       <Card className="h-full hover:shadow-lg transition-shadow group">
@@ -34,12 +53,17 @@ export function JobCard({
               <h3 className="font-semibold text-base sm:text-lg text-gray-900 group-hover:text-blue-600 transition-colors truncate">
                 {title}
               </h3>
-              {salary && (
-                <p className="text-xs sm:text-sm text-green-600 font-medium mt-1">{salary}</p>
+              {salaryDisplay && (
+                <p className="text-xs sm:text-sm text-green-600 font-medium mt-1">{salaryDisplay}</p>
               )}
             </div>
-            <div className="flex-shrink-0">
+            <div className="flex-shrink-0 flex flex-col items-end gap-1">
               <JobTypeBadge type={type} />
+              {openings && openings >= 1 && (
+                <Badge variant="outline" className="text-[10px] px-1.5 py-0 border-blue-200 text-blue-600">
+                  <Users className="h-3 w-3 mr-0.5" />{openings} openings
+                </Badge>
+              )}
             </div>
           </div>
 

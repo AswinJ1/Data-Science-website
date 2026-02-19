@@ -21,6 +21,8 @@ export default function NewJobPage() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [skillsInput, setSkillsInput] = useState("")
+  const [mandatoryInput, setMandatoryInput] = useState("")
+  const [optionalInput, setOptionalInput] = useState("")
 
   const {
     register,
@@ -30,10 +32,12 @@ export default function NewJobPage() {
     formState: { errors },
   } = useForm<JobInput>({
     resolver: zodResolver(jobSchema),
-    defaultValues: { type: "FULL_TIME", isActive: true, skills: [] },
+    defaultValues: { type: "FULL_TIME", isActive: true, skills: [], openings: 1, mandatoryRequirements: [], optionalRequirements: [], salaryCurrency: "INR" },
   })
 
   const skills = watch("skills") || []
+  const mandatoryRequirements = watch("mandatoryRequirements") || []
+  const optionalRequirements = watch("optionalRequirements") || []
   const isActive = watch("isActive")
 
   const addSkill = () => {
@@ -45,6 +49,28 @@ export default function NewJobPage() {
 
   const removeSkill = (skill: string) => {
     setValue("skills", skills.filter((s) => s !== skill))
+  }
+
+  const addMandatory = () => {
+    if (mandatoryInput.trim() && !mandatoryRequirements.includes(mandatoryInput.trim())) {
+      setValue("mandatoryRequirements", [...mandatoryRequirements, mandatoryInput.trim()])
+      setMandatoryInput("")
+    }
+  }
+
+  const removeMandatory = (req: string) => {
+    setValue("mandatoryRequirements", mandatoryRequirements.filter((r) => r !== req))
+  }
+
+  const addOptional = () => {
+    if (optionalInput.trim() && !optionalRequirements.includes(optionalInput.trim())) {
+      setValue("optionalRequirements", [...optionalRequirements, optionalInput.trim()])
+      setOptionalInput("")
+    }
+  }
+
+  const removeOptional = (req: string) => {
+    setValue("optionalRequirements", optionalRequirements.filter((r) => r !== req))
   }
 
   const onSubmit = async (data: JobInput) => {
@@ -130,8 +156,32 @@ export default function NewJobPage() {
               </div>
 
               <div className="space-y-2">
-                <Label>Salary (Optional)</Label>
-                <Input {...register("salary")} placeholder="$100,000 - $140,000" />
+                <Label>Salary (Optional label)</Label>
+                <Input {...register("salary")} placeholder="e.g. ₹8,00,000 - ₹12,00,000" />
+              </div>
+
+              <div className="space-y-2">
+                <Label>Min Salary (₹)</Label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                  <Input {...register("salaryMin")} type="number" placeholder="800000" className="pl-7" />
+                </div>
+                {errors.salaryMin && <p className="text-sm text-red-500">{errors.salaryMin.message}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label>Max Salary (₹)</Label>
+                <div className="relative">
+                  <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-500">₹</span>
+                  <Input {...register("salaryMax")} type="number" placeholder="1200000" className="pl-7" />
+                </div>
+                {errors.salaryMax && <p className="text-sm text-red-500">{errors.salaryMax.message}</p>}
+              </div>
+
+              <div className="space-y-2">
+                <Label>Number of Openings *</Label>
+                <Input {...register("openings")} type="number" min={1} placeholder="1" />
+                {errors.openings && <p className="text-sm text-red-500">{errors.openings.message}</p>}
               </div>
 
               <div className="space-y-2">
@@ -190,6 +240,68 @@ export default function NewJobPage() {
                 rows={12}
               />
               {errors.description && <p className="text-sm text-red-500">{errors.description.message}</p>}
+            </div>
+
+            {/* Mandatory Requirements */}
+            <div className="space-y-2">
+              <Label>Mandatory Requirements <span className="text-red-500">*</span></Label>
+              <p className="text-xs text-gray-500">Skills/qualifications the applicant must have</p>
+              <div className="flex gap-2">
+                <Input
+                  value={mandatoryInput}
+                  onChange={(e) => setMandatoryInput(e.target.value)}
+                  placeholder="Add a mandatory requirement"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault()
+                      addMandatory()
+                    }
+                  }}
+                />
+                <Button type="button" variant="outline" onClick={addMandatory}>Add</Button>
+              </div>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {mandatoryRequirements.map((req) => (
+                  <span
+                    key={req}
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-red-50 text-red-700 dark:bg-red-900/20 dark:text-red-400 text-sm rounded-md border border-red-200 dark:border-red-800"
+                  >
+                    <span className="text-red-500 font-bold">*</span> {req}
+                    <button type="button" onClick={() => removeMandatory(req)} className="hover:text-red-900 ml-1">×</button>
+                  </span>
+                ))}
+              </div>
+            </div>
+
+            {/* Optional Requirements */}
+            <div className="space-y-2">
+              <Label>Optional Requirements <span className="text-gray-400">(Nice to have)</span></Label>
+              <p className="text-xs text-gray-500">Skills/qualifications that are preferred but not required</p>
+              <div className="flex gap-2">
+                <Input
+                  value={optionalInput}
+                  onChange={(e) => setOptionalInput(e.target.value)}
+                  placeholder="Add an optional requirement"
+                  onKeyDown={(e) => {
+                    if (e.key === "Enter") {
+                      e.preventDefault()
+                      addOptional()
+                    }
+                  }}
+                />
+                <Button type="button" variant="outline" onClick={addOptional}>Add</Button>
+              </div>
+              <div className="flex flex-wrap gap-2 mt-2">
+                {optionalRequirements.map((req) => (
+                  <span
+                    key={req}
+                    className="inline-flex items-center gap-1 px-2 py-1 bg-gray-100 text-gray-700 dark:bg-gray-800 dark:text-gray-300 text-sm rounded-md border border-gray-200 dark:border-gray-700"
+                  >
+                    {req}
+                    <button type="button" onClick={() => removeOptional(req)} className="hover:text-red-600 ml-1">×</button>
+                  </span>
+                ))}
+              </div>
             </div>
 
             <div className="flex gap-3">

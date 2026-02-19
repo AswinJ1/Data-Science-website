@@ -68,12 +68,12 @@ function CountUp({ target, suffix }: CountUpProps) {
 
 function StatsSection() {
   return (
-    <section className="w-full py-16">
+    <section className="w-full py-16 dark:bg-black">
       <div className="max-w-5xl mx-auto text-center">
         {/* Title */}
-        <h2 className="text-sm font-medium tracking-wide text-indigo-600 uppercase">
+        <h2 className="text-sm font-medium tracking-wide text-indigo-600 dark:text-indigo-400 uppercase">
           Driving results with{" "}
-          <span className="text-indigo-500 font-semibold">
+          <span className="text-indigo-500 dark:text-indigo-300 font-semibold">
             data-driven solutions
           </span>
         </h2>
@@ -90,7 +90,7 @@ function StatsSection() {
                 <span className="hidden sm:block absolute left-0 top-1/2 h-12 w-px bg-gradient-to-b from-transparent via-indigo-300 to-transparent -translate-x-6" />
               )}
               <CountUp target={stat.value} suffix={stat.suffix} />
-              <p className="mt-2 text-gray-500 text-sm max-w-[200px]">
+              <p className="mt-2 text-gray-500 dark:text-gray-400 text-sm max-w-[200px]">
                 {stat.label}
               </p>
             </div>

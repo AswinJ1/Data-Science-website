@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import { useSession, signOut } from "next-auth/react"
-import { useTheme } from "next-themes"
+import { useUserTheme } from "@/hooks/use-user-theme"
 import { Sun, Moon, LogOut, User, PanelLeft } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -21,7 +21,7 @@ interface AdminHeaderProps {
 
 export function AdminHeader({ onToggleSidebar }: AdminHeaderProps) {
   const { data: session } = useSession()
-  const { theme, setTheme } = useTheme()
+  const { theme, setTheme } = useUserTheme()
 
   const initials = session?.user?.name
     ? session.user.name
@@ -99,7 +99,7 @@ export function AdminHeader({ onToggleSidebar }: AdminHeaderProps) {
           </div>
           <DropdownMenuSeparator className="dark:bg-gray-700" />
           <DropdownMenuItem asChild>
-            <a href="/dashboard/profile" className="flex items-center gap-2 cursor-pointer dark:text-gray-300 dark:hover:text-white">
+            <a href="/admin/profile" className="flex items-center gap-2 cursor-pointer dark:text-gray-300 dark:hover:text-white">
               <User className="h-4 w-4" />
               Profile
             </a>

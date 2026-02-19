@@ -7,6 +7,8 @@ export async function GET(req: Request) {
     const type = searchParams.get("type");
     const location = searchParams.get("location");
     const search = searchParams.get("search");
+    const salaryMin = searchParams.get("salaryMin");
+    const salaryMax = searchParams.get("salaryMax");
 
     const where: any = { isActive: true };
 
@@ -17,6 +19,12 @@ export async function GET(req: Request) {
         { title: { contains: search, mode: "insensitive" } },
         { description: { contains: search, mode: "insensitive" } },
       ];
+    }
+    if (salaryMin) {
+      where.salaryMax = { gte: parseInt(salaryMin) };
+    }
+    if (salaryMax) {
+      where.salaryMin = { lte: parseInt(salaryMax) };
     }
 
     const jobs = await prisma.job.findMany({
@@ -31,6 +39,12 @@ export async function GET(req: Request) {
         experience: true,
         skills: true,
         salary: true,
+        salaryMin: true,
+        salaryMax: true,
+        salaryCurrency: true,
+        openings: true,
+        mandatoryRequirements: true,
+        optionalRequirements: true,
         createdAt: true,
       },
     });

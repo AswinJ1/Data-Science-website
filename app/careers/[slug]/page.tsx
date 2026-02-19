@@ -14,7 +14,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog"
 import { JobTypeBadge } from "@/components/admin/status-badge"
 import {
-  MapPin, Clock, DollarSign, ArrowLeft, Loader2, CheckCircle, Upload, FileText,
+  MapPin, Clock, IndianRupee, ArrowLeft, Loader2, CheckCircle, Upload, FileText, Users, Star, Lightbulb,
 } from "lucide-react"
 import { UploadButton } from "@/lib/uploadthing"
 
@@ -28,7 +28,22 @@ interface Job {
   experience: string
   skills: string[]
   salary: string | null
+  salaryMin: number | null
+  salaryMax: number | null
+  salaryCurrency: string
+  openings: number
+  mandatoryRequirements: string[]
+  optionalRequirements: string[]
   createdAt: string
+}
+
+function formatSalary(min?: number | null, max?: number | null, currency?: string) {
+  const fmt = (n: number) =>
+    new Intl.NumberFormat("en-IN", { style: "currency", currency: currency || "INR", maximumFractionDigits: 0 }).format(n)
+  if (min && max) return `${fmt(min)} – ${fmt(max)}`
+  if (min) return `From ${fmt(min)}`
+  if (max) return `Up to ${fmt(max)}`
+  return null
 }
 
 export default function JobDetailPage() {
@@ -213,9 +228,14 @@ export default function JobDetailPage() {
             <span className="flex items-center gap-1">
               <Clock className="h-4 w-4" /> {job.experience}
             </span>
-            {job.salary && (
+            {(formatSalary(job.salaryMin, job.salaryMax, job.salaryCurrency) || job.salary) && (
+              <span className="flex items-center gap-1 text-green-600 font-medium">
+                <IndianRupee className="h-4 w-4" /> {formatSalary(job.salaryMin, job.salaryMax, job.salaryCurrency) || job.salary}
+              </span>
+            )}
+            {job.openings > 1 && (
               <span className="flex items-center gap-1">
-                <DollarSign className="h-4 w-4" /> {job.salary}
+                <Users className="h-4 w-4" /> {job.openings} openings
               </span>
             )}
           </div>
@@ -245,6 +265,48 @@ export default function JobDetailPage() {
                 </div>
               </CardContent>
             </Card>
+
+            {(job.mandatoryRequirements?.length > 0 || job.optionalRequirements?.length > 0) && (
+              <Card>
+                <CardHeader>
+                  <CardTitle className="text-lg">Applicant Needs</CardTitle>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  {job.mandatoryRequirements?.length > 0 && (
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <Star className="h-4 w-4 text-red-500" />
+                        <span className="text-sm font-semibold text-gray-900">Required</span>
+                      </div>
+                      <ul className="space-y-1.5">
+                        {job.mandatoryRequirements.map((req, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-gray-700">
+                            <span className="text-red-500 font-bold mt-0.5">*</span>
+                            {req}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                  {job.optionalRequirements?.length > 0 && (
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-2">
+                        <Lightbulb className="h-4 w-4 text-amber-500" />
+                        <span className="text-sm font-semibold text-gray-900">Nice to Have</span>
+                      </div>
+                      <ul className="space-y-1.5">
+                        {job.optionalRequirements.map((req, i) => (
+                          <li key={i} className="flex items-start gap-2 text-sm text-gray-500">
+                            <span className="text-gray-400 mt-0.5">•</span>
+                            {req}
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+                </CardContent>
+              </Card>
+            )}
 
             {applied ? (
               <Card className="border-green-200 bg-green-50">

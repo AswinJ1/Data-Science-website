@@ -48,11 +48,11 @@ const caseStudies = [
 
 export default function CaseStudiesSection() {
 	return (
-		<section className="py-20 bg-light">
+		<section className="py-20 bg-light dark:bg-black">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="text-center mb-16">
-					<h2 className="text-h2 text-primary-dark mb-4">Success Stories</h2>
-					<p className="text-lg text-gray-600 max-w-3xl mx-auto">
+					<h2 className="text-h2 text-primary-dark dark:text-white mb-4">Success Stories</h2>
+					<p className="text-lg text-gray-600 dark:text-gray-300 max-w-3xl mx-auto">
 						See how we've helped businesses across industries transform their data into measurable results.
 					</p>
 				</div>
@@ -72,17 +72,17 @@ export default function CaseStudiesSection() {
 									<span className="text-sm font-medium text-primary-bright bg-primary-bright/10 px-3 py-1 rounded-full">
 										{study.industry}
 									</span>
-									<span className="text-sm text-gray-500">{study.client}</span>
+									<span className="text-sm text-gray-500 dark:text-gray-400">{study.client}</span>
 								</div>
-								<h3 className="text-xl font-semibold text-primary-dark mb-3">{study.title}</h3>
-								<p className="text-gray-600 mb-6 text-sm leading-relaxed flex-grow">{study.description}</p>
+								<h3 className="text-xl font-semibold text-primary-dark dark:text-white mb-3">{study.title}</h3>
+								<p className="text-gray-600 dark:text-gray-400 mb-6 text-sm leading-relaxed flex-grow">{study.description}</p>
 
 								<div className="grid grid-cols-3 gap-4 mb-6">
 									{study.results.map((result, idx) => (
 										<div key={idx} className="text-center">
 											<result.icon className="h-5 w-5 text-primary-bright mx-auto mb-1" />
-											<div className="text-lg font-bold text-primary-dark">{result.metric}</div>
-											<div className="text-xs text-gray-500">{result.label}</div>
+											<div className="text-lg font-bold text-primary-dark dark:text-white">{result.metric}</div>
+											<div className="text-xs text-gray-500 dark:text-gray-400">{result.label}</div>
 										</div>
 									))}
 								</div>

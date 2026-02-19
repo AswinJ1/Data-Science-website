@@ -78,24 +78,24 @@ export default function FAQSection() {
   };
 
   return (
-    <section className="w-full bg-white py-16 px-4 md:px-8">
+    <section className="w-full bg-white dark:bg-black py-16 px-4 md:px-8">
       <div className="max-w-6xl mx-auto grid md:grid-cols-2 gap-12 items-start">
         {/* Left Section */}
         <div>
-          <h2 className="text-2xl md:text-3xl font-light text-center md:text-left mb-2">
+          <h2 className="text-2xl md:text-3xl font-light text-center md:text-left mb-2 dark:text-white">
             Frequently Asked Questions
           </h2>
-          <p className="text-gray-500 text-center md:text-left mb-8">
+          <p className="text-gray-500 dark:text-gray-400 text-center md:text-left mb-8">
             Everything you need to know about our data science services.
           </p>
 
           <Accordion type="single" collapsible className="w-full space-y-2">
             {faqs.map((faq, index) => (
               <AccordionItem value={`faq-${index}`} key={index}>
-                <AccordionTrigger className="text-left text-gray-800 font-medium">
+                <AccordionTrigger className="text-left text-gray-800 dark:text-gray-100 font-medium">
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-gray-600 text-sm">
+                <AccordionContent className="text-gray-600 dark:text-gray-300 text-sm">
                   {faq.answer}
                 </AccordionContent>
               </AccordionItem>
@@ -114,10 +114,10 @@ export default function FAQSection() {
               className="w-60 md:w-72 h-auto"
             />
           </div>
-          <h3 className="text-lg font-light mb-2 text-center md:text-left">
+          <h3 className="text-lg font-light mb-2 text-center md:text-left dark:text-white">
             Ask Any Question
           </h3>
-          <p className="text-gray-500 text-center md:text-left mb-4">
+          <p className="text-gray-500 dark:text-gray-400 text-center md:text-left mb-4">
             Can&apos;t find the answer you&apos;re looking for? Submit your question and our team will respond.
           </p>
 
@@ -126,13 +126,13 @@ export default function FAQSection() {
             placeholder="Your email (optional)"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
-            className="w-full border rounded-md p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 mb-3"
+            className="w-full border rounded-md p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 mb-3 bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700 dark:placeholder-gray-400"
           />
           <textarea
             placeholder="Type your question here..."
             value={question}
             onChange={(e) => setQuestion(e.target.value)}
-            className="w-full border rounded-md p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 resize-none"
+            className="w-full border rounded-md p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700 dark:placeholder-gray-400"
             rows={3}
           />
           <button

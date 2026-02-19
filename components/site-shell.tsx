@@ -6,10 +6,9 @@ import Footer from "@/components/footer"
 
 export function SiteShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname()
-  const isAdmin = pathname.startsWith("/admin")
-  const isDashboard = pathname.startsWith("/dashboard")
+  const isPanel = pathname.startsWith("/admin") || pathname.startsWith("/hr") || pathname.startsWith("/dashboard")
 
-  if (isAdmin) {
+  if (isPanel) {
     return <>{children}</>
   }
 

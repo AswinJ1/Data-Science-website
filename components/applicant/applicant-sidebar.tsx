@@ -5,15 +5,9 @@ import { usePathname } from "next/navigation"
 import {
   LayoutDashboard,
   Briefcase,
-  Users,
-  FileText,
-  FolderOpen,
-  Lightbulb,
+  User,
   ChevronLeft,
   Menu,
-  Mail,
-  HelpCircle,
-  ShieldCheck,
 } from "lucide-react"
 import { cn } from "@/lib/utils"
 import { Button } from "@/components/ui/button"
@@ -32,22 +26,16 @@ interface SidebarItem {
 }
 
 const sidebarItems: SidebarItem[] = [
-  { label: "Dashboard", href: "/admin", icon: LayoutDashboard },
-  { label: "Users", href: "/admin/users", icon: ShieldCheck },
-  { label: "Jobs", href: "/admin/jobs", icon: Briefcase },
-  { label: "Applications", href: "/admin/applications", icon: Users },
-  { label: "Blog Posts", href: "/admin/blog", icon: FileText },
-  { label: "Categories", href: "/admin/categories", icon: FolderOpen },
-  { label: "Solutions", href: "/admin/solutions", icon: Lightbulb },
-  { label: "Contacts", href: "/admin/contacts", icon: Mail },
-  { label: "FAQ Questions", href: "/admin/faq-questions", icon: HelpCircle },
+  { label: "Dashboard", href: "/dashboard", icon: LayoutDashboard },
+  { label: "Browse Jobs", href: "/careers", icon: Briefcase },
+  { label: "My Profile", href: "/dashboard/profile", icon: User },
 ]
 
 function SidebarNav({ collapsed }: { collapsed: boolean }) {
   const pathname = usePathname()
 
   const isActive = (href: string) => {
-    if (href === "/admin") return pathname === "/admin"
+    if (href === "/dashboard") return pathname === "/dashboard"
     return pathname.startsWith(href)
   }
 
@@ -66,7 +54,7 @@ function SidebarNav({ collapsed }: { collapsed: boolean }) {
                 Back to Site
               </Link>
               <h2 className="text-lg font-bold text-gray-900 dark:text-white mt-3">
-                Admin Panel
+                My Dashboard
               </h2>
             </>
           )}
@@ -113,8 +101,7 @@ function SidebarNav({ collapsed }: { collapsed: boolean }) {
                 </Tooltip>
               )
             }
-
-            return linkContent
+            return <div key={item.href}>{linkContent}</div>
           })}
         </nav>
       </div>
@@ -122,12 +109,12 @@ function SidebarNav({ collapsed }: { collapsed: boolean }) {
   )
 }
 
-interface AdminSidebarProps {
+interface ApplicantSidebarProps {
   collapsed: boolean
   onToggle: () => void
 }
 
-export function AdminSidebar({ collapsed, onToggle }: AdminSidebarProps) {
+export function ApplicantSidebar({ collapsed, onToggle }: ApplicantSidebarProps) {
   return (
     <>
       {/* Desktop sidebar */}
@@ -150,7 +137,7 @@ export function AdminSidebar({ collapsed, onToggle }: AdminSidebarProps) {
               className="h-10 w-10 bg-white dark:bg-gray-800 shadow-md"
             >
               <Menu className="h-5 w-5" />
-              <span className="sr-only">Open admin menu</span>
+              <span className="sr-only">Open menu</span>
             </Button>
           </SheetTrigger>
           <SheetContent side="left" className="w-64 p-0 dark:bg-gray-900">

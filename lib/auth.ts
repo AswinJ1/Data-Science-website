@@ -110,3 +110,21 @@ export async function requireAdmin() {
   }
   return session;
 }
+
+export async function requireHROrAdmin() {
+  const session = await requireAuth();
+  const role = (session.user as any).role;
+  if (role !== "ADMIN" && role !== "HR") {
+    throw new Error("Forbidden");
+  }
+  return session;
+}
+
+export async function requireRole(allowedRoles: string[]) {
+  const session = await requireAuth();
+  const role = (session.user as any).role;
+  if (!allowedRoles.includes(role)) {
+    throw new Error("Forbidden");
+  }
+  return session;
+}

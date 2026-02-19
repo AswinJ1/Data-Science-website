@@ -303,7 +303,7 @@ export default function ProfilePage() {
 
   if (loading) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
+      <div className="flex items-center justify-center py-20">
         <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
       </div>
     )
@@ -311,18 +311,17 @@ export default function ProfilePage() {
 
   if (!profile) {
     return (
-      <div className="min-h-screen bg-gray-50 dark:bg-gray-900 flex items-center justify-center">
-        <p className="text-gray-500">Failed to load profile</p>
+      <div className="flex items-center justify-center py-20">
+        <p className="text-muted-foreground">Failed to load profile</p>
       </div>
     )
   }
 
   return (
-    <div className="min-h-screen bg-gray-50 dark:bg-gray-900 py-8 px-4">
-      <div className="max-w-2xl mx-auto space-y-6">
+    <div className="max-w-2xl mx-auto space-y-6">
         {/* Header */}
         <div className="flex items-center gap-4">
-          <Link href={profile?.role === "ADMIN" ? "/admin" : "/dashboard"}>
+          <Link href={profile?.role === "ADMIN" ? "/admin" : profile?.role === "HR" ? "/hr" : "/dashboard"}>
             <Button variant="ghost" size="icon">
               <ArrowLeft className="h-5 w-5" />
             </Button>
@@ -556,10 +555,10 @@ export default function ProfilePage() {
 
         {/* Save Button */}
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4 pt-2">
-          <Link href={profile?.role === "ADMIN" ? "/admin" : "/dashboard"}>
+          <Link href={profile?.role === "ADMIN" ? "/admin" : profile?.role === "HR" ? "/hr" : "/dashboard"}>
             <Button variant="outline">
               <ArrowLeft className="h-4 w-4 mr-2" />
-              {profile?.role === "ADMIN" ? "Back to Admin" : "Back to Dashboard"}
+              {profile?.role === "ADMIN" ? "Back to Admin" : profile?.role === "HR" ? "Back to HR" : "Back to Dashboard"}
             </Button>
           </Link>
           <Button
@@ -580,7 +579,6 @@ export default function ProfilePage() {
             )}
           </Button>
         </div>
-      </div>
     </div>
   )
 }

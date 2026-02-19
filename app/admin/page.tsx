@@ -19,7 +19,7 @@ import {
   Briefcase, Users, FileText, Loader2,
   TrendingUp, BarChart3, PieChart, CalendarDays, Filter,
 } from "lucide-react"
-import { useTheme } from "next-themes"
+import { useUserTheme } from "@/hooks/use-user-theme"
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -93,7 +93,7 @@ const CHART_COLORS = [
 
 export default function AdminDashboard() {
   const { data: session } = useSession()
-  const { resolvedTheme } = useTheme()
+  const { resolvedTheme } = useUserTheme()
   const isDark = resolvedTheme === "dark"
   const [data, setData] = useState<Analytics | null>(null)
   const [loading, setLoading] = useState(true)
@@ -356,7 +356,7 @@ export default function AdminDashboard() {
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
         <div>
           {/* <h1 className="text-2xl font-bold text-gray-900">Dashboard Overview</h1> */}
-          <p className="text-2xl mt-1">
+          <p className="text-xl mt-1">
             Hello, <span className="font-bold">{session?.user?.name || "Admin"}</span>
           </p>
         </div>
@@ -440,7 +440,7 @@ export default function AdminDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[320px]">
+            <div className="h-[270px]">
               <Line data={multiLineData} options={lineOptions} />
             </div>
           </CardContent>
@@ -471,7 +471,7 @@ export default function AdminDashboard() {
             </div>
           </CardHeader>
           <CardContent>
-            <div className="h-[300px] flex items-center justify-center">
+            <div className="h-[250px] flex items-center justify-center">
               {jobStatusLoading ? (
                 <Loader2 className="h-6 w-6 animate-spin text-blue-600" />
               ) : activeStatusData.length > 0 ? (
@@ -494,7 +494,7 @@ export default function AdminDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[280px]">
+            <div className="h-[230px]">
               {charts.jobsByType.length > 0 ? (
                 <Bar data={jobTypeBarData} options={barOptions} />
               ) : (
@@ -514,7 +514,7 @@ export default function AdminDashboard() {
             </CardTitle>
           </CardHeader>
           <CardContent>
-            <div className="h-[280px]">
+            <div className="h-[230px]">
               {charts.blogsByCategory.length > 0 ? (
                 <Bar data={blogCategoryData} options={blogCategoryBarOptions} />
               ) : (

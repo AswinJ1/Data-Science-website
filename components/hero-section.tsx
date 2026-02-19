@@ -5,47 +5,60 @@ import { ArrowRight } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 import Image from "next/image"
 import Link from "next/link"
-import { HTMLProps, useState, useEffect } from 'react'
+import { useState, useEffect } from 'react'
+import Particles, { initParticlesEngine } from "@tsparticles/react"
+import { loadSlim } from "@tsparticles/slim"
 
-interface BackgroundGridProps {
-  color: string
-  cellSize: string | number
-  strokeWidth: number | string
-  className?: string
-  fade?: boolean
-}
+const ParticlesBackground = () => {
+  const [ready, setReady] = useState(false)
 
-const BackgroundGrid = ({
-  color = '#fb3a5d',
-  cellSize = '25px',
-  strokeWidth = '3px',
-  className,
-  fade = true,
-  ...props
-}: Partial<BackgroundGridProps> & HTMLProps<HTMLDivElement>) => {
-  const svg = `
-    <svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 200 200' stroke='${color}' stroke-width='${strokeWidth}' fill-opacity='0.4' >
-      <path d='M 100 0 L 100 200'/>
-      <path d='M 0 100 L 200 100'/>
-    </svg>
-  `
-  const svgDataUrl = `data:image/svg+xml;utf8,${encodeURIComponent(svg)}`
-  
+  useEffect(() => {
+    initParticlesEngine(async (engine) => {
+      await loadSlim(engine)
+    }).then(() => setReady(true))
+  }, [])
+
+  if (!ready) return null
+
   return (
-    <div
-      className={`pointer-events-none absolute inset-0 left-0 top-0 flex h-full w-full ${className}`}
-      style={{
-        backgroundImage: `url("${svgDataUrl}")`,
-        backgroundRepeat: 'repeat',
-        backgroundSize: cellSize,
-        maskImage: fade
-          ? `radial-gradient(ellipse at top, white, transparent 70%)`
-          : undefined,
-        WebkitMaskImage: fade
-          ? `radial-gradient(ellipse at top, white, transparent 70%)`
-          : undefined,
+    <Particles
+      id="hero-particles"
+      className="absolute inset-0 w-full h-full pointer-events-none"
+      options={{
+        fullScreen: { enable: false },
+        background: { color: { value: "transparent" } },
+        fpsLimit: 60,
+        interactivity: {
+          events: {
+            onHover: { enable: true, mode: "grab" },
+            resize: { enable: true },
+          },
+          modes: {
+            grab: { distance: 160, links: { opacity: 0.5 } },
+          },
+        },
+        particles: {
+          color: { value: "#ffffff" },
+          links: {
+            color: "#ffffff",
+            distance: 130,
+            enable: true,
+            opacity: 0.3,
+            width: 1,
+          },
+          move: {
+            enable: true,
+            speed: 0.8,
+            direction: "none",
+            outModes: { default: "bounce" },
+          },
+          number: { value: 80, density: { enable: true, width: 900, height: 900 } },
+          opacity: { value: { min: 0.2, max: 0.7 }, animation: { enable: true, speed: 0.6 } },
+          shape: { type: "circle" },
+          size: { value: { min: 1, max: 3.5 } },
+        },
+        detectRetina: true,
       }}
-      {...props}
     />
   )
 }
@@ -77,7 +90,7 @@ const TextRotator = () => {
           animate={{ opacity: 1, y: 0 }}
           exit={{ opacity: 0, y: -15 }}
           transition={{ duration: 0.4, ease: "easeInOut" }}
-          className="text-primary-bright inline-block"
+          className="text-yellow-300 inline-block"
         >
           {texts[currentIndex]}
         </motion.span>
@@ -88,8 +101,8 @@ const TextRotator = () => {
 
 export default function HeroSection() {
   return (
-    <section className="pt-16 pb-12 bg-gradient-hero min-h-screen flex items-center relative">
-      <BackgroundGrid />
+    <section className="pt-16 pb-12 min-h-screen flex items-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, #1a3fa8 0%, #1e56c8 50%, #1a4ab5 100%)" }}>
+      <ParticlesBackground />
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-8 items-center">
           <motion.div
@@ -98,16 +111,16 @@ export default function HeroSection() {
             transition={{ duration: 0.7, ease: "easeOut" }}
             className="lg:pr-8"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-primary-dark mb-6 leading-tight">
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
               Transform Your Data into{""}
               <TextRotator />
             </h1>
-            <p className="text-lg text-gray-600 mb-6 leading-relaxed">
+            <p className="text-lg text-blue-100 mb-6 leading-relaxed">
               Unlock the power of your data with our comprehensive suite of data engineering, analytics, and machine
               learning solutions. Drive growth through intelligent data strategies.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-gradient-primary hover:opacity-90 transition-opacity text-white rounded-none" asChild>
+              <Button size="lg" className="bg-white text-blue-700 hover:bg-blue-50 font-semibold transition-colors rounded-none shadow-lg" asChild>
                 <Link href="/contact">
                   Get Started Today
                   <ArrowRight className="ml-2 h-5 w-5" />
@@ -154,12 +167,12 @@ export default function HeroSection() {
             </motion.div>
             {/* Floating elements */}
             <motion.div
-              className="absolute top-10 right-10 w-16 h-16 bg-primary-bright/10 rounded-full"
+              className="absolute top-10 right-10 w-16 h-16 bg-white/10 rounded-full"
               animate={{ y: [0, -10, 0] }}
               transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
             />
             <motion.div
-              className="absolute bottom-20 left-10 w-12 h-12 bg-accent/10 rounded-full"
+              className="absolute bottom-20 left-10 w-12 h-12 bg-white/10 rounded-full"
               animate={{ y: [0, 10, 0] }}
               transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut", delay: 0.5 }}
             />

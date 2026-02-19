@@ -20,6 +20,20 @@ async function main() {
   });
   console.log("✅ Admin user created:", admin.email);
 
+  // Seed HR user
+  const hrPassword = await bcrypt.hash("Hr@12345", 12);
+  const hr = await prisma.user.upsert({
+    where: { email: "hr@syancy.com" },
+    update: {},
+    create: {
+      email: "hr@syancy.com",
+      name: "HR Manager",
+      password: hrPassword,
+      role: "HR",
+    },
+  });
+  console.log("✅ HR user created:", hr.email);
+
   // Seed categories
   const categories = [
     { name: "AI & Machine Learning", slug: "ai-machine-learning" },
@@ -141,7 +155,22 @@ async function main() {
       type: "FULL_TIME" as const,
       experience: "5+ years",
       skills: ["Python", "SQL", "Spark", "AWS", "Airflow", "Data Modeling"],
-      salary: "$120,000 - $160,000",
+      salary: "₹10,00,000 - ₹15,00,000",
+      salaryMin: 1000000,
+      salaryMax: 1500000,
+      salaryCurrency: "INR",
+      openings: 2,
+      mandatoryRequirements: [
+        "5+ years of data engineering experience",
+        "Proficiency in Python and SQL",
+        "Experience with Spark or similar big data frameworks",
+        "Cloud platform experience (AWS/GCP/Azure)",
+      ],
+      optionalRequirements: [
+        "Experience with Airflow or Dagster",
+        "Knowledge of streaming frameworks (Kafka, Flink)",
+        "dbt experience",
+      ],
     },
     {
       title: "Machine Learning Engineer",
@@ -151,7 +180,22 @@ async function main() {
       type: "FULL_TIME" as const,
       experience: "3+ years",
       skills: ["Python", "PyTorch", "TensorFlow", "MLOps", "Docker", "Kubernetes"],
-      salary: "$100,000 - $140,000",
+      salary: "₹8,00,000 - ₹12,00,000",
+      salaryMin: 800000,
+      salaryMax: 1200000,
+      salaryCurrency: "INR",
+      openings: 3,
+      mandatoryRequirements: [
+        "3+ years in ML engineering",
+        "Strong Python skills",
+        "Experience with PyTorch or TensorFlow",
+        "MLOps experience",
+      ],
+      optionalRequirements: [
+        "MS/PhD in Computer Science or related field",
+        "Kubernetes experience",
+        "Research publications",
+      ],
     },
     {
       title: "Data Analyst Intern",
@@ -162,6 +206,20 @@ async function main() {
       experience: "0-1 years",
       skills: ["SQL", "Python", "Tableau", "Excel", "Statistics"],
       salary: "₹15,000 - ₹25,000/month",
+      salaryMin: 15000,
+      salaryMax: 25000,
+      salaryCurrency: "INR",
+      openings: 5,
+      mandatoryRequirements: [
+        "Currently pursuing relevant degree",
+        "Basic SQL and Python knowledge",
+        "Strong communication skills",
+      ],
+      optionalRequirements: [
+        "Familiarity with Tableau or Power BI",
+        "Statistics coursework",
+        "Prior project or internship experience",
+      ],
     },
   ];
 

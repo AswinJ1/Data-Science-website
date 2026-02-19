@@ -301,7 +301,7 @@ export default function Navigation() {
           <div className="flex items-center">
             <Link href="/" aria-label="Syancy Innovations logo" className="inline-flex items-center gap-3">
               <img src="/logo.svg" alt="Syancy Innovations" className="h-8 w-5 object-contain" />
-              <span className="text-xl font-semibold text-gray-900 leading-none">Syancy</span>
+              <span className="text-xl font-semibold text-gray-900 dark:text-white leading-none">Syancy</span>
             </Link>
           </div>
 
@@ -392,6 +392,13 @@ export default function Navigation() {
                           Admin Dashboard
                         </Link>
                       </DropdownMenuItem>
+                    ) : session.user.role === "HR" ? (
+                      <DropdownMenuItem asChild>
+                        <Link href="/hr" className="flex items-center gap-2">
+                          <LayoutDashboard className="h-4 w-4" />
+                          HR Dashboard
+                        </Link>
+                      </DropdownMenuItem>
                     ) : (
                       <DropdownMenuItem asChild>
                         <Link href="/dashboard" className="flex items-center gap-2">
@@ -401,7 +408,7 @@ export default function Navigation() {
                       </DropdownMenuItem>
                     )}
                     <DropdownMenuItem asChild>
-                      <Link href="/dashboard/profile" className="flex items-center gap-2">
+                      <Link href={session.user.role === "ADMIN" ? "/admin/profile" : session.user.role === "HR" ? "/hr/profile" : "/dashboard/profile"} className="flex items-center gap-2">
                         <Settings className="h-4 w-4" />
                         Edit Profile
                       </Link>
@@ -532,6 +539,16 @@ export default function Navigation() {
                                 Admin Dashboard
                               </Link>
                             </SheetClose>
+                          ) : session.user.role === "HR" ? (
+                            <SheetClose asChild>
+                              <Link
+                                href="/hr"
+                                className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md"
+                              >
+                                <LayoutDashboard className="h-4 w-4" />
+                                HR Dashboard
+                              </Link>
+                            </SheetClose>
                           ) : (
                             <SheetClose asChild>
                               <Link
@@ -545,7 +562,7 @@ export default function Navigation() {
                           )}
                           <SheetClose asChild>
                             <Link
-                              href="/dashboard/profile"
+                              href={session.user.role === "ADMIN" ? "/admin/profile" : session.user.role === "HR" ? "/hr/profile" : "/dashboard/profile"}
                               className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 rounded-md"
                             >
                               <Settings className="h-4 w-4" />

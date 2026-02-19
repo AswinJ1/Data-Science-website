@@ -222,16 +222,16 @@ export default function TechSolutions() {
 	const selectedService = services[selectedIndex];
 
 	return (
-		<section className="py-16 sm:py-20 bg-gray-50">
+		<section className="py-16 sm:py-20 bg-gray-50 dark:bg-black">
 			<div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 				<div className="text-center mb-12">
-					<h2 className="text-xs sm:text-sm text-blue-600 tracking-widest mb-2 font-semibold uppercase">
+					<h2 className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 tracking-widest mb-2 font-semibold uppercase">
 						OUR DATA SERVICES
 					</h2>
-					<h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 mb-4">
+					<h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
 						Data Domain Service Portfolio
 					</h1>
-					<p className="text-gray-600 text-sm sm:text-base max-w-2xl mx-auto">
+					<p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-2xl mx-auto">
 						Comprehensive data solutions to transform your business intelligence and drive growth
 					</p>
 				</div>
@@ -247,7 +247,7 @@ export default function TechSolutions() {
 									className={`text-left px-3 sm:px-4 py-3 sm:py-4 border text-xs sm:text-sm font-medium transition-all duration-300 ${
 										selectedIndex === idx
 											? "border-blue-600 bg-blue-600 text-white shadow-lg"
-											: "border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-blue-300 hover:text-blue-600"
+											: "border-gray-200 bg-white text-gray-700 hover:bg-gray-50 hover:border-blue-300 hover:text-blue-600 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-300 dark:hover:bg-gray-800 dark:hover:border-blue-500"
 									}`}
 								>
 									<span className="block truncate sm:whitespace-normal">
@@ -268,27 +268,27 @@ export default function TechSolutions() {
 								exit={{ opacity: 0, y: -20 }}
 								transition={{ duration: 0.3, ease: "easeInOut" }}
 							>
-								<Card className="border-0 shadow-xl bg-white">
+								<Card className="border-0 shadow-xl bg-white dark:bg-gray-900">
 									<CardContent className="p-6 sm:p-8">
 										<div className="flex items-center gap-3 mb-6">
 											<div className="w-8 h-8 bg-blue-600 text-white flex items-center justify-center text-sm font-bold">
 												{selectedIndex + 1}
 											</div>
-											<h3 className="text-xl sm:text-2xl font-bold text-gray-900">
+												<h3 className="text-xl sm:text-2xl font-bold text-gray-900 dark:text-white">
 												{selectedService.title}
 											</h3>
 										</div>
 										<ol className="space-y-4 sm:space-y-5">
 											{selectedService.features.map((feature, fidx) => (
 												<li key={fidx} className="flex items-start gap-3">
-													<div className="w-6 h-6 bg-gray-100 text-gray-700 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
+															<div className="w-6 h-6 bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300 flex items-center justify-center text-xs font-semibold flex-shrink-0 mt-0.5">
 														{fidx + 1}
 													</div>
 													<div className="flex-1">
-														<span className="text-gray-900 font-medium leading-relaxed text-sm sm:text-base block mb-1">
+																<span className="text-gray-900 dark:text-gray-100 font-medium leading-relaxed text-sm sm:text-base block mb-1">
 															{feature.name}
 														</span>
-														<p className="text-gray-600 text-sm leading-relaxed text-justify">
+																<p className="text-gray-600 dark:text-gray-400 text-sm leading-relaxed text-justify">
 															{feature.description}
 														</p>
 													</div>

@@ -62,9 +62,9 @@ const logos = [
 
 const Sponsor = () => {
   return (
-    <div className="w-full py-12">
+    <div className="w-full py-12 dark:bg-black">
       <div className="mx-auto w-full px-4 md:px-8">
-        <div className="font-medium uppercase text-center mb-7 ">Tech Stacks</div>
+        <div className="font-medium uppercase text-center mb-7 dark:text-gray-100">Tech Stacks</div>
         <div
           className="group relative mt-6 flex gap-6 overflow-hidden p-2"
           style={{

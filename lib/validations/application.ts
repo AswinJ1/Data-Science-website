@@ -13,4 +13,19 @@ export const applicationSchema = z.object({
   coverLetter: z.string().optional(),
 });
 
+export const applicationStatusSchema = z.object({
+  status: z.enum(["APPLIED", "UNDER_REVIEW", "SHORTLISTED", "REJECTED", "SELECTED"]),
+  statusDescription: z.string().optional(),
+}).refine((data) => {
+  // statusDescription is mandatory for SHORTLISTED, REJECTED, SELECTED
+  if (["SHORTLISTED", "REJECTED", "SELECTED"].includes(data.status)) {
+    return !!data.statusDescription && data.statusDescription.trim().length > 0;
+  }
+  return true;
+}, {
+  message: "Description is required when status is Shortlisted, Rejected, or Selected",
+  path: ["statusDescription"],
+});
+
 export type ApplicationInput = z.infer<typeof applicationSchema>;
+export type ApplicationStatusInput = z.infer<typeof applicationStatusSchema>;

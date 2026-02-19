@@ -1,8 +1,8 @@
 "use client"
 
-import { useState } from "react"
+import { useState, useEffect } from "react"
 import { useRouter } from "next/navigation"
-import { signIn, getSession } from "next-auth/react"
+import { signIn, getSession, useSession } from "next-auth/react"
 import Link from "next/link"
 import { useForm } from "react-hook-form"
 import { zodResolver } from "@hookform/resolvers/zod"
@@ -13,8 +13,15 @@ import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
 
+function getRoleRedirect(role?: string) {
+  if (role === "ADMIN") return "/admin"
+  if (role === "HR") return "/hr"
+  return "/dashboard"
+}
+
 export default function LoginPage() {
   const router = useRouter()
+  const { data: existingSession, status } = useSession()
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
@@ -26,6 +33,21 @@ export default function LoginPage() {
   } = useForm<LoginInput>({
     resolver: zodResolver(loginSchema),
   })
+
+  // Redirect if already logged in
+  useEffect(() => {
+    if (status === "authenticated" && existingSession?.user) {
+      router.replace(getRoleRedirect((existingSession.user as any).role))
+    }
+  }, [status, existingSession, router])
+
+  if (status === "loading" || status === "authenticated") {
+    return (
+      <main className="min-h-screen flex items-center justify-center bg-gray-50">
+        <Loader2 className="h-8 w-8 animate-spin text-blue-600" />
+      </main>
+    )
+  }
 
   const onSubmit = async (data: LoginInput) => {
     setLoading(true)
@@ -43,11 +65,7 @@ export default function LoginPage() {
       } else {
         // Fetch session to get user role for proper redirect
         const session = await getSession()
-        if (session?.user?.role === "ADMIN") {
-          router.push("/admin")
-        } else {
-          router.push("/dashboard")
-        }
+        router.push(getRoleRedirect((session?.user as any)?.role))
         router.refresh()
       }
     } catch {
