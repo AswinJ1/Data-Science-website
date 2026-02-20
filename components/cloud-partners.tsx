@@ -43,7 +43,7 @@ export default function CloudPartners() {
           variants={fadeInUp}
           className="text-gray-500 max-w-3xl mx-auto leading-relaxed mb-16"
         >
-          We collaborate with industry-leading cloud and data platforms to deliver seamless integrations, scalable infrastructure, and best-in-class solutions for our clients.
+          Syancy builds strategic partnerships with technology providers, data platforms, and research organizations to deliver reliable and scalable solutions. Through seamless integrations, our systems connect with existing tools and workflows, allowing clients to access, analyze, and utilize data efficiently. These partnerships strengthen our capabilities in analytics, automation, and innovation, ensuring that insights are actionable and aligned with real-world operational needs. APIs and customized integrations further enable smooth data exchange across partnered platforms, supporting better decision-making and long-term growth.
         </motion.p>
 
         <motion.div
