@@ -112,14 +112,14 @@ export default function ContactSection() {
                 <blockquote className="text-[15px] leading-7 text-slate-700 md:text-base italic">
                   &quot;We believe every business, regardless of size, deserves
                   access to world-class data intelligence. Our mission is to
-                  bridge the gap between raw data and strategic decisions —
+                  bridge the gap between raw data and strategic decisions 
                   empowering organizations to move faster, predict smarter, and
                   grow with confidence.&quot;
                 </blockquote>
 
                 <div className="mt-6 space-y-1">
                   <div className="text-sm font-semibold text-slate-900">Chaithanya Arya</div>
-                  <div className="text-xs text-slate-500">Founder & CEO — Syancy Innovations</div>
+                  <div className="text-xs text-slate-500">Founder & CEO Syancy Innovations</div>
                 </div>
               </div>
 

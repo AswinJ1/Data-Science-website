@@ -54,6 +54,36 @@ const serviceItems = [
     href: "/services/data-mining",
     description: "Discover hidden patterns in large datasets.",
   },
+  {
+    icon: ServerCog,
+    label: "Data Migration",
+    href: "/services/data-migration",
+    description: "Seamlessly migrate data across platforms with zero downtime.",
+  },
+  {
+    icon: Cloud,
+    label: "Data Modernization",
+    href: "/services/data-modernization",
+    description: "Modernize legacy systems into cloud-native architectures.",
+  },
+  {
+    icon: Sigma,
+    label: "AI & Machine Learning",
+    href: "/services/ai-machine-learning",
+    description: "Custom ML models and intelligent automation solutions.",
+  },
+  {
+    icon: Globe,
+    label: "Geospatial Data Services",
+    href: "/services/geospatial-data-services",
+    description: "Location intelligence, GIS analysis & spatial data solutions.",
+  },
+  {
+    icon: LineChart,
+    label: "Data Analytics & BI",
+    href: "/services/data-analytics-bi",
+    description: "Actionable dashboards and strategic business intelligence.",
+  },
 ]
 
 /* ── Solution categories (fetched dynamically) ────────────── */

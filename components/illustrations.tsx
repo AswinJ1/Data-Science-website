@@ -374,3 +374,131 @@ export function GenericSolutionIllustration({ className = "" }: { className?: st
     </svg>
   )
 }
+
+export function DataMigrationIllustration({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <rect x="15" y="40" width="60" height="80" rx="6" fill="#ECFEFF" stroke="#06B6D4" strokeWidth="2" />
+      <rect x="25" y="55" width="40" height="6" rx="2" fill="#06B6D4" opacity="0.5" />
+      <rect x="25" y="65" width="40" height="6" rx="2" fill="#06B6D4" opacity="0.3" />
+      <rect x="25" y="75" width="40" height="6" rx="2" fill="#06B6D4" opacity="0.5" />
+      <rect x="25" y="85" width="40" height="6" rx="2" fill="#06B6D4" opacity="0.3" />
+      <rect x="125" y="40" width="60" height="80" rx="6" fill="#ECFEFF" stroke="#06B6D4" strokeWidth="2" />
+      <circle cx="155" cy="65" r="8" fill="#06B6D4" opacity="0.2" />
+      <circle cx="155" cy="65" r="4" fill="#06B6D4" />
+      <rect x="138" y="80" width="34" height="6" rx="2" fill="#06B6D4" opacity="0.5" />
+      <rect x="138" y="90" width="34" height="6" rx="2" fill="#06B6D4" opacity="0.3" />
+      <path d="M80 65 L115 65" stroke="#06B6D4" strokeWidth="2.5" strokeLinecap="round" />
+      <path d="M80 80 L115 80" stroke="#06B6D4" strokeWidth="2.5" strokeLinecap="round" />
+      <polygon points="115,60 125,72.5 115,85" fill="#06B6D4" />
+      <circle cx="100" cy="30" r="10" fill="#CFFAFE" stroke="#06B6D4" strokeWidth="1.5" />
+      <path d="M96 30 L100 26 L104 30 M100 26 L100 34" stroke="#06B6D4" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+    </svg>
+  )
+}
+
+export function DataModernizationIllustration({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <rect x="20" y="85" width="50" height="55" rx="4" fill="#F0F9FF" stroke="#0EA5E9" strokeWidth="1.5" />
+      <rect x="28" y="95" width="34" height="5" rx="1" fill="#0EA5E9" opacity="0.4" />
+      <rect x="28" y="104" width="34" height="5" rx="1" fill="#0EA5E9" opacity="0.3" />
+      <rect x="28" y="113" width="34" height="5" rx="1" fill="#0EA5E9" opacity="0.2" />
+      <line x1="20" y1="125" x2="70" y2="125" stroke="#0EA5E9" strokeWidth="1" opacity="0.3" />
+      <path d="M70 105 L100 55" stroke="#0EA5E9" strokeWidth="2" strokeDasharray="4 3" />
+      <ellipse cx="140" cy="45" rx="45" ry="28" fill="#E0F2FE" stroke="#0EA5E9" strokeWidth="2" />
+      <ellipse cx="140" cy="45" rx="30" ry="18" fill="#BAE6FD" opacity="0.5" />
+      <circle cx="128" cy="42" r="4" fill="#0EA5E9" />
+      <circle cx="140" cy="42" r="4" fill="#0EA5E9" opacity="0.7" />
+      <circle cx="152" cy="42" r="4" fill="#0EA5E9" opacity="0.5" />
+      <rect x="110" y="80" width="60" height="55" rx="6" fill="#F0F9FF" stroke="#0EA5E9" strokeWidth="2" />
+      <rect x="120" y="90" width="40" height="5" rx="1" fill="#0EA5E9" opacity="0.5" />
+      <rect x="120" y="100" width="40" height="5" rx="1" fill="#0EA5E9" opacity="0.4" />
+      <rect x="120" y="110" width="40" height="5" rx="1" fill="#0EA5E9" opacity="0.3" />
+      <polygon points="155,118 162,125 155,132" fill="#22C55E" />
+    </svg>
+  )
+}
+
+export function AiMlIllustration({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <circle cx="100" cy="70" r="35" fill="#F5F3FF" stroke="#7C3AED" strokeWidth="2" />
+      <circle cx="100" cy="70" r="22" fill="#EDE9FE" stroke="#7C3AED" strokeWidth="1.5" />
+      <circle cx="100" cy="70" r="8" fill="#7C3AED" />
+      <circle cx="100" cy="70" r="4" fill="#DDD6FE" />
+      <line x1="100" y1="48" x2="100" y2="35" stroke="#7C3AED" strokeWidth="1.5" />
+      <circle cx="100" cy="32" r="4" fill="#A78BFA" />
+      <line x1="122" y1="70" x2="135" y2="70" stroke="#7C3AED" strokeWidth="1.5" />
+      <circle cx="138" cy="70" r="4" fill="#A78BFA" />
+      <line x1="78" y1="70" x2="65" y2="70" stroke="#7C3AED" strokeWidth="1.5" />
+      <circle cx="62" cy="70" r="4" fill="#A78BFA" />
+      <line x1="100" y1="92" x2="100" y2="105" stroke="#7C3AED" strokeWidth="1.5" />
+      <circle cx="100" cy="108" r="4" fill="#A78BFA" />
+      <line x1="115" y1="55" x2="125" y2="45" stroke="#7C3AED" strokeWidth="1" />
+      <circle cx="128" cy="42" r="3" fill="#C4B5FD" />
+      <line x1="85" y1="55" x2="75" y2="45" stroke="#7C3AED" strokeWidth="1" />
+      <circle cx="72" cy="42" r="3" fill="#C4B5FD" />
+      <line x1="115" y1="85" x2="125" y2="95" stroke="#7C3AED" strokeWidth="1" />
+      <circle cx="128" cy="98" r="3" fill="#C4B5FD" />
+      <line x1="85" y1="85" x2="75" y2="95" stroke="#7C3AED" strokeWidth="1" />
+      <circle cx="72" cy="98" r="3" fill="#C4B5FD" />
+      <rect x="30" y="120" width="140" height="20" rx="4" fill="#F5F3FF" stroke="#7C3AED" strokeWidth="1" />
+      <rect x="38" y="126" width="20" height="8" rx="2" fill="#7C3AED" opacity="0.6" />
+      <rect x="65" y="126" width="20" height="8" rx="2" fill="#7C3AED" opacity="0.4" />
+      <rect x="92" y="126" width="20" height="8" rx="2" fill="#7C3AED" opacity="0.6" />
+      <rect x="119" y="126" width="20" height="8" rx="2" fill="#7C3AED" opacity="0.4" />
+      <rect x="146" y="126" width="18" height="8" rx="2" fill="#7C3AED" opacity="0.6" />
+    </svg>
+  )
+}
+
+export function GeospatialIllustration({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <circle cx="100" cy="75" r="50" fill="#ECFDF5" stroke="#10B981" strokeWidth="2" />
+      <ellipse cx="100" cy="75" rx="50" ry="20" stroke="#6EE7B7" strokeWidth="1.5" />
+      <ellipse cx="100" cy="75" rx="20" ry="50" stroke="#6EE7B7" strokeWidth="1.5" />
+      <line x1="50" y1="75" x2="150" y2="75" stroke="#6EE7B7" strokeWidth="1" />
+      <line x1="100" y1="25" x2="100" y2="125" stroke="#6EE7B7" strokeWidth="1" />
+      <path d="M80 50 C85 45, 90 55, 95 48 C100 42, 105 52, 110 46 C115 40, 120 50, 125 44" stroke="#10B981" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <path d="M70 85 C78 90, 85 82, 95 88 C105 94, 115 84, 125 90" stroke="#10B981" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+      <circle cx="85" cy="60" r="5" fill="#10B981" opacity="0.7" />
+      <circle cx="115" cy="55" r="4" fill="#10B981" opacity="0.5" />
+      <circle cx="95" cy="90" r="4" fill="#10B981" opacity="0.6" />
+      <path d="M80 15 L80 10 C80 6, 84 2, 88 6 L88 6 C92 2, 96 6, 96 10 L96 15 Z" fill="#EF4444" />
+      <circle cx="88" cy="10" r="3" fill="#FCA5A5" />
+      <path d="M140 30 L140 26 C140 23, 143 20, 146 23 L146 23 C149 20, 152 23, 152 26 L152 30 Z" fill="#F97316" />
+      <circle cx="146" cy="26" r="2" fill="#FDBA74" />
+    </svg>
+  )
+}
+
+export function DataAnalyticsBiIllustration({ className = "" }: { className?: string }) {
+  return (
+    <svg viewBox="0 0 200 160" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
+      <rect x="20" y="15" width="160" height="110" rx="8" fill="#FFF1F2" stroke="#E11D48" strokeWidth="2" />
+      <rect x="20" y="15" width="160" height="20" rx="8" fill="#E11D48" />
+      <rect x="20" y="27" width="160" height="8" fill="#E11D48" />
+      <circle cx="33" cy="25" r="3" fill="#FECDD3" />
+      <circle cx="43" cy="25" r="3" fill="#FECDD3" />
+      <circle cx="53" cy="25" r="3" fill="#FECDD3" />
+      <rect x="30" y="45" width="55" height="35" rx="4" fill="#FFE4E6" stroke="#FB7185" strokeWidth="1" />
+      <rect x="36" y="68" width="8" height="8" rx="1" fill="#E11D48" />
+      <rect x="48" y="62" width="8" height="14" rx="1" fill="#E11D48" opacity="0.7" />
+      <rect x="60" y="55" width="8" height="21" rx="1" fill="#E11D48" opacity="0.5" />
+      <rect x="72" y="58" width="8" height="18" rx="1" fill="#E11D48" opacity="0.8" />
+      <rect x="95" y="45" width="75" height="35" rx="4" fill="#FFE4E6" stroke="#FB7185" strokeWidth="1" />
+      <polyline points="102,72 115,60 128,65 140,52 155,58 163,48" stroke="#E11D48" strokeWidth="2" fill="none" strokeLinecap="round" />
+      <circle cx="155" cy="58" r="3" fill="#E11D48" />
+      <rect x="30" y="90" width="40" height="25" rx="4" fill="#FFE4E6" stroke="#FB7185" strokeWidth="1" />
+      <circle cx="50" cy="102" r="10" fill="none" stroke="#E11D48" strokeWidth="3" />
+      <path d="M50 102 L50 92 A10 10 0 0 1 59 99 Z" fill="#E11D48" />
+      <rect x="80" y="90" width="90" height="25" rx="4" fill="#FFE4E6" stroke="#FB7185" strokeWidth="1" />
+      <rect x="88" y="97" width="30" height="4" rx="1" fill="#E11D48" opacity="0.6" />
+      <rect x="88" y="105" width="50" height="4" rx="1" fill="#E11D48" opacity="0.3" />
+      <polygon points="162,93 166,86 170,93" fill="#22C55E" />
+      <line x1="166" y1="86" x2="166" y2="98" stroke="#22C55E" strokeWidth="2" />
+    </svg>
+  )
+}

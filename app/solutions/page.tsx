@@ -7,7 +7,7 @@ import { Badge } from "@/components/ui/badge"
 import {
   ArrowRight, Loader2, Lightbulb,
 } from "lucide-react"
-import { motion } from "framer-motion"
+import { motion, easeOut } from "framer-motion"
 import {
   HealthcareIllustration,
   FinanceIllustration,
@@ -17,7 +17,7 @@ import {
   GenericSolutionIllustration,
 } from "@/components/illustrations"
 
-const fadeInUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" } } }
+const fadeInUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: easeOut } } }
 const staggerContainer = { hidden: {}, show: { transition: { staggerChildren: 0.15 } } }
 
 const illustrationMap: Record<string, React.FC<{ className?: string }>> = {
@@ -46,7 +46,9 @@ export default function SolutionsPage() {
   useEffect(() => {
     fetch("/api/solutions")
       .then((res) => res.json())
-      .then((data) => setSolutions(data))
+      .then((data) => {
+        setSolutions(Array.isArray(data) ? data : [])
+      })
       .catch(console.error)
       .finally(() => setLoading(false))
   }, [])

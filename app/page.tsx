@@ -8,6 +8,7 @@ import Footer from "@/components/footer"
 import FAQSection from "@/components/faq"
 import StatsSection from "@/components/stats"
 import Sponsor from "@/components/sponsor"
+import CloudPartners from "@/components/cloud-partners"
 import TestimonialCarousel from "@/components/testimonial"
 export default function HomePage() {
   return (
@@ -17,6 +18,7 @@ export default function HomePage() {
       <StatsSection />
       <TechSolutions />
       {/* <CaseStudiesSection /> */}
+      <CloudPartners />
       <Sponsor />
       {/* <TestimonialCarousel /> */}
       {/* <TestimonialsMarquee /> */}
