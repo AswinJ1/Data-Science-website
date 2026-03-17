@@ -39,7 +39,7 @@ export default function CookieConsent() {
           transition={{ duration: 0.5, ease: "easeOut" }}
           className="fixed bottom-0 left-0 right-0 z-[100] p-4 md:p-6"
         >
-          <div className="max-w-5xl mx-auto bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
+          <div className="max-w-5xl mx-auto bg-white dark:bg-gray-900 border border-gray-200 dark:border-gray-800 shadow-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6">
             <div className="text-sm text-gray-600 dark:text-gray-300 leading-relaxed md:pr-10">
               <span className="font-semibold text-black dark:text-white block mb-1">
                 We value your privacy
