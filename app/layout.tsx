@@ -5,6 +5,7 @@ import "./globals.css"
 import { SiteShell } from "@/components/site-shell"
 import Providers from "@/components/providers"
 import GoogleAnalytics from "@/components/GoogleAnalytics"
+import CookieConsent from "@/components/CookieConsent"
 
 
 
@@ -52,6 +53,7 @@ export default function RootLayout({
       <body className={inter.className}>
         <Providers>
           <GoogleAnalytics />
+          <CookieConsent />
           <SiteShell>
             {children}
           </SiteShell>

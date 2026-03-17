@@ -99,9 +99,7 @@ export default function Footer() {
             <Button variant="link" className="p-0 h-auto text-blue-300 hover:text-white text-xs">
               <Link href="/terms">Terms</Link>
             </Button>
-            <Button variant="link" className="p-0 h-auto text-blue-300 hover:text-white text-xs">
-              <Link href="/cookies">Cookies</Link>
-            </Button>
+        
           </div>
         </div>
       </div>
