@@ -74,7 +74,7 @@ export default function AboutPage() {
             />
           </div>
           <div className="order-1 md:order-2 space-y-4">
-            <h3 className="text-black text-3xl font-bold cursor-target mb-6">
+            <h3 className="text-black text-3xl  cursor-target mb-6">
               The Journey Behind Syancy Innovations
             </h3>
             <p>
@@ -107,7 +107,7 @@ export default function AboutPage() {
           variants={fadeInUp}
         >
           <div className="space-y-6">
-            <h3 className="text-black text-3xl font-bold cursor-target mb-6">
+            <h3 className="text-black text-3xl  cursor-target mb-6">
               What We Believe — Our Core Values
             </h3>
             <p>
@@ -146,7 +146,7 @@ export default function AboutPage() {
           </div>
           <div className="order-1 md:order-2 space-y-12">
             <div className="space-y-4">
-              <h3 className="text-black text-3xl font-bold cursor-target mb-6">
+              <h3 className="text-black text-3xl  cursor-target mb-6">
                 The People Behind Syancy Innovations
               </h3>
               <p>
@@ -158,7 +158,7 @@ export default function AboutPage() {
             </div>
 
             <div className="space-y-4">
-              <h3 className="text-black text-3xl font-bold cursor-target mb-6">
+              <h3 className="text-black text-3xl  cursor-target mb-6">
                 Our Vision for the Future
               </h3>
               <p>
@@ -180,7 +180,7 @@ export default function AboutPage() {
           variants={fadeInUp}
         >
           <div className="space-y-6">
-            <h3 className="text-black text-3xl font-bold">
+            <h3 className="text-black text-3xl ">
               Let’s Connect
             </h3>
             <p>
@@ -191,7 +191,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="flex justify-center md:justify-end">
-             <a href="/contact" className="px-8 py-4 bg-blue-700 text-white font-semibold rounded-full hover:bg-gray-800 transition-colors cursor-target inline-block">
+             <a href="/contact" className="px-8 py-4 bg-blue-700 text-white  rounded-full hover:bg-gray-800 transition-colors cursor-target inline-block">
                Contact Us
              </a>
           </div>

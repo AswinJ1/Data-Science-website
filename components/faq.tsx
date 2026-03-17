@@ -123,8 +123,9 @@ export default function FAQSection() {
 
           <input
             type="email"
-            placeholder="Your email (optional)"
+            placeholder="Your email *"
             value={email}
+            required
             onChange={(e) => setEmail(e.target.value)}
             className="w-full border rounded-md p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 mb-3 bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700 dark:placeholder-gray-400"
           />
@@ -134,6 +135,7 @@ export default function FAQSection() {
             onChange={(e) => setQuestion(e.target.value)}
             className="w-full border rounded-md p-3 text-sm outline-none focus:ring-2 focus:ring-blue-500 resize-none bg-white dark:bg-gray-900 dark:text-gray-100 dark:border-gray-700 dark:placeholder-gray-400"
             rows={3}
+            required
           />
           <button
             onClick={handleSubmit}
