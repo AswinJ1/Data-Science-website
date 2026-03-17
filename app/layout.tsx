@@ -4,6 +4,7 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { SiteShell } from "@/components/site-shell"
 import Providers from "@/components/providers"
+import GoogleAnalytics from "@/components/GoogleAnalytics"
 
 
 
@@ -50,6 +51,7 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
+          <GoogleAnalytics />
           <SiteShell>
             {children}
           </SiteShell>
