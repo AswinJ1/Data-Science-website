@@ -13,7 +13,7 @@ export const FadeUpStagger: React.FC<FadeUpStaggerProps> = ({
 }) => {
   const FADE_UP_ANIMATION_VARIANTS = {
     hidden: { opacity: 0, y: 10 },
-    show: { opacity: 1, y: 0, transition: { type: "spring" } },
+    show: { opacity: 1, y: 0, transition: { type: "spring" as const } },
   };
 
   return (

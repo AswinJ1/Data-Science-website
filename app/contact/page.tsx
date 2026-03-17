@@ -251,6 +251,9 @@ export default function ContactSection() {
                       "Start Your Data Journey"
                     )}
                   </Button>
+                  <p className="text-sm italic text-slate-500 mt-2">
+                   We respect your privacy. No spam, ever
+                  </p>
                 </div>
               </form>
             </CardContent>
