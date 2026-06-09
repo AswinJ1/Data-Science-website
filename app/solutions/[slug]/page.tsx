@@ -220,21 +220,17 @@ export default function SolutionDetailPage() {
         </motion.div>
       </section>
 
-      <section className="max-w-4xl mx-auto px-4 py-12">
+      <section className="max-w-4xl mx-auto px-4 py-16 space-y-16">
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
         >
-          <Card className="mb-8">
-            <CardContent className="p-4 sm:p-6 md:p-8">
-              <h2 className="text-xl font-bold mb-4">Overview</h2>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
-                {solution.description}
-              </p>
-            </CardContent>
-          </Card>
+          <h2 className="text-3xl font-light mb-6 text-black dark:text-white tracking-tight">Overview</h2>
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+            {solution.description}
+          </p>
         </motion.div>
 
         <motion.div
@@ -243,25 +239,14 @@ export default function SolutionDetailPage() {
           viewport={{ once: true, amount: 0.1 }}
           variants={fadeInUp}
         >
-          <Card className="mb-8">
-            <CardContent className="p-4 sm:p-6 md:p-8">
-              <h2 className="text-xl font-bold mb-6">Key Capabilities</h2>
-              <motion.div
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={staggerContainer}
-                className="grid md:grid-cols-2 gap-4"
-              >
-                {solution.features.map((feature, i) => (
-                  <motion.div key={i} variants={fadeInUp} className="flex items-start gap-3 p-4">
-                    <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0">{i + 1}.</span>
-                    <span className="text-gray-700 dark:text-gray-300">{feature}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </CardContent>
-          </Card>
+          <h2 className="text-3xl font-light mb-8 text-black dark:text-white tracking-tight">Key Capabilities</h2>
+          <ul className="grid md:grid-cols-2 gap-x-12 gap-y-5 list-disc pl-5 marker:text-blue-500">
+            {solution.features.map((feature, i) => (
+              <li key={i} className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
+                {feature}
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
         <motion.div
@@ -269,15 +254,15 @@ export default function SolutionDetailPage() {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
-          className="text-center"
+          className="text-center pt-8 border-t border-gray-200 dark:border-gray-800"
         >
-          <h3 className="text-xl font-bold mb-3">
+          <h3 className="text-2xl font-light mb-4 text-black dark:text-white">
             Ready to transform your {solution.industry.toLowerCase()} operations?
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
             Let&apos;s discuss how our solutions can address your specific challenges.
           </p>
-          <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
+          <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 rounded-full px-8">
             <Link href="/contact">Get in Touch</Link>
           </Button>
         </motion.div>

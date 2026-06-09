@@ -272,7 +272,7 @@ export default function TechnologyDetailPage() {
               <img src={tech.image} alt={tech.name} className="w-16 h-16 object-contain flex-shrink-0" />
             )}
             <div>
-              <Badge className="bg-white/15 text-white border-white/20 mb-2">{tech.category}</Badge>
+              {/* <Badge className="bg-white/15 text-white border-white/20 mb-2">{tech.category}</Badge> */}
               <h1 className="text-3xl md:text-4xl font-bold">{tech.name}</h1>
             </div>
           </div>
@@ -280,21 +280,17 @@ export default function TechnologyDetailPage() {
       </section>
 
       {/* Content */}
-      <section className="max-w-4xl mx-auto px-4 py-12 space-y-8">
+      <section className="max-w-4xl mx-auto px-4 py-16 space-y-16">
         <motion.div
           initial="hidden"
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
         >
-          <Card>
-            <CardContent className="p-6 md:p-8">
-              <h2 className="text-xl font-bold mb-4">Overview</h2>
-              <p className="text-gray-600 dark:text-gray-300 leading-relaxed text-lg">
-                {tech.description}
-              </p>
-            </CardContent>
-          </Card>
+          <h2 className="text-3xl font-light mb-6 text-black dark:text-white tracking-tight">Overview</h2>
+          <p className="text-gray-700 dark:text-gray-300 leading-relaxed text-lg">
+            {tech.description}
+          </p>
         </motion.div>
 
         <motion.div
@@ -303,25 +299,14 @@ export default function TechnologyDetailPage() {
           viewport={{ once: true, amount: 0.1 }}
           variants={fadeInUp}
         >
-          <Card>
-            <CardContent className="p-6 md:p-8">
-              <h2 className="text-xl font-bold mb-6">Our Capabilities</h2>
-              <motion.div
-                initial="hidden"
-                whileInView="show"
-                viewport={{ once: true }}
-                variants={staggerContainer}
-                className="grid md:grid-cols-2 gap-3"
-              >
-                {tech.capabilities.map((cap, i) => (
-                  <motion.div key={i} variants={fadeInUp} className="flex items-start gap-3 p-3">
-                    <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 mt-0.5 flex-shrink-0">{i + 1}.</span>
-                    <span className="text-gray-700 dark:text-gray-300 text-sm">{cap}</span>
-                  </motion.div>
-                ))}
-              </motion.div>
-            </CardContent>
-          </Card>
+          <h2 className="text-3xl font-light mb-8 text-black dark:text-white tracking-tight">Our Capabilities</h2>
+          <ul className="grid md:grid-cols-2 gap-x-12 gap-y-5 list-disc pl-5 marker:text-blue-500">
+            {tech.capabilities.map((cap, i) => (
+              <li key={i} className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
+                {cap}
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
         <motion.div
@@ -330,19 +315,14 @@ export default function TechnologyDetailPage() {
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
         >
-          <Card>
-            <CardContent className="p-6 md:p-8">
-              <h2 className="text-xl font-bold mb-6">Common Use Cases</h2>
-              <div className="grid sm:grid-cols-2 gap-4">
-                {tech.useCases.map((uc, i) => (
-                  <div key={i} className="flex items-center gap-3 p-4 rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-900">
-                    <span className="text-sm font-semibold text-blue-600 dark:text-blue-400 flex-shrink-0">{i + 1}.</span>
-                    <span className="text-gray-700 dark:text-gray-300 font-medium text-sm">{uc}</span>
-                  </div>
-                ))}
-              </div>
-            </CardContent>
-          </Card>
+          <h2 className="text-3xl font-light mb-8 text-black dark:text-white tracking-tight">Common Use Cases</h2>
+          <ul className="list-disc pl-5 space-y-5 marker:text-blue-500">
+            {tech.useCases.map((uc, i) => (
+              <li key={i} className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
+                {uc}
+              </li>
+            ))}
+          </ul>
         </motion.div>
 
         <motion.div
@@ -350,15 +330,15 @@ export default function TechnologyDetailPage() {
           whileInView="show"
           viewport={{ once: true, amount: 0.2 }}
           variants={fadeInUp}
-          className="text-center pt-4"
+          className="text-center pt-8 border-t border-gray-200 dark:border-gray-800"
         >
-          <h3 className="text-xl font-bold mb-3">
+          <h3 className="text-2xl font-light mb-4 text-black dark:text-white">
             Want to leverage {tech.name} for your project?
           </h3>
-          <p className="text-gray-600 dark:text-gray-400 mb-6">
+          <p className="text-gray-600 dark:text-gray-400 mb-8 text-lg">
             Let&apos;s discuss how we can use {tech.name} to solve your specific data challenges.
           </p>
-          <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700">
+          <Button asChild size="lg" className="bg-blue-600 hover:bg-blue-700 rounded-full px-8">
             <Link href="/contact">Get in Touch</Link>
           </Button>
         </motion.div>

@@ -10,6 +10,7 @@ import StatsSection from "@/components/stats"
 import Sponsor from "@/components/sponsor"
 import CloudPartners from "@/components/cloud-partners"
 import TestimonialCarousel from "@/components/testimonial"
+import OurServicesHighlight from "@/components/our-services"
 export default function HomePage() {
   return (
     <main className="min-h-screen">
@@ -17,6 +18,7 @@ export default function HomePage() {
       <HeroSection />
       <StatsSection />
       <TechSolutions />
+      <OurServicesHighlight />
       {/* <CaseStudiesSection /> */}
       <CloudPartners />
       <Sponsor />

@@ -3,6 +3,7 @@
 import React from "react";
 import TargetCursor from "@/components/TargetCursor";
 import { motion } from "framer-motion";
+import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 50 },
@@ -49,11 +50,12 @@ export default function AboutPage() {
               We are not just a technology and research company. We are a strategic intelligence partner committed to transforming complex data, institutional requirements, and industry capabilities into actionable, transparent, and efficient solutions.
             </p>
           </div>
-          <div className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden cursor-target">
-            <img 
-              src="https://images.unsplash.com/photo-1451187580459-43490279c0fa?q=80&w=1000&auto=format&fit=crop" 
-              alt="Technology and Data" 
-              className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+          <div className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden cursor-target bg-transparent flex items-center justify-center">
+            <DotLottieReact
+              src="/lottie/09zh6ZkGi31JbJez41.json"
+              loop
+              autoplay
+              style={{ width: "100%", height: "100%" }}
             />
           </div>
         </motion.div>
@@ -66,11 +68,12 @@ export default function AboutPage() {
           viewport={{ once: true, margin: "-50px" }}
           variants={fadeInUp}
         >
-          <div className="order-2 md:order-1 relative h-64 md:h-[30rem] w-full rounded-2xl overflow-hidden cursor-target">
-            <img 
-              src="https://images.unsplash.com/photo-1551288049-bebda4e38f71?q=80&w=1000&auto=format&fit=crop" 
-              alt="Data Analysis Journey" 
-              className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+          <div className="order-2 md:order-1 relative h-64 md:h-[30rem] w-full rounded-2xl overflow-hidden cursor-target bg-transparent flex items-center justify-center">
+            <DotLottieReact
+              src="/lottie/42K51Mc586Ff4TrDCZ.json"
+              loop
+              autoplay
+              style={{ width: "100%", height: "100%" }}
             />
           </div>
           <div className="order-1 md:order-2 space-y-4">
@@ -120,11 +123,12 @@ export default function AboutPage() {
               <span className="text-black font-semibold">Research Integrity:</span> We maintain strict standards in validation, analytical design, and interpretation to ensure reliability.
             </p>
           </div>
-          <div className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden cursor-target">
-            <img 
-              src="https://images.unsplash.com/photo-1553877522-43269d4ea984?q=80&w=1000&auto=format&fit=crop" 
-              alt="Core Values" 
-              className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+          <div className="relative h-64 md:h-96 w-full rounded-2xl overflow-hidden cursor-target bg-transparent flex items-center justify-center">
+            <DotLottieReact
+              src="/lottie/76tDy4wY399cvP5u5A.json"
+              loop
+              autoplay
+              style={{ width: "100%", height: "100%" }}
             />
           </div>
         </motion.div>
@@ -174,11 +178,12 @@ export default function AboutPage() {
           viewport={{ once: true, margin: "-50px" }}
           variants={fadeInUp}
         >
-          <div className="order-2 md:order-1 relative h-64 md:h-96 w-full rounded-2xl overflow-hidden cursor-target">
-            <img 
-              src="https://images.unsplash.com/photo-1522071820081-009f0129c71c?q=80&w=1000&auto=format&fit=crop" 
-              alt="Team and Vision" 
-              className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
+          <div className="order-2 md:order-1 relative h-64 md:h-96 w-full rounded-2xl overflow-hidden cursor-target bg-transparent flex items-center justify-center">
+            <DotLottieReact
+              src="/lottie/zodRCHwk42I7q392IZ.json"
+              loop
+              autoplay
+              style={{ width: "100%", height: "100%" }}
             />
           </div>
           <div className="order-1 md:order-2 space-y-12">
