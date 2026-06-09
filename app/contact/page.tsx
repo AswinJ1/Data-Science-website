@@ -1,6 +1,5 @@
 'use client'
 import React, { useState } from "react";
-import Image from "next/image";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -9,10 +8,11 @@ import { Textarea } from "@/components/ui/textarea";
 import { Loader2 } from "lucide-react";
 import { toast } from "sonner";
 import { motion } from "framer-motion";
+import dynamic from "next/dynamic";
+
+const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"), { ssr: false });
 
 const fadeInUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } } };
-const fadeInLeft = { hidden: { opacity: 0, x: -30 }, show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } } };
-const fadeInRight = { hidden: { opacity: 0, x: 30 }, show: { opacity: 1, x: 0, transition: { duration: 0.6, ease: "easeOut" as const } } };
 import {
   Select,
   SelectTrigger,
@@ -23,6 +23,8 @@ import {
 
 export default function ContactSection() {
   const [loading, setLoading] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaKey, setRecaptchaKey] = useState(0);
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -40,12 +42,16 @@ export default function ContactSection() {
       toast.error("Please fill in all required fields");
       return;
     }
+    if (!recaptchaToken) {
+      toast.error("Please complete the reCAPTCHA verification.");
+      return;
+    }
     setLoading(true);
     try {
       const res = await fetch("/api/contact", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, recaptchaToken }),
       });
       if (res.ok) {
         toast.success("Thank you! We'll get back to you soon.");
@@ -53,6 +59,8 @@ export default function ContactSection() {
           firstName: "", lastName: "", email: "", company: "",
           industry: "", service: "", timeline: "", message: "",
         });
+        setRecaptchaToken(null);
+        setRecaptchaKey((k) => k + 1);
       } else {
         const data = await res.json();
         toast.error(data.error || "Something went wrong");
@@ -87,58 +95,15 @@ export default function ContactSection() {
         </motion.div>
 
         {/* Content */}
-        <div className="mt-12 grid gap-6 md:mt-14 md:grid-cols-2 md:gap-8">
-          {/* Left: Testimonial */}
+        <div className="mt-12 md:mt-14 max-w-2xl mx-auto">
+          {/* Form */}
           <motion.div
             initial="hidden"
             whileInView="show"
             viewport={{ once: true, amount: 0.2 }}
-            variants={fadeInLeft}
+            variants={fadeInUp}
           >
-            <Card className="border-slate-200/80 h-full">
-            <CardContent className="p-6 sm:p-8 md:p-10">
-              <div className="flex flex-col items-center text-center">
-                {/* CEO Photo */}
-                <div className="relative w-28 h-28 sm:w-32 sm:h-32 rounded-full overflow-hidden border-4 border-blue-100 shadow-lg mb-6">
-                  <Image
-                    src="/ceo.jpeg"
-                    alt="CEO"
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-
-                {/* CEO Quote */}
-                <blockquote className="text-[15px] leading-7 text-slate-700 md:text-base italic">
-                  &quot;We believe every business, regardless of size, deserves
-                  access to world-class data intelligence. Our mission is to
-                  bridge the gap between raw data and strategic decisions 
-                  empowering organizations to move faster, predict smarter, and
-                  grow with confidence.&quot;
-                </blockquote>
-
-                <div className="mt-6 space-y-1">
-                  <div className="text-sm font-semibold text-slate-900">Chaithanya Arya</div>
-                  <div className="text-xs text-slate-500">Founder & CEO Syancy Innovations</div>
-                </div>
-              </div>
-
-              <div className="mt-10 rounded-xl bg-slate-50 p-4 text-xs leading-5 text-slate-600">
-                We specialize in end-to-end data solutions: from machine learning models
-                and predictive analytics. Transform your raw data into actionable business intelligence.
-              </div>
-            </CardContent>
-          </Card>
-          </motion.div>
-
-          {/* Right: Form */}
-          <motion.div
-            initial="hidden"
-            whileInView="show"
-            viewport={{ once: true, amount: 0.2 }}
-            variants={fadeInRight}
-          >
-            <Card className="border-slate-200/80 h-full">
+            <Card className="border-slate-200/80">
             <CardContent className="p-6 sm:p-8 md:p-10">
               <form onSubmit={handleSubmit} className="grid grid-cols-1 gap-4 md:grid-cols-2">
                 {/* First name */}
@@ -241,9 +206,19 @@ export default function ContactSection() {
                     onChange={(e) => setFormData((p) => ({ ...p, message: e.target.value }))} />
                 </div>
 
+                {/* reCAPTCHA */}
+                <div className="col-span-1 md:col-span-2">
+                  <ReCAPTCHA
+                    key={recaptchaKey}
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                    onChange={(token) => setRecaptchaToken(token)}
+                    onExpired={() => setRecaptchaToken(null)}
+                  />
+                </div>
+
                 {/* Submit */}
                 <div className="col-span-1 md:col-span-2 pt-2">
-                  <Button type="submit" disabled={loading}
+                  <Button type="submit" disabled={loading || !recaptchaToken}
                     className="h-11 w-full rounded-none bg-blue-600 text-white hover:bg-blue-700">
                     {loading ? (
                       <><Loader2 className="h-4 w-4 mr-2 animate-spin" /> Sending...</>

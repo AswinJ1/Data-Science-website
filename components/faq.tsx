@@ -2,6 +2,9 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
+
+const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"), { ssr: false });
 import {
   Accordion,
   AccordionContent,
@@ -47,10 +50,16 @@ export default function FAQSection() {
   const [question, setQuestion] = useState("");
   const [email, setEmail] = useState("");
   const [submitting, setSubmitting] = useState(false);
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaKey, setRecaptchaKey] = useState(0);
 
   const handleSubmit = async () => {
     if (!question.trim()) {
       toast.error("Please enter your question.");
+      return;
+    }
+    if (!recaptchaToken) {
+      toast.error("Please complete the reCAPTCHA verification.");
       return;
     }
 
@@ -59,7 +68,7 @@ export default function FAQSection() {
       const res = await fetch("/api/faq-questions", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ question: question.trim(), email: email.trim() || null }),
+        body: JSON.stringify({ question: question.trim(), email: email.trim() || null, recaptchaToken }),
       });
 
       if (!res.ok) {
@@ -70,6 +79,8 @@ export default function FAQSection() {
       toast.success("Your question has been submitted! We'll get back to you soon.");
       setQuestion("");
       setEmail("");
+      setRecaptchaToken(null);
+      setRecaptchaKey((k) => k + 1);
     } catch (err: any) {
       toast.error(err.message || "Something went wrong. Please try again.");
     } finally {
@@ -137,9 +148,17 @@ export default function FAQSection() {
             rows={3}
             required
           />
+          <div className="w-full mt-3">
+            <ReCAPTCHA
+              key={recaptchaKey}
+              sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+              onChange={(token) => setRecaptchaToken(token)}
+              onExpired={() => setRecaptchaToken(null)}
+            />
+          </div>
           <button
             onClick={handleSubmit}
-            disabled={submitting}
+            disabled={submitting || !recaptchaToken}
             className="mt-4 w-full md:w-auto bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white font-medium py-2 px-6 rounded-none transition"
           >
             {submitting ? "Submitting..." : "Submit Now"}

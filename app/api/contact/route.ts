@@ -5,7 +5,22 @@ import { contactSchema } from "@/lib/validations/contact";
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const parsed = contactSchema.safeParse(body);
+    const { recaptchaToken, ...formFields } = body;
+
+    // Verify reCAPTCHA token
+    if (!recaptchaToken) {
+      return NextResponse.json({ error: "reCAPTCHA token is missing" }, { status: 400 });
+    }
+    const verifyRes = await fetch(
+      `https://www.google.com/recaptcha/api/siteverify?secret=${process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY}&response=${recaptchaToken}`,
+      { method: "POST" }
+    );
+    const verifyData = await verifyRes.json();
+    if (!verifyData.success) {
+      return NextResponse.json({ error: "reCAPTCHA verification failed" }, { status: 400 });
+    }
+
+    const parsed = contactSchema.safeParse(formFields);
 
     if (!parsed.success) {
       return NextResponse.json(

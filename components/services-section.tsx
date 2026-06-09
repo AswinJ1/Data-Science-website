@@ -228,7 +228,7 @@ export default function TechSolutions() {
 					<h2 className="text-xs sm:text-sm text-blue-600 dark:text-blue-400 tracking-widest mb-2 font-semibold uppercase">
 						OUR DATA SERVICES
 					</h2>
-					<h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-gray-900 dark:text-white mb-4">
+					<h1 className="text-2xl sm:text-3xl lg:text-4xl  text-gray-900 dark:text-white mb-4">
 						Data Domain Service Portfolio
 					</h1>
 					<p className="text-gray-600 dark:text-gray-300 text-sm sm:text-base max-w-2xl mx-auto">

@@ -12,12 +12,12 @@ const fadeInUp = {
 export default function AboutPage() {
   return (
     <>
-      <TargetCursor 
+      {/* <TargetCursor 
         spinDuration={2}
         hideDefaultCursor
         parallaxOn
         hoverDuration={0.2}
-      />
+      /> */}
 
       {/* ABOUT CONTENT */}
       <section className="max-w-6xl mx-auto px-4 py-20 text-gray-700 space-y-24 text-base leading-relaxed">
@@ -126,6 +126,43 @@ export default function AboutPage() {
               alt="Core Values" 
               className="object-cover w-full h-full hover:scale-105 transition-transform duration-500"
             />
+          </div>
+        </motion.div>
+
+        {/* CEO SECTION */}
+        <motion.div
+          className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: "-50px" }}
+          variants={fadeInUp}
+        >
+          {/* Left: Big image, no rounded */}
+          <div className="h-[28rem] md:h-[36rem] w-full overflow-hidden">
+            <img
+              src="/ceo.jpeg"
+              alt="Chaithanya Arya"
+              className="object-cover object-top w-full h-full"
+            />
+          </div>
+
+          {/* Right: Text */}
+          <div className="space-y-5">
+            <p className="text-sm text-gray-500 tracking-widest uppercase">Leadership</p>
+            <h3 className="text-black text-3xl font-light">Meet Our Founder</h3>
+            <div>
+              <p className="text-xl  text-black">Chaithanya Arya</p>
+              <p className="text-sm text-gray-500 mt-1">Founder &amp; CEO, Syancy Innovations</p>
+            </div>
+            <blockquote className="text-gray-600 italic text-base leading-relaxed border-l-4 border-blue-600 pl-5">
+              &ldquo;We believe every business, regardless of size, deserves access to world-class data intelligence. Our mission is to bridge the gap between raw data and strategic decisions, empowering organizations to move faster, predict smarter, and grow with confidence.&rdquo;
+            </blockquote>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Chaithanya Arya is the Founder and CEO of Syancy Innovations, bringing deep expertise in data science, institutional research, and strategic consulting. He founded Syancy Innovations with a singular vision: making advanced analytics accessible, credible, and impactful for organizations navigating complex data environments.
+            </p>
+            <p className="text-gray-600 text-sm leading-relaxed">
+              Under his leadership, the company has grown into a research-driven powerhouse, developing hybrid analytical methodologies that blend AI precision with rigorous manual validation. Chaithanya is committed to building intelligence systems that drive real-world institutional and enterprise outcomes.
+            </p>
           </div>
         </motion.div>
 

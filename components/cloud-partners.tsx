@@ -31,7 +31,7 @@ export default function CloudPartners() {
           whileInView="show"
           viewport={{ once: true, amount: 0.3 }}
           variants={fadeInUp}
-          className="text-4xl font-bold text-gray-900 tracking-wide mb-6"
+          className="text-4xl  text-gray-900 tracking-wide mb-6"
         >
           Our Partners
         </motion.h2>
