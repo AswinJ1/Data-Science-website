@@ -5,6 +5,13 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { ArrowRight } from "lucide-react"
 import { motion } from "framer-motion"
+import {
+  SiPython, SiR,
+  SiApachespark,
+  SiTensorflow, SiPytorch, SiLangchain, SiHuggingface,
+  SiMongodb, SiPostgresql, SiRedis,
+  SiAnthropic, SiMeta,
+} from "@icons-pack/react-simple-icons"
 
 const fadeInUp = {
   hidden: { opacity: 0, y: 30 },
@@ -39,7 +46,7 @@ const technologies = [
     slug: "aws",
     name: "Amazon Web Services",
     category: "Cloud Platform",
-    image: null,
+    image: "/techstack/aws.svg",
     description:
       "Cloud-native data solutions built on AWS — S3, Redshift, SageMaker, Glue, and more — to scale your data infrastructure with reliability and speed.",
     tags: ["Cloud", "Infrastructure", "Scalability"],
@@ -48,7 +55,7 @@ const technologies = [
     slug: "azure",
     name: "Microsoft Azure",
     category: "Cloud Platform",
-    image: null,
+    image: "/techstack/Microsoft-Azure.svg",
     description:
       "Enterprise-grade analytics and AI powered by Azure Synapse, Databricks, Azure ML, and Cognitive Services for intelligent business solutions.",
     tags: ["Enterprise", "AI/ML", "Analytics"],
@@ -57,7 +64,7 @@ const technologies = [
     slug: "power-bi",
     name: "Power BI",
     category: "Visualization",
-    image: "/techstack/powerbi.svg",
+    image: "/techstack/power-bi-icon.svg",
     description:
       "Interactive dashboards and self-service business intelligence. We create compelling Power BI reports that turn complex data into clear, actionable insights.",
     tags: ["Dashboards", "Reporting", "BI"],
@@ -93,50 +100,145 @@ const technologies = [
     slug: "java",
     name: "Java",
     category: "Language",
-    image: "/techstack/java.svg",
+    image: "/techstack/Java.svg",
     description:
       "Enterprise-grade applications and big data systems. We use Java for building robust, high-performance data pipelines and distributed systems.",
     tags: ["Enterprise", "Big Data", "Backend"],
   },
+  {
+    slug: "mongodb",
+    name: "MongoDB",
+    category: "Database",
+    image: null,
+    description:
+      "The leading NoSQL document database. We use MongoDB for flexible, schema-less data storage that handles unstructured and semi-structured data at scale.",
+    tags: ["NoSQL", "Document DB", "Scalability"],
+  },
+  {
+    slug: "postgresql",
+    name: "PostgreSQL",
+    category: "Database",
+    image: null,
+    description:
+      "The world's most advanced open-source relational database. We leverage PostgreSQL for complex queries, JSONB support, and robust transactional workloads.",
+    tags: ["SQL", "Relational", "Open Source"],
+  },
+  {
+    slug: "pytorch",
+    name: "PyTorch",
+    category: "AI/ML Framework",
+    image: null,
+    description:
+      "Facebook's dynamic deep learning framework, preferred for research and production AI. We use PyTorch for building and training custom neural networks and LLMs.",
+    tags: ["Deep Learning", "Research", "Neural Networks"],
+  },
+  {
+    slug: "langchain",
+    name: "LangChain",
+    category: "AI Orchestration",
+    image: null,
+    description:
+      "The premier framework for building LLM-powered applications. We use LangChain to chain prompts, connect data sources, and build sophisticated AI agents and RAG pipelines.",
+    tags: ["LLMs", "RAG", "AI Agents"],
+  },
+  {
+    slug: "hugging-face",
+    name: "Hugging Face",
+    category: "AI/ML Platform",
+    image: null,
+    description:
+      "The central hub for open-source AI models and datasets. We use Hugging Face Transformers and the Hub to fine-tune, evaluate, and deploy state-of-the-art NLP and vision models.",
+    tags: ["Transformers", "NLP", "Open Source AI"],
+  },
+  {
+    slug: "pinecone",
+    name: "Pinecone",
+    category: "Vector Database",
+    image: "/techstack/pinecone.svg",
+    description:
+      "A fully managed vector database built for AI applications. We use Pinecone to store and query high-dimensional embeddings for semantic search, RAG, and recommendation systems.",
+    tags: ["Vector Search", "Embeddings", "RAG"],
+  },
+  {
+    slug: "redis",
+    name: "Redis",
+    category: "Database",
+    image: null,
+    description:
+      "An in-memory data structure store used as a database, cache, and message broker. We leverage Redis for ultra-low-latency data access, session management, and real-time analytics.",
+    tags: ["In-Memory", "Caching", "Real-Time"],
+  },
+  {
+    slug: "mxnet",
+    name: "Apache MXNet",
+    category: "AI/ML Framework",
+    image: null,
+    description:
+      "A flexible, efficient deep learning framework backed by Apache and AWS. We use MXNet for scalable model training across multi-GPU and distributed environments.",
+    tags: ["Deep Learning", "Distributed Training", "AWS"],
+  },
+  {
+    slug: "gemini",
+    name: "Google Gemini",
+    category: "Generative AI",
+    image: "/techstack/gemini.svg",
+    description:
+      "Google's most capable multimodal AI model. We integrate Gemini via Vertex AI and Google AI Studio to power advanced reasoning, code generation, and document understanding.",
+    tags: ["Multimodal", "LLM", "Google AI"],
+  },
+  {
+    slug: "claude",
+    name: "Claude (Anthropic)",
+    category: "Generative AI",
+    image: null,
+    description:
+      "Anthropic's safety-focused large language model. We use Claude for enterprise AI applications that require reliable reasoning, long-context document analysis, and responsible AI outputs.",
+    tags: ["LLM", "Safety AI", "Reasoning"],
+  },
+  {
+    slug: "meta-llama",
+    name: "Meta LLaMA",
+    category: "Generative AI",
+    image: null,
+    description:
+      "Meta's open-weight large language model family. We deploy and fine-tune LLaMA models on-premise and in private clouds for organizations requiring data sovereignty and custom AI.",
+    tags: ["Open Weight", "Fine-Tuning", "On-Premise AI"],
+  },
+  {
+    slug: "octoml",
+    name: "OctoML",
+    category: "MLOps",
+    image: "/techstack/octoml.svg",
+    description:
+      "A platform for optimizing and deploying ML models efficiently across hardware targets. We use OctoML to accelerate model inference and reduce deployment costs in production.",
+    tags: ["Model Optimization", "Inference", "MLOps"],
+  },
+  {
+    slug: "helicone",
+    name: "Helicone",
+    category: "AI Observability",
+    image: "/techstack/helicone.svg",
+    description:
+      "An open-source LLM observability platform. We integrate Helicone to monitor, log, and optimize LLM API usage — tracking costs, latency, and quality across AI-powered applications.",
+    tags: ["LLM Monitoring", "Observability", "Cost Optimization"],
+  },
 ]
 
-/* Inline SVG fallback illustrations for items without images */
-function CloudIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 80 60" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      <path d="M60 45H18C10 45 4 38 4 30C4 22 10 16 18 16C18 8 24 2 33 2C40 2 46 6 48 12C50 11 52 10 55 10C63 10 70 17 70 25C76 26 80 31 80 37C80 43 75 48 68 48H60Z" fill="#DBEAFE" stroke="#3B82F6" strokeWidth="2"/>
-      <path d="M30 30L38 38L50 22" stroke="#3B82F6" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-    </svg>
-  )
-}
-
-function SparkIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      <polygon points="40,5 48,30 75,30 52,48 60,75 40,58 20,75 28,48 5,30 32,30" fill="#FDE68A" stroke="#F59E0B" strokeWidth="2" strokeLinejoin="round"/>
-      <circle cx="40" cy="40" r="12" fill="#F59E0B"/>
-      <circle cx="40" cy="40" r="6" fill="#FEF3C7"/>
-    </svg>
-  )
-}
-
-function TensorFlowIcon({ className = "" }: { className?: string }) {
-  return (
-    <svg viewBox="0 0 80 80" fill="none" xmlns="http://www.w3.org/2000/svg" className={className}>
-      <rect x="10" y="10" width="60" height="60" rx="12" fill="#FFF3E0" stroke="#FF6F00" strokeWidth="2"/>
-      <path d="M25 55V30L40 20L55 30V45" stroke="#FF6F00" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round"/>
-      <path d="M40 20V55" stroke="#FF6F00" strokeWidth="3" strokeLinecap="round"/>
-      <path d="M40 38L55 30" stroke="#FF6F00" strokeWidth="3" strokeLinecap="round"/>
-      <path d="M40 48L25 40" stroke="#FF6F00" strokeWidth="3" strokeLinecap="round"/>
-    </svg>
-  )
-}
-
-const fallbackIcons: Record<string, React.FC<{ className?: string }>> = {
-  aws: CloudIcon,
-  azure: CloudIcon,
-  spark: SparkIcon,
-  tensorflow: TensorFlowIcon,
+/* Brand icon lookup by slug */
+const techIcons: Record<string, React.ElementType> = {
+  python: SiPython,
+  r: SiR,
+  spark: SiApachespark,
+  tensorflow: SiTensorflow,
+  pytorch: SiPytorch,
+  langchain: SiLangchain,
+  "hugging-face": SiHuggingface,
+  mongodb: SiMongodb,
+  postgresql: SiPostgresql,
+  redis: SiRedis,
+  claude: SiAnthropic,
+  "meta-llama": SiMeta,
+  mxnet: SiApachespark, // closest available
 }
 
 export default function TechnologiesPage() {
@@ -150,8 +252,8 @@ export default function TechnologiesPage() {
           transition={{ duration: 0.6 }}
           className="max-w-6xl mx-auto px-4 text-center"
         >
-          <Badge className="bg-white/10 text-white border-white/20 mb-4">Our Tech Stack</Badge>
-          <h1 className="text-3xl md:text-5xl font-bold mb-4">Technologies We Work With</h1>
+          {/* <Badge className="bg-white/10 text-white border-white/20 mb-4">Our Tech Stack</Badge> */}
+          <h1 className="text-3xl md:text-5xl  mb-4">Technologies We Work With</h1>
           <p className="text-lg text-blue-100 max-w-2xl mx-auto">
             We leverage industry-leading tools and platforms to deliver powerful, scalable, and reliable data solutions.
           </p>
@@ -167,24 +269,24 @@ export default function TechnologiesPage() {
           className="grid md:grid-cols-2 lg:grid-cols-3 gap-6"
         >
           {technologies.map((tech) => {
-            const FallbackIcon = fallbackIcons[tech.slug]
+            const Icon = techIcons[tech.slug]
             return (
               <motion.div key={tech.slug} variants={fadeInUp}>
                 <Link href={`/technologies/${tech.slug}`}>
                   <Card className="h-full hover:shadow-xl transition-all duration-300 hover:-translate-y-1 group overflow-hidden border-0 shadow-md">
                     <CardContent className="p-6">
                       <div className="flex items-start gap-4 mb-4">
-                        <div className="w-12 h-12 flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
+                        <div className="w-14 h-14 flex-shrink-0 flex items-center justify-center grayscale opacity-70 group-hover:grayscale-0 group-hover:opacity-100 group-hover:scale-110 transition-all duration-500">
                           {tech.image ? (
                             <img src={tech.image} alt={tech.name} className="w-12 h-12 object-contain" />
-                          ) : FallbackIcon ? (
-                            <FallbackIcon className="w-12 h-12" />
+                          ) : Icon ? (
+                            <Icon size={36} />
                           ) : (
                             <span className="text-blue-600 font-bold text-xl">{tech.name.slice(0, 2)}</span>
                           )}
                         </div>
                         <div className="min-w-0">
-                          <h3 className="text-lg font-bold text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
+                          <h3 className="text-lg text-gray-900 dark:text-white group-hover:text-blue-600 transition-colors">
                             {tech.name}
                           </h3>
                           <Badge variant="secondary" className="text-[10px] mt-1">

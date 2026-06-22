@@ -59,7 +59,7 @@ function CountUp({ target, suffix }: CountUpProps) {
   };
 
   return (
-    <motion.span ref={ref} className="text-4xl font-bold text-black">
+    <motion.span ref={ref} className="text-4xl text-black">
       {formatNumber(count)}
       {suffix}
     </motion.span>

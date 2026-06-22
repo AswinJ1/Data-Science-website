@@ -11,6 +11,14 @@ import {
   Code2, Cloud, LineChart, ServerCog, Sigma, FlaskConical,
   Lightbulb, Globe,
 } from "lucide-react"
+import {
+  SiPython, SiR,
+  SiApachespark,
+  SiTensorflow, SiPytorch, SiLangchain, SiHuggingface,
+  SiMongodb, SiPostgresql, SiRedis,
+  SiAnthropic, SiMeta,
+} from "@icons-pack/react-simple-icons"
+import { Java, AmazonWebServicesDark, MicrosoftAzure } from "@ridemountainpig/svgl-react"
 import { Button } from "@/components/ui/button"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import {
@@ -113,17 +121,143 @@ const defaultSolutionItems: NavItem[] = [
   { icon: Zap, label: "Energy", href: "/solutions/energy", description: "Smart grid analytics & consumption forecasting." },
 ]
 
-/* ── Technologies ─────────────────────────────────────────── */
-const technologyItems = [
-  { icon: Code2, label: "Python", href: "/technologies/python", description: "Data science, ML & AI with Python ecosystem." },
-  { icon: Cloud, label: "AWS", href: "/technologies/aws", description: "Cloud-native data solutions on Amazon Web Services." },
-  { icon: Cloud, label: "Azure", href: "/technologies/azure", description: "Enterprise analytics & AI on Microsoft Azure." },
-  { icon: LineChart, label: "Power BI", href: "/technologies/power-bi", description: "Interactive dashboards & business reporting." },
-  { icon: LineChart, label: "Tableau", href: "/technologies/tableau", description: "Advanced data visualization & storytelling." },
-  { icon: Sigma, label: "R", href: "/technologies/r", description: "Statistical computing & data analysis." },
-  { icon: ServerCog, label: "Spark", href: "/technologies/spark", description: "Big data processing & distributed computing." },
-  { icon: FlaskConical, label: "TensorFlow", href: "/technologies/tensorflow", description: "Deep learning & neural network frameworks." },
+/* ── Technologies (categorized) ───────────────────────────── */
+const techCategories = [
+  {
+    heading: "Languages",
+    items: [
+      { icon: SiPython, image: "/techstack/python.svg", label: "Python", href: "/technologies/python" },
+      { icon: SiR, image: "/techstack/R.svg", label: "R", href: "/technologies/r" },
+      { icon: Java, image: "/techstack/java.svg", label: "Java", href: "/technologies/java" },
+    ],
+  },
+  {
+    heading: "Cloud & Visualization",
+    items: [
+      { icon: AmazonWebServicesDark, image: "/techstack/aws.svg", label: "AWS", href: "/technologies/aws" },
+      { icon: MicrosoftAzure, image: "/techstack/Microsoft-Azure.svg", label: "Azure", href: "/technologies/azure" },
+      { icon: LineChart, image: "/techstack/power-bi-icon.svg", label: "Power BI", href: "/technologies/power-bi" },
+      { icon: LineChart, image: "/techstack/tableau.svg", label: "Tableau", href: "/technologies/tableau" },
+      { icon: SiApachespark, image: null as string | null, label: "Apache Spark", href: "/technologies/spark" },
+    ],
+  },
+  {
+    heading: "AI / ML Frameworks",
+    items: [
+      { icon: SiTensorflow, image: null as string | null, label: "TensorFlow", href: "/technologies/tensorflow" },
+      { icon: SiPytorch, image: null as string | null, label: "PyTorch", href: "/technologies/pytorch" },
+      { icon: FlaskConical, image: null as string | null, label: "Apache MXNet", href: "/technologies/mxnet" },
+      { icon: SiLangchain, image: null as string | null, label: "LangChain", href: "/technologies/langchain" },
+      { icon: SiHuggingface, image: null as string | null, label: "Hugging Face", href: "/technologies/hugging-face" },
+    ],
+  },
+  {
+    heading: "Databases",
+    items: [
+      { icon: SiMongodb, image: null as string | null, label: "MongoDB", href: "/technologies/mongodb" },
+      { icon: SiPostgresql, image: null as string | null, label: "PostgreSQL", href: "/technologies/postgresql" },
+      { icon: SiRedis, image: null as string | null, label: "Redis", href: "/technologies/redis" },
+    ],
+  },
+  {
+    heading: "Generative AI",
+    items: [
+      { icon: Sigma, image: "/techstack/gemini.svg", label: "Google Gemini", href: "/technologies/gemini" },
+      { icon: SiAnthropic, image: null as string | null, label: "Claude", href: "/technologies/claude" },
+      { icon: SiMeta, image: null as string | null, label: "Meta LLaMA", href: "/technologies/meta-llama" },
+    ],
+  },
+  {
+    heading: "Data & AI Tools",
+    items: [
+      { icon: Search, image: "/techstack/pinecone.svg", label: "Pinecone", href: "/technologies/pinecone" },
+      { icon: Cog, image: "/techstack/octoml.svg", label: "OctoML", href: "/technologies/octoml" },
+      { icon: BarChart3, image: "/techstack/Helicone.svg", label: "Helicone", href: "/technologies/helicone" },
+    ],
+  },
 ]
+
+/* Flattened for mobile */
+const technologyItems = techCategories.flatMap((cat) =>
+  cat.items.map((item) => ({ ...item, description: cat.heading }))
+)
+
+/* ── Tech mega-menu panel (desktop) ──────────────────────── */
+function TechMegaMenuPanel({ onClose }: { onClose: () => void }) {
+  return (
+    <div
+      className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50"
+      onMouseLeave={onClose}
+    >
+      <div className="bg-white rounded-xl shadow-xl border border-gray-100 w-[780px] p-6 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="grid grid-cols-3 gap-6">
+          {techCategories.map((cat) => (
+            <div key={cat.heading}>
+              <p className="text-[10px] font-semibold text-blue-600 uppercase tracking-widest mb-2 px-1">
+                {cat.heading}
+              </p>
+              <div className="flex flex-col gap-0.5">
+                {cat.items.map((item) => (
+                  <Link
+                    key={item.label}
+                    href={item.href}
+                    onClick={onClose}
+                    className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-blue-50 transition-colors group"
+                  >
+                    {item.image ? (
+                      <img src={item.image} alt={item.label} className="h-4 w-4 flex-shrink-0 object-contain" />
+                    ) : (
+                      <item.icon className="h-3.5 w-3.5 flex-shrink-0 text-gray-400 group-hover:text-blue-600 transition-colors" />
+                    )}
+                    <span className="text-sm text-gray-700 group-hover:text-blue-700 transition-colors">
+                      {item.label}
+                    </span>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+        <div className="border-t mt-4 pt-3">
+          <Link
+            href="/technologies"
+            onClick={onClose}
+            className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors px-2"
+          >
+            View all technologies
+            <ArrowRight className="h-3.5 w-3.5" />
+          </Link>
+        </div>
+      </div>
+    </div>
+  )
+}
+
+/* ── Tech nav dropdown (desktop) ─────────────────────────── */
+function TechNavDropdown({ isActive }: { isActive: boolean }) {
+  const [open, setOpen] = useState(false)
+  const timeout = useRef<ReturnType<typeof setTimeout>>(undefined)
+
+  const handleEnter = () => { clearTimeout(timeout.current); setOpen(true) }
+  const handleLeave = () => { timeout.current = setTimeout(() => setOpen(false), 150) }
+
+  useEffect(() => () => clearTimeout(timeout.current), [])
+
+  return (
+    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+      <Link
+        href="/technologies"
+        className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+          isActive ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
+        }`}
+      >
+        Technologies
+        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+      </Link>
+      {open && <TechMegaMenuPanel onClose={() => setOpen(false)} />}
+    </div>
+  )
+}
 
 /* ── Plain nav items (no dropdown) ────────────────────────── */
 const plainNavItems = [
@@ -246,7 +380,7 @@ function MobileCollapsible({
 }: {
   label: string
   href: string
-  items: { icon: React.ElementType; label: string; href: string; description: string }[]
+  items: { icon: React.ElementType; image?: string | null; label: string; href: string; description: string }[]
   isActive: boolean
   onNavigate: () => void
 }) {
@@ -280,7 +414,11 @@ function MobileCollapsible({
               onClick={onNavigate}
               className="flex items-center gap-2 px-3 py-2 text-sm text-gray-600 hover:text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
             >
-              <item.icon className="h-4 w-4 flex-shrink-0" />
+              {item.image ? (
+                <img src={item.image} alt={item.label} className="h-5 w-5 flex-shrink-0 object-contain" />
+              ) : (
+                <item.icon className="h-4 w-4 flex-shrink-0" />
+              )}
               {item.label}
             </Link>
           ))}
@@ -369,13 +507,7 @@ export default function Navigation() {
               />
 
               {/* Technologies mega-menu */}
-              <NavDropdown
-                label="Technologies"
-                href="/technologies"
-                items={technologyItems}
-                viewAllLabel="View all technologies"
-                isActive={isActive("/technologies")}
-              />
+              <TechNavDropdown isActive={isActive("/technologies")} />
 
               {/* Remaining plain items */}
               {plainNavItems.slice(2).map((item) => (

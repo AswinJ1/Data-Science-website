@@ -76,29 +76,23 @@ export default function AboutPage() {
               style={{ width: "100%", height: "100%" }}
             />
           </div>
-          <div className="order-1 md:order-2 space-y-4">
-            <h3 className="text-black text-3xl  cursor-target mb-6">
-              The Journey Behind Syancy Innovations
-            </h3>
-            <p>
-              Syancy Innovations was founded with a clear observation. Across multiple sectors, industries were generating large volumes of data and technological solutions, while government and institutional bodies required structured, verified, and actionable intelligence to implement policies and long-term strategies. Despite the availability of resources on both sides, the lack of an analytical bridge resulted in underutilized insights and operational inefficiencies.
-            </p>
-            <p>
-              Recognizing this gap, Syancy Innovations was established as a research-driven and technology-focused organization dedicated to integrating analytics, artificial intelligence, and translating complex datasets into structured intelligence that institutions and industries can use with confidence.
-            </p>
-            <p>
-              Our journey began with intensive analytical projects involving large-scale datasets, multilingual data processing, and institutional research frameworks. From demographic analytics to strategic data intelligence, we developed systems that combine advanced AI tools with rigorous manual validation techniques. Through this process, we developed a disciplined hybrid methodology that emphasizes accuracy, scalability, and institutional relevance.
-            </p>
-            <p>
-              Over time, our work expanded across complex analytical domains, including data intelligence, demographic research, visualization, and strategic consulting. Each project reinforced our core belief: meaningful innovation is not just about technology — it is about clarity, credibility, and impact.
-            </p>
-            <p>
-              What distinguishes our journey is purposeful growth. Every initiative we undertake is aligned with long-term institutional relevance and structured analytical integrity. We focus on solving real-world challenges that require deep research, methodological discipline, and technological precision rather than generic, surface-level solutions.
-            </p>
-            <p>
-              Today, Syancy Innovations stands as a forward-looking organization that integrates data science, artificial intelligence, and strategic research to support institutions, enterprises, and decision-makers who require reliable intelligence to navigate complex environments.
-            </p>
-          </div>
+        <div className="order-1 md:order-2 space-y-4">
+  <h3 className="text-black text-3xl cursor-target mb-6">
+    The Journey Behind Syancy Innovations
+  </h3>
+  <p>
+    Syancy Innovations was founded to bridge the gap between vast industry data and the need for structured, actionable intelligence in institutions.
+  </p>
+  <p>
+    As a research-driven, technology-focused organization, we integrate data analytics, artificial intelligence, and rigorous validation to transform complex datasets into reliable insights.
+  </p>
+  <p>
+    Our work spans data intelligence, demographic research, visualization, and strategic consulting, guided by a hybrid methodology that ensures accuracy, scalability, and real-world relevance.
+  </p>
+  <p>
+    Today, we focus on delivering credible, high-impact solutions that help institutions and enterprises make informed decisions in complex environments.
+  </p>
+</div>
         </motion.div>
 
         {/* CORE VALUES */}
@@ -133,40 +127,49 @@ export default function AboutPage() {
           </div>
         </motion.div>
 
-        {/* CEO SECTION */}
+        {/* TEAM SECTION */}
         <motion.div
-          className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center"
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true, margin: "-50px" }}
           variants={fadeInUp}
         >
-          {/* Left: Big image, no rounded */}
-          <div className="h-[28rem] md:h-[36rem] w-full overflow-hidden">
-            <img
-              src="/ceo.jpeg"
-              alt="Chaithanya Arya"
-              className="object-cover object-top w-full h-full"
-            />
+          <div className="mb-12 text-center">
+            <p className="text-sm text-gray-500 tracking-widest uppercase mb-3">Our Team</p>
+            <h3 className="text-black text-4xl font-light mb-4">The minds driving Syancy forward</h3>
+            <p className="text-gray-500 text-base font-light leading-relaxed max-w-2xl mx-auto">
+              A leadership team built on research rigor, operational excellence, and a shared commitment to making data intelligence accessible and impactful for every organization.
+            </p>
           </div>
-
-          {/* Right: Text */}
-          <div className="space-y-5">
-            <p className="text-sm text-gray-500 tracking-widest uppercase">Leadership</p>
-            <h3 className="text-black text-3xl font-light">Meet Our Founder</h3>
-            <div>
-              <p className="text-xl  text-black">Chaithanya Arya</p>
-              <p className="text-sm text-gray-500 mt-1">Founder &amp; CEO, Syancy Innovations</p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-10 max-w-xl mx-auto">
+            {/* Chaithanya Arya */}
+            <div className="flex flex-col">
+              <div className="rounded-xl overflow-hidden h-72 w-full">
+                <img
+                  src="/ceo.jpeg"
+                  alt="Chaithanya Arya"
+                  className="h-full w-full object-cover object-top"
+                />
+              </div>
+              <div className="pt-5 pb-2">
+                <h5 className="text-black text-lg font-medium">Chaithanya Arya</h5>
+                <p className="text-gray-500 text-sm mt-1">Founder &amp; CEO</p>
+              </div>
             </div>
-            <blockquote className="text-gray-600 italic text-base leading-relaxed border-l-4 border-blue-600 pl-5">
-              &ldquo;We believe every business, regardless of size, deserves access to world-class data intelligence. Our mission is to bridge the gap between raw data and strategic decisions, empowering organizations to move faster, predict smarter, and grow with confidence.&rdquo;
-            </blockquote>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Chaithanya Arya is the Founder and CEO of Syancy Innovations, bringing deep expertise in data science, institutional research, and strategic consulting. He founded Syancy Innovations with a singular vision: making advanced analytics accessible, credible, and impactful for organizations navigating complex data environments.
-            </p>
-            <p className="text-gray-600 text-sm leading-relaxed">
-              Under his leadership, the company has grown into a research-driven powerhouse, developing hybrid analytical methodologies that blend AI precision with rigorous manual validation. Chaithanya is committed to building intelligence systems that drive real-world institutional and enterprise outcomes.
-            </p>
+            {/* Aarti Pardeshi */}
+            <div className="flex flex-col">
+              <div className="rounded-xl overflow-hidden h-72 w-full">
+                <img
+                  src="/AP.png"
+                  alt="Aarti Pardeshi"
+                  className="h-full w-full object-cover object-center"
+                />
+              </div>
+              <div className="pt-5 pb-2">
+                <h5 className="text-black text-lg font-medium">Aarti Pardeshi</h5>
+                <p className="text-gray-500 text-sm mt-1">Co-founder &amp; Operations Manager</p>
+              </div>
+            </div>
           </div>
         </motion.div>
 

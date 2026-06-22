@@ -14,7 +14,7 @@ type Solution = {
   id: string
   title: string
   slug: string
-  icon: string | null
+  image: string | null
   isActive: boolean
   createdAt: string
 }
@@ -91,7 +91,7 @@ export default function AdminSolutionsPage() {
                 <TableHeader>
                   <TableRow>
                     <TableHead>Title</TableHead>
-                    <TableHead>Icon</TableHead>
+                    <TableHead>Image Banner</TableHead>
                     <TableHead>Status</TableHead>
                     <TableHead>Created</TableHead>
                     <TableHead className="text-right">Actions</TableHead>
@@ -101,7 +101,7 @@ export default function AdminSolutionsPage() {
                   {solutions.map((sol) => (
                     <TableRow key={sol.id}>
                       <TableCell className="font-medium">{sol.title}</TableCell>
-                      <TableCell>{sol.icon || "—"}</TableCell>
+                      <TableCell className="max-w-[200px] truncate">{sol.image || "—"}</TableCell>
                       <TableCell>
                         <span className={`inline-flex items-center px-2 py-1 rounded-full text-xs font-medium ${sol.isActive ? "bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400" : "bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300"}`}>
                           {sol.isActive ? "Active" : "Hidden"}

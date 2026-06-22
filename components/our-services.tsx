@@ -80,7 +80,7 @@ export default function OurServicesHighlight() {
           {/* <p className="text-xs font-semibold tracking-[0.22em] uppercase text-blue-400 mb-2">
             Our Capabilities
           </p> */}
-          <h2 className="text-3xl sm:text-4xl font-light">Why Syancy</h2>
+          <h2 className="text-3xl sm:text-4xl font-light">Why Syancy ?</h2>
         </motion.div>
 
         {/* DESKTOP */}
