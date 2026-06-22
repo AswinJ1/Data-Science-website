@@ -134,7 +134,7 @@ model Solution {
   slug        String   @unique
   industry    String
   description String   @db.Text
-  icon        String?
+  image       String?
   features    String[]
   isActive    Boolean  @default(true)
   order       Int      @default(0)

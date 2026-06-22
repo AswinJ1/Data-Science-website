@@ -60,7 +60,7 @@ async function main() {
       industry: "Healthcare",
       description:
         "Leverage AI and advanced analytics to improve patient outcomes, optimize operations, and reduce costs across healthcare organizations. Our solutions include predictive diagnostics, patient flow optimization, and clinical decision support systems.",
-      icon: "Heart",
+      image: null,
       features: [
         "Predictive patient diagnostics",
         "Hospital resource optimization",
@@ -76,7 +76,7 @@ async function main() {
       industry: "Finance",
       description:
         "Transform financial operations with intelligent automation, risk analytics, and real-time fraud detection. Our data-driven solutions help financial institutions make smarter decisions and stay compliant.",
-      icon: "DollarSign",
+      image: null,
       features: [
         "Real-time fraud detection",
         "Algorithmic trading insights",
@@ -92,7 +92,7 @@ async function main() {
       industry: "Retail",
       description:
         "Drive revenue growth with personalized customer experiences, demand forecasting, and supply chain optimization. Harness your data to understand customer behavior at scale.",
-      icon: "ShoppingCart",
+      image: null,
       features: [
         "Customer segmentation & personalization",
         "Demand forecasting",
@@ -108,7 +108,7 @@ async function main() {
       industry: "Manufacturing",
       description:
         "Optimize production processes, predict equipment failures, and improve quality control with AI-powered manufacturing analytics. Achieve operational excellence through data.",
-      icon: "Factory",
+      image: null,
       features: [
         "Predictive maintenance",
         "Quality control automation",
@@ -124,7 +124,7 @@ async function main() {
       industry: "Energy",
       description:
         "Optimize energy production, distribution, and consumption with intelligent analytics. Transition to sustainable operations with data-driven insights.",
-      icon: "Zap",
+      image: null,
       features: [
         "Smart grid analytics",
         "Energy demand forecasting",

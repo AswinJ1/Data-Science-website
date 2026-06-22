@@ -6,28 +6,11 @@ import Link from "next/link"
 import { Card, CardContent } from "@/components/ui/card"
 import { Badge } from "@/components/ui/badge"
 import { Button } from "@/components/ui/button"
-import { ArrowLeft, Loader2 } from "lucide-react"
+import { ArrowLeft, ArrowRight, CheckCircle2, Factory, LineChart, Shield, Zap, Image as ImageIcon, Loader2 } from "lucide-react"
 import { motion } from "framer-motion"
-import {
-  HealthcareIllustration,
-  FinanceIllustration,
-  RetailIllustration,
-  ManufacturingIllustration,
-  EnergyIllustration,
-  GenericSolutionIllustration,
-} from "@/components/illustrations"
 
 const fadeInUp = { hidden: { opacity: 0, y: 30 }, show: { opacity: 1, y: 0, transition: { duration: 0.5, ease: "easeOut" as const } } }
 const staggerContainer = { hidden: {}, show: { transition: { staggerChildren: 0.06 } } }
-
-const illustrationMap: Record<string, React.FC<{ className?: string }>> = {
-  Heart: HealthcareIllustration,
-  DollarSign: FinanceIllustration,
-  ShoppingCart: RetailIllustration,
-  Factory: ManufacturingIllustration,
-  Zap: EnergyIllustration,
-  Lightbulb: GenericSolutionIllustration,
-}
 
 interface Solution {
   id: string
@@ -35,7 +18,7 @@ interface Solution {
   slug: string
   industry: string
   description: string
-  icon: string | null
+  image: string | null
   features: string[]
 }
 
@@ -45,7 +28,7 @@ const fallbackSolutions: Record<string, Omit<Solution, "id">> = {
     title: "Healthcare Data Solutions",
     slug: "healthcare",
     industry: "Healthcare",
-    icon: "Heart",
+    image: null,
     description:
       "Leverage AI-powered diagnostics and patient analytics to improve outcomes, reduce costs, and streamline operations across your healthcare organization. Our solutions range from predictive patient risk scoring to clinical workflow optimization, helping hospitals and clinics deliver better care through data-driven insights.",
     features: [
@@ -63,7 +46,7 @@ const fallbackSolutions: Record<string, Omit<Solution, "id">> = {
     title: "Finance Data Solutions",
     slug: "finance",
     industry: "Finance",
-    icon: "DollarSign",
+    image: null,
     description:
       "Build robust risk models, detect fraudulent transactions in real time, and unlock deeper customer insights with our finance-focused data science solutions. From credit scoring to algorithmic trading analytics, we help financial institutions make smarter, faster decisions.",
     features: [
@@ -81,7 +64,7 @@ const fallbackSolutions: Record<string, Omit<Solution, "id">> = {
     title: "Retail & E-Commerce Data Solutions",
     slug: "retail-e-commerce",
     industry: "Retail & E-Commerce",
-    icon: "ShoppingCart",
+    image: null,
     description:
       "Transform your retail operations with advanced customer segmentation, demand forecasting, and personalized recommendation engines. Our solutions help e-commerce and brick-and-mortar businesses increase revenue, optimize inventory, and deliver exceptional customer experiences.",
     features: [
@@ -99,7 +82,7 @@ const fallbackSolutions: Record<string, Omit<Solution, "id">> = {
     title: "Manufacturing Data Solutions",
     slug: "manufacturing",
     industry: "Manufacturing",
-    icon: "Factory",
+    image: null,
     description:
       "Optimize your manufacturing processes with predictive maintenance, quality control analytics, and supply chain intelligence. Our data solutions help reduce downtime, minimize defects, and improve overall equipment effectiveness across your production lines.",
     features: [
@@ -117,7 +100,7 @@ const fallbackSolutions: Record<string, Omit<Solution, "id">> = {
     title: "Energy Data Solutions",
     slug: "energy",
     industry: "Energy",
-    icon: "Zap",
+    image: null,
     description:
       "Drive efficiency and sustainability in energy operations with smart grid analytics, consumption forecasting, and renewable energy optimization. Our solutions help energy companies reduce waste, predict demand, and transition to cleaner operations.",
     features: [
@@ -188,34 +171,40 @@ export default function SolutionDetailPage() {
 
   if (!solution) return null
 
-  const IllustrationComponent = illustrationMap[solution.icon || ""] || GenericSolutionIllustration
-
   return (
     <main className="min-h-screen bg-gray-50 dark:bg-gray-950">
-      <section className="bg-gradient-to-r from-blue-900 to-blue-700 text-white py-16 overflow-hidden">
+      <section className="relative text-white py-24 overflow-hidden">
+        {/* Background Image or Fallback Gradient */}
+        {solution.image ? (
+          <>
+            <div
+              className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+              style={{ backgroundImage: `url(${solution.image})` }}
+            />
+            {/* Dark overlay for text readability */}
+            <div className="absolute inset-0 bg-black/60 dark:bg-black/80" />
+          </>
+        ) : (
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900 to-blue-700" />
+        )}
+
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.6 }}
-          className="max-w-4xl mx-auto px-4"
+          className="relative z-10 max-w-4xl mx-auto px-4"
         >
           <Link
             href="/solutions"
-            className="inline-flex items-center gap-1 text-sm text-blue-200 hover:text-white mb-4"
+            className="inline-flex items-center gap-1 text-sm text-gray-200 hover:text-white mb-6 transition-colors"
           >
             <ArrowLeft className="h-4 w-4" />
             All Solutions
           </Link>
-          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
-            <div>
-              <div className="mb-4">
-                <Badge className="bg-blue-500">{solution.industry}</Badge>
-              </div>
-              <h1 className="text-3xl md:text-4xl font-bold mb-4">{solution.title}</h1>
-            </div>
-            <div className="w-48 h-36 flex-shrink-0">
-              <IllustrationComponent className="w-full h-full drop-shadow-lg" />
-            </div>
+          <div className="max-w-3xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4 leading-tight">
+              {solution.title}
+            </h1>
           </div>
         </motion.div>
       </section>
@@ -241,7 +230,7 @@ export default function SolutionDetailPage() {
         >
           <h2 className="text-3xl font-light mb-8 text-black dark:text-white tracking-tight">Key Capabilities</h2>
           <ul className="grid md:grid-cols-2 gap-x-12 gap-y-5 list-disc pl-5 marker:text-blue-500">
-            {solution.features.map((feature, i) => (
+            {(solution.features || []).map((feature, i) => (
               <li key={i} className="text-gray-700 dark:text-gray-300 text-base leading-relaxed">
                 {feature}
               </li>

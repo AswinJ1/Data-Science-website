@@ -1,5 +1,6 @@
-import { NextResponse } from "next/server";
-import { requireAuth } from "@/lib/auth";
+import { NextRequest, NextResponse } from "next/server";
+import { getServerSession } from "next-auth/next";
+import { authOptions } from "@/lib/auth";
 
 // Decode the UPLOADTHING_TOKEN to get the API key
 function getUploadThingConfig() {
@@ -16,34 +17,26 @@ function getUploadThingConfig() {
   };
 }
 
-export const runtime = "nodejs";
-
-export async function POST(request: Request) {
+export async function POST(req: NextRequest) {
   try {
-    await requireAuth();
+    const session = await getServerSession(authOptions);
+    if (!session?.user || (session.user as any).role !== "ADMIN") {
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    }
 
-    const formData = await request.formData();
-    const file = formData.get("file") as File;
+    const formData = await req.formData();
+    const file = formData.get("file") as File | null;
 
     if (!file) {
       return NextResponse.json({ error: "No file provided" }, { status: 400 });
     }
 
-    // Validate file type (images only)
-    const allowedTypes = ["image/jpeg", "image/png", "image/webp", "image/gif"];
-    if (!allowedTypes.includes(file.type)) {
-      return NextResponse.json(
-        { error: "Only JPEG, PNG, WebP, and GIF images are allowed" },
-        { status: 400 }
-      );
+    if (!file.type.startsWith("image/")) {
+      return NextResponse.json({ error: "File must be an image" }, { status: 400 });
     }
 
-    // Validate file size (2MB max)
-    if (file.size > 2 * 1024 * 1024) {
-      return NextResponse.json(
-        { error: "File size must be less than 2MB" },
-        { status: 400 }
-      );
+    if (file.size > 4 * 1024 * 1024) {
+      return NextResponse.json({ error: "File must be less than 4MB" }, { status: 400 });
     }
 
     const config = getUploadThingConfig();
@@ -73,9 +66,12 @@ export async function POST(request: Request) {
     }
 
     const prepareData = await prepareRes.json();
+    console.log("UploadThing prepareUpload response:", JSON.stringify(prepareData));
 
+    // The response structure is { data: [{ presignedUrl, key, fileUrl, ... }] }
     const uploadInfo = prepareData.data?.[0] || prepareData[0];
     if (!uploadInfo) {
+      console.error("No upload info in response:", JSON.stringify(prepareData));
       return NextResponse.json({ error: "No upload info returned" }, { status: 500 });
     }
 
@@ -84,6 +80,7 @@ export async function POST(request: Request) {
     const fileUrl = uploadInfo.fileUrl;
 
     if (!presignedUrl || !fileKey) {
+      console.error("Missing presigned URL or key:", JSON.stringify(uploadInfo));
       return NextResponse.json({ error: "Missing upload URL" }, { status: 500 });
     }
 
@@ -108,11 +105,21 @@ export async function POST(request: Request) {
     }
 
     // Step 3: Construct the file URL
+    // UploadThing file URLs follow the pattern: https://{appId}.ufs.sh/f/{key}
     const finalUrl = fileUrl || `https://${config.appId}.ufs.sh/f/${fileKey}`;
 
-    return NextResponse.json({ url: finalUrl });
-  } catch (error) {
-    console.error("Avatar upload error:", error);
-    return NextResponse.json({ error: "Upload failed" }, { status: 500 });
+    console.log("Upload successful! URL:", finalUrl);
+
+    return NextResponse.json({
+      url: finalUrl,
+      key: fileKey,
+      name: file.name,
+    });
+  } catch (error: any) {
+    console.error("Upload route error:", error);
+    return NextResponse.json(
+      { error: error.message || "Internal server error" },
+      { status: 500 }
+    );
   }
 }
