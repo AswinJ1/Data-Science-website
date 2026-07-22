@@ -4,11 +4,11 @@ import { Inter } from "next/font/google"
 import "./globals.css"
 import { SiteShell } from "@/components/site-shell"
 import Providers from "@/components/providers"
-import GoogleAnalytics from "@/components/GoogleAnalytics"
+
+// import GoogleAnalytics from "@/components/GoogleAnalytics"
 import CookieConsent from "@/components/CookieConsent"
-
-
-
+import { GoogleAnalytics } from "@next/third-parties/google"
+import AnalyticsWrapper from "@/components/GoogleAnalytics"
 const inter = Inter({
   subsets: ["latin"],
   weight: ["300", "400", "500", "600", "700", "800", "900"],
@@ -52,11 +52,13 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
-          <GoogleAnalytics />
+          {/* <GoogleAnalytics /> */}
           <CookieConsent />
           <SiteShell>
             {children}
           </SiteShell>
+          {/* <GoogleAnalytics gaId="G-FY8Z7BVCP6" /> */}
+          <AnalyticsWrapper />
         </Providers>
       </body>
     </html>

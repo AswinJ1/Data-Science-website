@@ -1,59 +1,40 @@
-"use client";
+"use client"
 
-import Script from "next/script";
-import { usePathname } from "next/navigation";
-import { useState, useEffect } from "react";
+import { GoogleAnalytics } from "@next/third-parties/google"
+import { usePathname } from "next/navigation"
+import { useEffect } from "react"
 
-export default function GoogleAnalytics() {
-  const pathname = usePathname();
-  const [consentGiven, setConsentGiven] = useState(false);
+export default function AnalyticsWrapper() {
+  const pathname = usePathname()
+
+  const ignoredRoutes = ["/dashboard", "/admin", "/hr"]
+  const isIgnoredRoute = ignoredRoutes.some((route) => pathname?.startsWith(route))
 
   useEffect(() => {
-    // Check initial consent status
-    const consent = localStorage.getItem("cookie_consent");
-    if (consent === "true") {
-      setConsentGiven(true);
+    if (isIgnoredRoute) return
+
+    window.dataLayer = window.dataLayer || []
+
+    const pushToDataLayer = (...args: any[]) => {
+      window.dataLayer?.push(args)
     }
 
-    // Listen for accepted cookies via our banner
-    const handleConsent = () => {
-      setConsentGiven(true);
-    };
+    const consent = localStorage.getItem("cookie_consent")
+    if (consent === "true") {
+      pushToDataLayer("consent", "update", { analytics_storage: "granted" })
+    } else {
+      pushToDataLayer("consent", "default", { analytics_storage: "denied" })
+    }
 
-    window.addEventListener("cookie_consent_accepted", handleConsent);
-    return () => window.removeEventListener("cookie_consent_accepted", handleConsent);
-  }, []);
+    const handleConsentAccepted = () => {
+      pushToDataLayer("consent", "update", { analytics_storage: "granted" })
+    }
 
-  // Do not render on dashboard pages
-  if (pathname?.startsWith("/dashboard") || pathname?.startsWith("/admin") || pathname?.startsWith("/hr")) {
-    return null;
-  }
+    window.addEventListener("cookie_consent_accepted", handleConsentAccepted)
+    return () => window.removeEventListener("cookie_consent_accepted", handleConsentAccepted)
+  }, [isIgnoredRoute])
 
-  // Do not render if consent is not given
-  if (!consentGiven) {
-    return null;
-  }
+  if (isIgnoredRoute) return null
 
-  return (
-    <>
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=G-FY8Z7BVCP6`}
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-            window.dataLayer = window.dataLayer || [];
-            function gtag(){dataLayer.push(arguments);}
-            gtag('js', new Date());
-            gtag('config', 'G-FY8Z7BVCP6', {
-              page_path: window.location.pathname,
-            });
-          `,
-        }}
-      />
-    </>
-  );
+  return <GoogleAnalytics gaId="G-FY8Z7BVCP6" />
 }

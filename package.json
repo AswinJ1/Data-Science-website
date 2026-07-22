@@ -20,6 +20,7 @@
     "@hookform/resolvers": "^3.9.1",
     "@icons-pack/react-simple-icons": "^13.11.1",
     "@lottiefiles/dotlottie-react": "^0.19.4",
+    "@next/third-parties": "^16.2.11",
     "@prisma/client": "^5.22.0",
     "@radix-ui/react-accordion": "1.2.2",
     "@radix-ui/react-alert-dialog": "1.1.4",
