@@ -62,7 +62,7 @@ export default function ForgotPasswordPage() {
         <div className="w-full max-w-md mx-auto space-y-6">
           
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Forgot Password?</h1>
+            <h1 className="text-3xl text-gray-900 tracking-tight">Forgot Password?</h1>
             <p className="text-sm text-gray-500 mt-1.5">
               Enter your email address and we&apos;ll send you a 6-digit OTP code to reset your password.
             </p>
@@ -76,7 +76,7 @@ export default function ForgotPasswordPage() {
             )}
 
             <div className="space-y-1.5">
-              <Label htmlFor="email" className="text-xs font-semibold text-gray-700">Email Address</Label>
+              <Label htmlFor="email" className="text-xs  text-gray-700">Email Address</Label>
               <Input
                 id="email"
                 type="email"
@@ -100,7 +100,7 @@ export default function ForgotPasswordPage() {
             <div className="pt-2 text-center">
               <Link
                 href="/auth/login"
-                className="inline-flex items-center text-xs font-semibold text-gray-600 hover:text-gray-900 transition-colors"
+                className="inline-flex items-center text-xs  text-gray-600 hover:text-gray-900 transition-colors"
               >
                 <ArrowLeft className="mr-1.5 h-3.5 w-3.5" /> Back to Login
               </Link>

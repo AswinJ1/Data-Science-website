@@ -108,10 +108,10 @@ export default function LoginPage() {
         <div className="w-full max-w-md mx-auto space-y-6">
           
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Login</h1>
+            <h1 className="text-3xl  text-gray-900 tracking-tight">Login</h1>
             <p className="text-sm text-gray-500 mt-1.5">
               Don&apos;t have an account?{" "}
-              <Link href="/auth/register" className="text-blue-600 hover:underline font-semibold">
+              <Link href="/auth/register" className="text-blue-600 hover:underline ">
                 Sign up
               </Link>
             </p>
@@ -143,7 +143,7 @@ export default function LoginPage() {
                 <Label htmlFor="password" className="text-xs font-semibold text-gray-700">Password</Label>
                 <Link
                   href="/auth/forgot-password"
-                  className="text-xs font-semibold text-blue-600 hover:underline"
+                  className="text-xs  text-blue-600 hover:underline"
                 >
                   Forgot password?
                 </Link>
@@ -176,7 +176,7 @@ export default function LoginPage() {
                 onCheckedChange={(checked) => setRememberMe(!!checked)}
                 className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
-              <label htmlFor="remember" className="text-xs text-gray-600 font-medium cursor-pointer">
+              <label htmlFor="remember" className="text-xs text-gray-600  cursor-pointer">
                 Remember me
               </label>
             </div>

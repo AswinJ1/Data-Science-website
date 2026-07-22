@@ -1,29 +1,29 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { ArrowRight } from "lucide-react"
-import { motion, AnimatePresence } from "framer-motion"
-import Image from "next/image"
-import Link from "next/link"
-import { useState, useEffect } from 'react'
-import Particles, { initParticlesEngine } from "@tsparticles/react"
-import { loadSlim } from "@tsparticles/slim"
+import React, { useState, useEffect } from "react";
+import { Button } from "@/components/ui/button";
+import { ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import Link from "next/link";
+import Particles, { initParticlesEngine } from "@tsparticles/react";
+import { loadSlim } from "@tsparticles/slim";
+import { TextRotate } from "@/components/ui/text-rotate";
 
 const ParticlesBackground = () => {
-  const [ready, setReady] = useState(false)
+  const [ready, setReady] = useState(false);
 
   useEffect(() => {
     initParticlesEngine(async (engine) => {
-      await loadSlim(engine)
-    }).then(() => setReady(true))
-  }, [])
+      await loadSlim(engine);
+    }).then(() => setReady(true));
+  }, []);
 
-  if (!ready) return null
+  if (!ready) return null;
 
   return (
     <Particles
       id="hero-particles"
-      className="absolute inset-0 w-full h-full pointer-events-none"
+      className="absolute inset-0 w-full h-full pointer-events-none z-0"
       options={{
         fullScreen: { enable: false },
         background: { color: { value: "transparent" } },
@@ -34,16 +34,16 @@ const ParticlesBackground = () => {
             resize: { enable: true },
           },
           modes: {
-            grab: { distance: 160, links: { opacity: 0.5 } },
+            grab: { distance: 160, links: { opacity: 0.4 } },
           },
         },
         particles: {
-          color: { value: "#ffffff" },
+          color: { value: "#3b82f6" },
           links: {
-            color: "#ffffff",
+            color: "#3b82f6",
             distance: 130,
             enable: true,
-            opacity: 0.3,
+            opacity: 0.25,
             width: 1,
           },
           move: {
@@ -52,133 +52,132 @@ const ParticlesBackground = () => {
             direction: "none",
             outModes: { default: "bounce" },
           },
-          number: { value: 80, density: { enable: true, width: 900, height: 900 } },
-          opacity: { value: { min: 0.2, max: 0.7 }, animation: { enable: true, speed: 0.6 } },
+          number: { value: 65, density: { enable: true, width: 900, height: 900 } },
+          opacity: { value: { min: 0.2, max: 0.6 } },
           shape: { type: "circle" },
-          size: { value: { min: 1, max: 3.5 } },
+          size: { value: { min: 1, max: 3 } },
         },
         detectRetina: true,
       }}
     />
-  )
-}
+  );
+};
 
-const TextRotator = () => {
-  const texts = [
-    "Actionable Insights",
-    "Business Intelligence", 
-    "Strategic Decisions",
-    "Growth Opportunities"
-  ]
-  
-  const [currentIndex, setCurrentIndex] = useState(0)
+function FullBleedRightVideoMask() {
+  const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
+
+  const videos = [
+    "/blob-video/video-1.mp4",
+    "/blob-video/video-2.mp4",
+    "/blob-video/video-3.mp4",
+  ];
 
   useEffect(() => {
     const interval = setInterval(() => {
-      setCurrentIndex((prev) => (prev + 1) % texts.length)
-    }, 2500)
-    
-    return () => clearInterval(interval)
-  }, [])
+      setCurrentVideoIndex((prev) => (prev + 1) % videos.length);
+    }, 6000);
+    return () => clearInterval(interval);
+  }, [videos.length]);
 
   return (
-    <span className="inline-block whitespace-nowrap">
-      <AnimatePresence mode="wait">
-        <motion.span
-          key={currentIndex}
-          initial={{ opacity: 0, y: 15 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -15 }}
-          transition={{ duration: 0.4, ease: "easeInOut" }}
-          className="text-yellow-300 inline-block"
-        >
-          {texts[currentIndex]}
-        </motion.span>
-      </AnimatePresence>
-    </span>
-  )
+    <div className="w-full h-full relative overflow-hidden bg-transparent">
+      <div
+        className="w-full h-full relative"
+        style={{
+          clipPath: "polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%)",
+          WebkitClipPath: "polygon(12% 0%, 100% 0%, 100% 100%, 0% 100%)",
+        }}
+      >
+        {videos.map((src, index) => (
+          <video
+            key={src}
+            autoPlay
+            muted
+            loop
+            playsInline
+            preload="auto"
+            src={src}
+            className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+              index === currentVideoIndex ? "opacity-100 z-10" : "opacity-0 z-0"
+            }`}
+          />
+        ))}
+
+        {/* Sharp Blue Border Accent Line */}
+        <div className="absolute top-0 left-0 w-2 h-full bg-gradient-to-b from-blue-600 via-indigo-600 to-blue-500 z-20" />
+      </div>
+    </div>
+  );
 }
 
 export default function HeroSection() {
   return (
-    <section className="pt-16 pb-12 min-h-screen flex items-center relative overflow-hidden" style={{ background: "linear-gradient(135deg, #1a3fa8 0%, #1e56c8 50%, #1a4ab5 100%)" }}>
+    <section className="relative min-h-[85vh] lg:min-h-[90vh] flex items-center bg-white overflow-hidden font-sans border-b border-gray-100 p-0 m-0">
       <ParticlesBackground />
-      <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="grid lg:grid-cols-2 gap-8 items-center">
+
+      <div className="w-full relative z-10">
+        <div className="grid lg:grid-cols-12 items-center">
+          
+          {/* Left Column: Text & CTA inside max-w container */}
           <motion.div
             initial={{ opacity: 0, x: -40 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.7, ease: "easeOut" }}
-            className="lg:pr-8"
+            className="lg:col-span-6 px-6 sm:px-12 lg:px-16 py-12 lg:py-20 space-y-6"
           >
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
-              Transform Your Data into{""}
-              <TextRotator />
+            <h1 className="text-4xl sm:text-5xl lg:text-6xl  text-gray-900 leading-[1.12]">
+              Transform Your Data into{" "}
+              <span className="block text-blue-600  pt-1">
+                <TextRotate
+                  texts={[
+                    "Actionable Insights",
+                    "Business Intelligence",
+                    "Strategic Decisions",
+                    "Growth Opportunities",
+                  ]}
+                  mainClassName="text-blue-600  overflow-visible"
+                  staggerFrom="last"
+                  initial={{ y: "100%", opacity: 0 }}
+                  animate={{ y: 0, opacity: 1 }}
+                  exit={{ y: "-120%", opacity: 0 }}
+                  staggerDuration={0.025}
+                  splitBy="words"
+                  transition={{ type: "spring", damping: 30, stiffness: 400 }}
+                  rotationInterval={2500}
+                />
+              </span>
             </h1>
-            <p className="text-lg text-blue-100 mb-6 leading-relaxed">
-              Unlock the power of your data with our comprehensive suite of data engineering, analytics, and machine
-              learning solutions. Drive growth through intelligent data strategies.
+
+            <p className="text-lg text-gray-700 leading-relaxed text-justify max-w-xl">
+              Unlock the power of your data with our comprehensive suite of data engineering, analytics, and machine learning solutions. Drive growth through intelligent data strategies.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4">
-              <Button size="lg" className="bg-white text-blue-700 hover:bg-blue-50 font-semibold transition-colors rounded-none shadow-lg" asChild>
+
+            <div className="pt-2 flex flex-col sm:flex-row gap-4">
+              <Button
+                size="lg"
+                className="bg-blue-950  text-white  shadow-lg rounded-none"
+                asChild
+              >
                 <Link href="/contact">
                   Get Started Today
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Link>
               </Button>
-              {/* <Button
-                variant="outline"
-                size="lg"
-                className="border-primary-bright text-primary-bright hover:bg-primary-bright hover:text-white bg-transparent rounded-none"
-                asChild
-              >
-                <Link href="/contact">
-                  Submit Now
-                  <ArrowRight className="ml-2 h-5 w-5" />
-                </Link>
-              </Button> */}
             </div>
           </motion.div>
 
+          {/* Right Column: Full Bleed touching navbar top and screen right edge */}
           <motion.div
-            initial={{ opacity: 0, y: 40 }}
+            initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, ease: "easeOut", delay: 0.2 }}
-            className="relative"
+            className="lg:col-span-6 h-[450px] sm:h-[550px] lg:h-[650px] w-full"
           >
-            <motion.div 
-              className="relative z-10"
-              animate={{ y: [0, -15, 0] }}
-              transition={{ 
-                repeat: Infinity, 
-                duration: 3, 
-                ease: "easeInOut",
-                repeatType: "reverse"
-              }}
-            >
-              <Image
-                src="/hero.png"
-                alt="Data Flow Illustration"
-                width={400}
-                height={300}
-                className="w-full h-auto"
-                priority
-              />
-            </motion.div>
-            {/* Floating elements */}
-            <motion.div
-              className="absolute top-10 right-10 w-16 h-16 bg-white/10 rounded-full"
-              animate={{ y: [0, -10, 0] }}
-              transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
-            />
-            <motion.div
-              className="absolute bottom-20 left-10 w-12 h-12 bg-white/10 rounded-full"
-              animate={{ y: [0, 10, 0] }}
-              transition={{ repeat: Infinity, duration: 2.2, ease: "easeInOut", delay: 0.5 }}
-            />
+            <FullBleedRightVideoMask />
           </motion.div>
+
         </div>
       </div>
     </section>
-  )
+  );
 }

@@ -103,10 +103,10 @@ export default function RegisterPage() {
         <div className="w-full max-w-md mx-auto space-y-5">
           
           <div>
-            <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Create an account</h1>
+            <h1 className="text-3xl text-gray-900 tracking-tight">Create an account</h1>
             <p className="text-sm text-gray-500 mt-1.5">
               Already have an account?{" "}
-              <Link href="/auth/login" className="text-blue-600 hover:underline font-semibold">
+              <Link href="/auth/login" className="text-blue-600 hover:underline ">
                 Log in
               </Link>
             </p>
@@ -120,7 +120,7 @@ export default function RegisterPage() {
             )}
 
             <div className="space-y-1">
-              <Label htmlFor="name" className="text-xs font-semibold text-gray-700">Full Name</Label>
+              <Label htmlFor="name" className="text-xs  text-gray-700">Full Name</Label>
               <Input
                 id="name"
                 placeholder="John Doe"
@@ -131,7 +131,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="email" className="text-xs font-semibold text-gray-700">Email Address</Label>
+              <Label htmlFor="email" className="text-xs  text-gray-700">Email Address</Label>
               <Input
                 id="email"
                 type="email"
@@ -143,7 +143,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="password" className="text-xs font-semibold text-gray-700">Password</Label>
+              <Label htmlFor="password" className="text-xs  text-gray-700">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
@@ -164,7 +164,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="space-y-1">
-              <Label htmlFor="confirmPassword" className="text-xs font-semibold text-gray-700">Confirm Password</Label>
+              <Label htmlFor="confirmPassword" className="text-xs  text-gray-700">Confirm Password</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -184,8 +184,8 @@ export default function RegisterPage() {
                 onCheckedChange={(checked) => setAgreeTerms(!!checked)}
                 className="rounded border-gray-300 text-blue-600 focus:ring-blue-500"
               />
-              <label htmlFor="terms" className="text-xs text-gray-600 font-medium cursor-pointer">
-                I agree to the <span className="text-blue-600 underline font-semibold">Terms & Conditions</span>
+              <label htmlFor="terms" className="text-xs text-gray-600  cursor-pointer">
+                I agree to the <span className="text-blue-600 underline ">Terms & Conditions</span>
               </label>
             </div>
 

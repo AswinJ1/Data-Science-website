@@ -66,7 +66,7 @@ function ResetPasswordForm() {
     return (
       <div className="w-full max-w-md mx-auto space-y-4 text-center">
         <CheckCircle2 className="w-16 h-16 text-green-500 mx-auto animate-bounce" />
-        <h2 className="text-2xl font-bold text-gray-900">Password Reset Successful!</h2>
+        <h2 className="text-2xl  text-gray-900">Password Reset Successful!</h2>
         <p className="text-gray-500 text-sm">
           Your password has been updated. Redirecting you to login...
         </p>
@@ -77,7 +77,7 @@ function ResetPasswordForm() {
   return (
     <div className="w-full max-w-md mx-auto space-y-5">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900 tracking-tight">Reset Password</h1>
+        <h1 className="text-3xl d text-gray-900 tracking-tight">Reset Password</h1>
         <p className="text-sm text-gray-500 mt-1.5">
           Enter the 6-digit OTP code sent to your email along with your new password.
         </p>
@@ -91,7 +91,7 @@ function ResetPasswordForm() {
         )}
 
         <div className="space-y-1">
-          <Label htmlFor="email" className="text-xs font-semibold text-gray-700">Email Address</Label>
+          <Label htmlFor="email" className="text-xs  text-gray-700">Email Address</Label>
           <Input
             id="email"
             type="email"
@@ -103,7 +103,7 @@ function ResetPasswordForm() {
         </div>
 
         <div className="space-y-1 flex flex-col items-center">
-          <Label htmlFor="otp" className="text-xs font-semibold text-gray-700 self-start mb-1">6-Digit OTP Code</Label>
+          <Label htmlFor="otp" className="text-xs  text-gray-700 self-start mb-1">6-Digit OTP Code</Label>
           <InputOTP maxLength={6} value={otp} onChange={setOtp}>
             <InputOTPGroup className="gap-2">
               <InputOTPSlot index={0} className="w-11 h-12 text-lg font-bold rounded-xl border border-gray-200 bg-white" />
@@ -117,7 +117,7 @@ function ResetPasswordForm() {
         </div>
 
         <div className="space-y-1">
-          <Label htmlFor="password" className="text-xs font-semibold text-gray-700">New Password</Label>
+          <Label htmlFor="password" className="text-xs  text-gray-700">New Password</Label>
           <div className="relative">
             <Input
               id="password"
@@ -139,7 +139,7 @@ function ResetPasswordForm() {
         </div>
 
         <div className="space-y-1">
-          <Label htmlFor="confirmPassword" className="text-xs font-semibold text-gray-700">Confirm New Password</Label>
+          <Label htmlFor="confirmPassword" className="text-xs text-gray-700">Confirm New Password</Label>
           <Input
             id="confirmPassword"
             type="password"
@@ -163,7 +163,7 @@ function ResetPasswordForm() {
         <div className="pt-2 text-center">
           <p className="text-xs text-gray-500">
             Didn&apos;t receive code?{" "}
-            <Link href="/auth/forgot-password" className="text-blue-600 hover:underline font-semibold">
+            <Link href="/auth/forgot-password" className="text-blue-600 hover:underline ">
               Resend OTP
             </Link>
           </p>
