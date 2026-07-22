@@ -205,3 +205,14 @@ model FaqQuestion {
 
   @@map("faq_questions")
 }
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  otp       String   // 6-digit OTP code (or hashed OTP)
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+
+  @@index([email])
+  @@map("password_reset_tokens")
+}

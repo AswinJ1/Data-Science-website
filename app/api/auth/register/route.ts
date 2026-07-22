@@ -10,19 +10,30 @@ function isDisposableEmail(email: string): boolean {
 }
 
 async function verifyRecaptcha(token: string): Promise<boolean> {
+  const secretKey = process.env.RECAPTCHA_SECRET_KEY || process.env.NEXT_PUBLIC_RECAPTCHA_SECRET_KEY;
+
+  if (!secretKey) {
+    console.error("reCAPTCHA secret key is missing from environment variables.");
+    return false;
+  }
+
   const res = await fetch("https://www.google.com/recaptcha/api/siteverify", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: new URLSearchParams({
-      secret: process.env.RECAPTCHA_SECRET_KEY!,
+      secret: secretKey,
       response: token,
     }),
   });
+
   const data = await res.json();
-  // For v2 checkbox: data.success is enough.
-  // For v3: also check data.score >= 0.5 (tune threshold as needed).
+  if (!data.success) {
+    console.error("reCAPTCHA verification failed:", data["error-codes"]);
+  }
+
   return data.success === true;
 }
+
 
 export async function POST(req: Request) {
   try {
