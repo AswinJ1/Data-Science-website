@@ -52,12 +52,10 @@ export default function RootLayout({
     <html lang="en" className="scroll-smooth" suppressHydrationWarning>
       <body className={inter.className}>
         <Providers>
-          {/* <GoogleAnalytics /> */}
           <CookieConsent />
           <SiteShell>
             {children}
           </SiteShell>
-          {/* <GoogleAnalytics gaId="G-FY8Z7BVCP6" /> */}
           <AnalyticsWrapper />
         </Providers>
       </body>

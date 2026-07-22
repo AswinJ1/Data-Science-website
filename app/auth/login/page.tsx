@@ -12,6 +12,11 @@ import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
 import { Eye, EyeOff, Loader2 } from "lucide-react"
+import dynamic from "next/dynamic";
+
+
+
+const ReCAPTCHA = dynamic(() => import("react-google-recaptcha"), { ssr: false });
 
 function getRoleRedirect(role?: string) {
   if (role === "ADMIN") return "/admin"
@@ -25,6 +30,8 @@ export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false)
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
+  const [recaptchaToken, setRecaptchaToken] = useState<string | null>(null);
+  const [recaptchaKey, setRecaptchaKey] = useState(0);
 
   const {
     register,
@@ -49,7 +56,12 @@ export default function LoginPage() {
     )
   }
 
+
   const onSubmit = async (data: LoginInput) => {
+    if (!recaptchaToken) {
+      setError("Please complete the reCAPTCHA challenge.");
+      return;
+    }
     setLoading(true)
     setError("")
 
@@ -57,6 +69,7 @@ export default function LoginPage() {
       const result = await signIn("credentials", {
         email: data.email,
         password: data.password,
+        recaptchaToken,
         redirect: false,
       })
 
@@ -124,6 +137,14 @@ export default function LoginPage() {
             </div>
           </CardContent>
           <CardFooter className="flex flex-col gap-4">
+                <div className="col-span-1 md:col-span-2">
+                  <ReCAPTCHA
+                    key={recaptchaKey}
+                    sitekey={process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY!}
+                    onChange={(token) => setRecaptchaToken(token)}
+                    onExpired={() => setRecaptchaToken(null)}
+                  />
+                </div>
             <Button type="submit" className="w-full bg-blue-600 hover:bg-blue-700" disabled={loading}>
               {loading && <Loader2 className="mr-2 h-4 w-4 animate-spin" />}
               Sign In
