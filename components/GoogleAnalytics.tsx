@@ -36,5 +36,5 @@ export default function AnalyticsWrapper() {
 
   if (isIgnoredRoute) return null
 
-  return <GoogleAnalytics gaId="G-FY8Z7BVCP6" />
+  return <GoogleAnalytics gaId="G-LJCCR6JMNE" />
 }
