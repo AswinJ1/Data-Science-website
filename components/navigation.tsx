@@ -182,84 +182,133 @@ const technologyItems = techCategories.flatMap((cat) =>
   cat.items.map((item) => ({ ...item, description: cat.heading }))
 )
 
-/* ── Tech mega-menu panel (desktop) ──────────────────────── */
-function TechMegaMenuPanel({ onClose }: { onClose: () => void }) {
+/* ── Nested Flyout Sub-menu (Apexon Category Style) ─────────────── */
+function NestedFlyoutTechDropdown({
+  categories,
+  onClose,
+}: {
+  categories: typeof techCategories
+  onClose: () => void
+}) {
+  const [activeCat, setActiveCat] = useState<string>(categories[0].heading)
+
   return (
     <div
-      className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50"
+      className="absolute top-full left-0 pt-1 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
       onMouseLeave={onClose}
     >
-      <div className="bg-white rounded-xl shadow-xl border border-gray-100 w-[780px] p-6 animate-in fade-in slide-in-from-top-2 duration-200">
-        <div className="grid grid-cols-3 gap-6">
-          {techCategories.map((cat) => (
-            <div key={cat.heading}>
-              <p className="text-[10px] font-semibold text-blue-600 uppercase tracking-widest mb-2 px-1">
-                {cat.heading}
-              </p>
-              <div className="flex flex-col gap-0.5">
-                {cat.items.map((item) => (
-                  <Link
-                    key={item.label}
-                    href={item.href}
-                    onClick={onClose}
-                    className="flex items-center gap-2.5 rounded-lg px-2 py-1.5 hover:bg-blue-50 transition-colors group"
-                  >
-                    {item.image ? (
-                      <img src={item.image} alt={item.label} className="h-4 w-4 flex-shrink-0 object-contain" />
-                    ) : (
-                      <item.icon className="h-3.5 w-3.5 flex-shrink-0 text-gray-400 group-hover:text-blue-600 transition-colors" />
-                    )}
-                    <span className="text-sm text-gray-700 group-hover:text-blue-700 transition-colors">
-                      {item.label}
-                    </span>
-                  </Link>
-                ))}
-              </div>
-            </div>
+      <div className="bg-white rounded-2xl shadow-2xl border border-gray-100/90 flex p-1.5 gap-1.5 min-w-[480px]">
+        {/* Level 1: Category Menu Headers */}
+        <div className="w-52 flex flex-col gap-0.5 border-r border-gray-100 pr-1.5">
+          {categories.map((cat) => (
+            <button
+              key={cat.heading}
+              onMouseEnter={() => setActiveCat(cat.heading)}
+              onClick={() => setActiveCat(cat.heading)}
+              className={`flex items-center justify-between px-3 py-2.5 rounded-xl text-xs font-semibold text-left transition-all ${
+                activeCat === cat.heading
+                  ? "bg-blue-50 text-blue-700 font-bold"
+                  : "text-gray-700 hover:bg-gray-50 hover:text-gray-900"
+              }`}
+            >
+              <span>{cat.heading}</span>
+              <ChevronRight className={`h-3.5 w-3.5 transition-transform ${activeCat === cat.heading ? "text-blue-600 translate-x-0.5" : "text-gray-300"}`} />
+            </button>
           ))}
         </div>
-        <div className="border-t mt-4 pt-3">
-          <Link
-            href="/technologies"
-            onClick={onClose}
-            className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors px-2"
-          >
-            View all technologies
-            <ArrowRight className="h-3.5 w-3.5" />
-          </Link>
+
+        {/* Level 2: Sub-menu Options for Active Category */}
+        <div className="flex-1 p-2 flex flex-col justify-between min-h-[280px]">
+          <div className="space-y-1">
+            <p className="text-[10px] font-bold text-blue-600 uppercase tracking-widest px-2 pb-1 border-b border-gray-100 mb-2">
+              {activeCat}
+            </p>
+            {categories
+              .find((c) => c.heading === activeCat)
+              ?.items.map((item) => (
+                <Link
+                  key={item.label}
+                  href={item.href}
+                  onClick={onClose}
+                  className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-blue-50/80 text-gray-800 hover:text-blue-700 text-xs font-semibold transition-all group"
+                >
+                  {item.image ? (
+                    <img src={item.image} alt={item.label} className="h-4 w-4 object-contain shrink-0" />
+                  ) : (
+                    <item.icon className="h-4 w-4 text-gray-400 group-hover:text-blue-600 shrink-0" />
+                  )}
+                  <span>{item.label}</span>
+                </Link>
+              ))}
+          </div>
+
+          <div className="pt-2 mt-3 border-t border-gray-100">
+            <Link
+              href="/technologies"
+              onClick={onClose}
+              className="flex items-center justify-between text-xs font-semibold text-blue-600 hover:text-blue-800 px-2 py-1"
+            >
+              <span>View all technologies</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
         </div>
       </div>
     </div>
   )
 }
 
-/* ── Tech nav dropdown (desktop) ─────────────────────────── */
+/* ── Tech Nav Dropdown ─────────────────────────── */
 function TechNavDropdown({ isActive }: { isActive: boolean }) {
   const [open, setOpen] = useState(false)
   const timeout = useRef<ReturnType<typeof setTimeout>>(undefined)
 
-  const handleEnter = () => { clearTimeout(timeout.current); setOpen(true) }
-  const handleLeave = () => { timeout.current = setTimeout(() => setOpen(false), 150) }
+  const handleEnter = () => {
+    clearTimeout(timeout.current)
+    setOpen(true)
+  }
+  const handleLeave = () => {
+    timeout.current = setTimeout(() => setOpen(false), 300)
+  }
 
   useEffect(() => () => clearTimeout(timeout.current), [])
 
   return (
-    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div className="relative py-2" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
       <Link
         href="/technologies"
-        className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+        className={`inline-flex items-center gap-1 text-sm font-medium transition-colors py-1 ${
           isActive ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
         }`}
       >
         Technologies
-        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180 text-blue-600" : ""}`} />
       </Link>
-      {open && <TechMegaMenuPanel onClose={() => setOpen(false)} />}
+
+      {open && (
+        <NestedFlyoutTechDropdown
+          categories={techCategories}
+          onClose={() => setOpen(false)}
+        />
+      )}
     </div>
   )
 }
 
-/* ── Plain nav items (no dropdown) ────────────────────────── */
+/* ── Company & Resources Sub-menus ────────────────────────── */
+const companyItems: NavItem[] = [
+  { icon: Globe, label: "About Syancy", href: "/about", description: "Our story, mission, and research methodology." },
+  { icon: Brain, label: "Executive Team", href: "/about#team", description: "Meet the leadership behind Syancy Innovations." },
+  { icon: TrendingUp, label: "Careers", href: "/careers", description: "Join our team of data scientists & engineers." },
+  { icon: Lightbulb, label: "Contact Us", href: "/contact", description: "Connect with our strategic advisors." },
+]
+
+const resourceItems: NavItem[] = [
+  { icon: BarChart3, label: "Blog & Insights", href: "/blog", description: "Latest industry research, AI, and data analytics." },
+  { icon: Search, label: "Case Studies", href: "/blog", description: "Real-world client success stories & benchmark results." },
+  { icon: Zap, label: "FAQ & Support", href: "/faq", description: "Frequently asked questions and support center." },
+]
+
 const plainNavItems = [
   { label: "Home", href: "/" },
   { label: "About", href: "/about" },
@@ -268,58 +317,59 @@ const plainNavItems = [
   { label: "Contact", href: "/contact" },
 ]
 
-/* ── Mega-menu panel (desktop) ────────────────────────────── */
-function MegaMenuPanel({
+/* ── Vertical Dropdown Panel (Apexon Single Column Style) ────── */
+function VerticalDropdownPanel({
   items,
   viewAllHref,
   viewAllLabel,
   onClose,
 }: {
-  items: { icon: React.ElementType; label: string; href: string; description: string }[]
-  viewAllHref: string
-  viewAllLabel: string
+  items: { icon: React.ElementType; label: string; href: string; description?: string }[]
+  viewAllHref?: string
+  viewAllLabel?: string
   onClose: () => void
 }) {
   return (
     <div
-      className="absolute top-full left-1/2 -translate-x-1/2 pt-2 z-50"
+      className="absolute top-full left-0 pt-1 z-50 animate-in fade-in slide-in-from-top-2 duration-150"
       onMouseLeave={onClose}
     >
-      <div className="bg-white rounded-xl shadow-xl border border-gray-100 w-[600px] p-5 animate-in fade-in slide-in-from-top-2 duration-200">
-        <div className="grid grid-cols-2 gap-1">
-          {items.map((item) => (
-            <Link
-              key={item.label}
-              href={item.href}
-              onClick={onClose}
-              className="flex items-start gap-3 rounded-lg p-3 hover:bg-blue-50 transition-colors group"
-            >
-              <item.icon className="h-4 w-4 flex-shrink-0 mt-0.5 text-gray-400 group-hover:text-blue-600 transition-colors" />
-              <div>
-                <p className="text-sm font-semibold text-gray-900 group-hover:text-blue-700 transition-colors">
-                  {item.label}
-                </p>
-                <p className="text-xs text-gray-500 leading-relaxed mt-0.5">{item.description}</p>
-              </div>
-            </Link>
-          ))}
-        </div>
-        <div className="border-t mt-3 pt-3">
+      <div className="bg-white rounded-2xl shadow-2xl border border-gray-100/90 w-64 p-1.5 divide-y divide-gray-100/70">
+        {items.map((item) => (
           <Link
-            href={viewAllHref}
+            key={item.label}
+            href={item.href}
             onClick={onClose}
-            className="flex items-center gap-1 text-sm font-medium text-blue-600 hover:text-blue-800 transition-colors px-3"
+            className="flex items-center justify-between px-3 py-2.5 rounded-xl hover:bg-blue-50/80 text-gray-700 hover:text-blue-600 transition-all group"
           >
-            {viewAllLabel}
-            <ArrowRight className="h-3.5 w-3.5" />
+            <div className="flex items-center gap-3 min-w-0">
+              <item.icon className="h-4 w-4 text-gray-400 group-hover:text-blue-600 transition-colors shrink-0" />
+              <span className="text-xs font-semibold tracking-tight text-gray-800 group-hover:text-blue-700 truncate">
+                {item.label}
+              </span>
+            </div>
+            <ChevronRight className="h-3.5 w-3.5 text-gray-300 group-hover:text-blue-600 group-hover:translate-x-0.5 transition-all shrink-0" />
           </Link>
-        </div>
+        ))}
+
+        {viewAllHref && viewAllLabel && (
+          <div className="pt-1 mt-1 border-t border-gray-100">
+            <Link
+              href={viewAllHref}
+              onClick={onClose}
+              className="flex items-center justify-between px-3 py-2 text-xs font-semibold text-blue-600 hover:text-blue-800 transition-colors rounded-lg hover:bg-blue-50"
+            >
+              <span>{viewAllLabel}</span>
+              <ArrowRight className="h-3.5 w-3.5" />
+            </Link>
+          </div>
+        )}
       </div>
     </div>
   )
 }
 
-/* ── Desktop nav trigger with hover mega-menu ─────────────── */
+/* ── Desktop Nav Trigger (No Flickering Buffer) ─────────────── */
 function NavDropdown({
   label,
   href,
@@ -329,8 +379,8 @@ function NavDropdown({
 }: {
   label: string
   href: string
-  items: { icon: React.ElementType; label: string; href: string; description: string }[]
-  viewAllLabel: string
+  items: { icon: React.ElementType; label: string; href: string; description?: string }[]
+  viewAllLabel?: string
   isActive: boolean
 }) {
   const [open, setOpen] = useState(false)
@@ -341,25 +391,25 @@ function NavDropdown({
     setOpen(true)
   }
   const handleLeave = () => {
-    timeout.current = setTimeout(() => setOpen(false), 150)
+    timeout.current = setTimeout(() => setOpen(false), 300)
   }
 
   useEffect(() => () => clearTimeout(timeout.current), [])
 
   return (
-    <div className="relative" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
+    <div className="relative py-2" onMouseEnter={handleEnter} onMouseLeave={handleLeave}>
       <Link
         href={href}
-        className={`inline-flex items-center gap-1 text-sm font-medium transition-colors ${
+        className={`inline-flex items-center gap-1 text-sm font-medium transition-colors py-1 ${
           isActive ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
         }`}
       >
         {label}
-        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
+        <ChevronDown className={`h-3.5 w-3.5 transition-transform ${open ? "rotate-180 text-blue-600" : ""}`} />
       </Link>
 
       {open && (
-        <MegaMenuPanel
+        <VerticalDropdownPanel
           items={items}
           viewAllHref={href}
           viewAllLabel={viewAllLabel}
@@ -435,7 +485,6 @@ export default function Navigation() {
   const [mobileOpen, setMobileOpen] = useState(false)
   const [solutionItems, setSolutionItems] = useState<NavItem[]>(defaultSolutionItems)
 
-  // Fetch solutions from the API so admin-created solutions appear dynamically
   useEffect(() => {
     fetch("/api/solutions")
       .then((res) => res.json())
@@ -451,9 +500,7 @@ export default function Navigation() {
           )
         }
       })
-      .catch(() => {
-        // Keep default items on error
-      })
+      .catch(() => {})
   }, [])
 
   const isActive = (href: string) => {
@@ -475,18 +522,15 @@ export default function Navigation() {
           {/* Desktop Navigation */}
           <div className="flex items-center gap-8">
             <div className="hidden lg:flex items-center gap-6">
-              {/* Home & About (before dropdowns) */}
-              {plainNavItems.slice(0, 2).map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`text-sm font-medium transition-colors ${
-                    isActive(item.href) ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {/* Home */}
+              <Link
+                href="/"
+                className={`text-sm font-medium transition-colors ${
+                  isActive("/") ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
+                }`}
+              >
+                Home
+              </Link>
 
               {/* Services mega-menu */}
               <NavDropdown
@@ -509,18 +553,33 @@ export default function Navigation() {
               {/* Technologies mega-menu */}
               <TechNavDropdown isActive={isActive("/technologies")} />
 
-              {/* Remaining plain items */}
-              {plainNavItems.slice(2).map((item) => (
-                <Link
-                  key={item.href}
-                  href={item.href}
-                  className={`text-sm font-medium transition-colors ${
-                    isActive(item.href) ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
-                  }`}
-                >
-                  {item.label}
-                </Link>
-              ))}
+              {/* Company mega-menu */}
+              <NavDropdown
+                label="Company"
+                href="/about"
+                items={companyItems}
+                viewAllLabel="Learn about Syancy"
+                isActive={isActive("/about") || isActive("/careers")}
+              />
+
+              {/* Resources mega-menu */}
+              <NavDropdown
+                label="Resources"
+                href="/blog"
+                items={resourceItems}
+                viewAllLabel="Explore all resources"
+                isActive={isActive("/blog") || isActive("/faq")}
+              />
+
+              {/* Contact */}
+              <Link
+                href="/contact"
+                className={`text-sm font-medium transition-colors ${
+                  isActive("/contact") ? "text-blue-600" : "text-gray-700 hover:text-gray-900"
+                }`}
+              >
+                Contact
+              </Link>
             </div>
 
             {/* Auth Buttons (Desktop) */}
